@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3F51A568-7FAF-4DDC-99A8-F1114A1E9ED5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NGMainPlugin</RootNamespace>
+    <AssemblyName>NGMainPlugin</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>11.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>Dependencies\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>Dependencies\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="AudioSystem">
+      <HintPath>Dependencies\AudioSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="DiscordIntegration.Dependency">
+      <HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
+    </Reference>
+    <Reference Include="DSharp4Webhook">
+      <HintPath>Dependencies\DSharp4Webhook.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Steamworks.Win64">
+      <HintPath>Dependencies\Facepunch.Steamworks.Win64.dll</HintPath>
+    </Reference>
+    <Reference Include="FLXLib">
+      <HintPath>Dependencies\FLXLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MapEditorReborn">
+      <HintPath>Dependencies\MapEditorReborn.dll</HintPath>
+    </Reference>
+    <Reference Include="Mirror">
+      <HintPath>Dependencies\Mirror.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dependencies\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SCPSLAudioApi">
+      <HintPath>Dependencies\SCPSLAudioApi.dll</HintPath>
+    </Reference>
+    <Reference Include="SemanticVersioning">
+      <HintPath>Dependencies\SemanticVersioning.dll</HintPath>
+    </Reference>
+    <Reference Include="SerializedData">
+      <HintPath>Dependencies\SerializedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>Dependencies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>Dependencies\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Dependencies\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NGMainPlugin\Commands\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
+    <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
+    <Compile Include="NGMainPlugin\Commands\DataInfo.cs" />
+    <Compile Include="NGMainPlugin\Commands\durchsage.cs" />
+    <Compile Include="NGMainPlugin\Commands\Lights.cs" />
+    <Compile Include="NGMainPlugin\Commands\LiveEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\Map.cs" />
+    <Compile Include="NGMainPlugin\Commands\nick.cs" />
+    <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
+    <Compile Include="NGMainPlugin\Commands\scpswap.cs" />
+    <Compile Include="NGMainPlugin\Commands\softorino.cs" />
+    <Compile Include="NGMainPlugin\Commands\stuck.cs" />
+    <Compile Include="NGMainPlugin\Commands\Test.cs" />
+    <Compile Include="NGMainPlugin\Commands\DataAgree.cs" />
+    <Compile Include="NGMainPlugin\Commands\timer.cs" />
+    <Compile Include="NGMainPlugin\Config.cs" />
+    <Compile Include="NGMainPlugin\Configs\Items.cs" />
+    <Compile Include="NGMainPlugin\Configs\Properties.cs" />
+    <Compile Include="NGMainPlugin\DB\Database.cs" />
+    <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
+    <Compile Include="NGMainPlugin\EventHandlers.cs" />
+    <Compile Include="NGMainPlugin\Items\C4Charge.cs" />
+    <Compile Include="NGMainPlugin\Items\DoorRemote.cs" />
+    <Compile Include="NGMainPlugin\Items\GrenadeLauncher.cs" />
+    <Compile Include="NGMainPlugin\Items\ImpactNade.cs" />
+    <Compile Include="NGMainPlugin\Items\Knife.cs" />
+    <Compile Include="NGMainPlugin\Items\RPG.cs" />
+    <Compile Include="NGMainPlugin\Items\Scp1499.cs" />
+    <Compile Include="NGMainPlugin\Items\SniperRifle.cs" />
+    <Compile Include="NGMainPlugin\Items\TranquilizerGun.cs" />
+    <Compile Include="NGMainPlugin\Main.cs" />
+    <Compile Include="NGMainPlugin\Systems\DiscordLogs\LogHandler.cs" />
+    <Compile Include="NGMainPlugin\Systems\LiftAudio\Methods.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\API.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\ExternalTeamChecker.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\SerpentsHandTeam.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\TimerView.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\RespawnTimerHandler.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\UiuTeam.cs" />
+    <Compile Include="NGMainPlugin\Systems\RgbNuke\AudioPlayer.cs" />
+    <Compile Include="NGMainPlugin\Commands\DiscoCommand.cs" />
+    <Compile Include="NGMainPlugin\Systems\RgbNuke\EventHandler.cs" />
+    <Compile Include="NGMainPlugin\Systems\RgbNuke\FakeConnection.cs" />
+    <Compile Include="NGMainPlugin\Systems\RgbNuke\NukeHandler.cs" />
+    <Compile Include="NGMainPlugin\Systems\SystemEvents\Events.cs" />
+    <Compile Include="NGMainPlugin\Systems\SystemEvents\Handlers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\Handler.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\LockCommand.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\RoundStartPatch.cs" />
+    <Compile Include="NGMainPlugin\Systems\Painkiller\PainkillerHandlers.cs" />
+    <None Include="TechSuppe\FAQ\Head.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="NGMainPlugin\.config\app.config" />
+    <None Include="Pastebins\ModdedMain.md" />
+    <None Include="README.md" />
+    <None Include="TechSuppe\FAQ\15.md" />
+    <None Include="TechSuppe\FAQ\14.md" />
+    <None Include="TechSuppe\FAQ\13.md" />
+    <None Include="TechSuppe\FAQ\12.md" />
+    <None Include="TechSuppe\FAQ\11.md" />
+    <None Include="TechSuppe\FAQ\10.md" />
+    <None Include="TechSuppe\FAQ\9.md" />
+    <None Include="TechSuppe\FAQ\8.md" />
+    <None Include="TechSuppe\FAQ\7.md" />
+    <None Include="TechSuppe\FAQ\6.md" />
+    <None Include="TechSuppe\FAQ\5.md" />
+    <None Include="TechSuppe\FAQ\4.md" />
+    <None Include="TechSuppe\FAQ\3.md" />
+    <None Include="TechSuppe\FAQ\2.md" />
+    <None Include="TechSuppe\FAQ\1.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EXILED">
+      <Version>8.9.11</Version>
+    </PackageReference>
+    <PackageReference Include="LiteDB">
+      <Version>5.0.21</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
