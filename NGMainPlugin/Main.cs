@@ -21,8 +21,8 @@ namespace NGMainPlugin
     public class Main : Plugin<Config>
     {
         public override string Author { get; } = "Skorp 1.0 and LastPenguin";
-        public override string Name { get; } = "NGMainPlugin (Dev-Build)";
-        public override string Prefix { get; } = "NGM (Dev)";
+        public override string Name { get; } = "NGMainPlugin";
+        public override string Prefix { get; } = "NGM";
         public override Version Version { get; } = new Version(1, 4, 0);
 
         public override Version RequiredExiledVersion { get; } = new Version(8, 9, 11);
