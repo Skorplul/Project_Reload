@@ -11,21 +11,31 @@ namespace NGMainPlugin.DB
     internal class PlayerInfo
     {
         public string Id { get; set; }
+        public bool Track { get; set; }
+        public bool FirstJoin { get; set; } = true;
         public string Nickname { get; set; }
         public string Rank { get; set; }
         public int Playtime { get; set; }
+    }
+
+    internal static class DBPlayerExtension
+    {
+        public static bool CanStoreCustomData(this Player plr)
+        {
+            return (plr.DoNotTrack && Database.GetPlayerInfo(plr).Track) || (!plr.DoNotTrack && Database.GetPlayerInfo(plr).Track);
+        }
     }
 
     internal static class Database
     {
         private static LiteDatabase DB;
 
-        public static void InitDB()
+        internal static void InitDB()
         {
-            DB = new LiteDatabase(Path.Combine(Paths.Configs, "Test.db"));
+            DB = new LiteDatabase(Path.Combine(Paths.Configs, "Database.db"));
         }
 
-        public static void CloseBD()
+        internal static void CloseBD()
         {
             foreach (var p in Player.List)
             {
@@ -35,81 +45,123 @@ namespace NGMainPlugin.DB
             DB = null;
         }
 
-        public static PlayerInfo CreatePlayerInfo(Player player)
+        internal static PlayerInfo CreatePlayerInfo(Player player)
         {
-            var Result = DB.GetCollection<PlayerInfo>("Players").Query().Where(p => p.Id == player.UserId).ToList();
-
-            if (Result.Count == 1)
-                return Result.First();
-
-            Log.Info($"Creating player info! {player.Nickname} {player.UserId}");
+            Log.Debug($"Creating player info! {player.Nickname} {player.UserId}");
 
             var Player = new PlayerInfo();
             Player.Id = player.UserId;
-            Player.Nickname = player.Nickname;
-            Player.Rank = player.RankName;
+            Player.Track = !player.DoNotTrack;
+            if (Player.Track)
+            {
+                Player.Nickname = player.Nickname;
+                Player.Rank = player.RankName;
+            }
 
             DB.GetCollection<PlayerInfo>("Players").Insert(Player);
 
             return Player;
         }
 
-        public static PlayerInfo GetPlayerInfo(Player player)
+        internal static PlayerInfo GetPlayerInfo(Player player)
         {
-            Log.Info($"Getting player info! {player.Nickname} {player.UserId}");
+            Log.Debug($"Getting player info! {player.Nickname} {player.UserId}");
 
             var Result = DB.GetCollection<PlayerInfo>("Players").Query().Where(p => p.Id == player.UserId).ToList();
 
-            if (Result.Count == 1)
+            if (Result.Count > 0)
                 return Result.First();
 
-            return null;
+            return CreatePlayerInfo(player);
         }
 
-        public static PlayerInfo GetPlayerInfo(string uid)
+        internal static PlayerInfo GetPlayerInfo(string uid)
         {
-            Log.Info($"Getting player info! {uid}");
+            Log.Debug($"Getting player info! {uid}");
 
             var Result = DB.GetCollection<PlayerInfo>("Players").Query().Where(p => p.Id == uid).ToList();
 
-            if (Result.Count == 1)
+            if (Result.Count > 0)
                 return Result.First();
 
             return null;
         }
 
-        public static void UpdatePlayerInfo(Player player)
+        internal static void UpdatePlayerInfo(Player player)
         {
-            Log.Info($"Updating player info! {player.Nickname} {player.UserId}");
+            Log.Debug($"Updating player info! {player.Nickname} {player.UserId}");
 
             var Info = GetPlayerInfo(player);
 
-            if (Info == null) return;
+            if (player.CanStoreCustomData())
+            {
+                Info.Nickname = player.Nickname;
+                Info.Rank = player.RankName;
 
-            Info.Nickname = player.Nickname;
-            Info.Rank = player.RankName;
+                if (player.SessionVariables.ContainsKey("JoinTime"))
+                    Info.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
+            }
 
-            if (player.SessionVariables.ContainsKey("JoinTime"))
-                Info.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
-
-            Log.Info(Info.Playtime);
+            Info.FirstJoin = false;
 
             DB.GetCollection<PlayerInfo>("Players").Update(Info);
         }
 
+        internal static void PlayerToggleTrack(Player player)
+        {
+            Log.Debug($"Player toggles track! {player.Nickname} {player.UserId}");
+
+            var Info = GetPlayerInfo(player);
+
+            if (player.CanStoreCustomData())
+            {
+                Info.Nickname = "";
+                Info.Rank = "";
+                Info.Playtime = 0;
+            }
+            else
+            {
+                Info.Nickname = player.Nickname;
+                Info.Rank = player.RankName;
+            }
+
+            Info.Track = !Info.Track;
+
+            DB.GetCollection<PlayerInfo>("Players").Update(Info);
+        }
+
+        /*internal static string DebugInfo()
+        {
+            string text = "";
+
+            foreach (var i in DB.GetCollection<PlayerInfo>("Players").FindAll())
+            {
+                text += $"[{i.Track}] {i.Nickname} - {i.Id} - {TimeSpan.FromSeconds(i.Playtime):hh\\:mm\\:ss}\n";
+            }
+
+            return text;
+        }*/
+
 
         // Events
-        public static void OnVerified(VerifiedEventArgs ev)
+        internal static void OnVerified(VerifiedEventArgs ev)
         {
+            if (GetPlayerInfo(ev.Player).FirstJoin)
+            {
+                ev.Player.Broadcast(new Exiled.API.Features.Broadcast(Main.Instance.Config.DBWelcome, 7));
+
+                ev.Player.SendConsoleMessage(Main.Instance.Config.DBWelcomeConsole, "yellow");
+            }
+
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
         }
 
-        public static void OnPlayerLeft(LeftEventArgs ev)
+        internal static void OnPlayerLeft(LeftEventArgs ev)
         {
             UpdatePlayerInfo(ev.Player);
         }
 
-        public static void OnRoundEnded(RoundEndedEventArgs ev)
+        internal static void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {

@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using Hints;
 using MEC;
 using PlayerRoles;
 using System;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-#nullable enable
 namespace NGMainPlugin.Systems.LobbySystem
 {
     public sealed class Handler
@@ -27,10 +27,10 @@ namespace NGMainPlugin.Systems.LobbySystem
 
         public void OnWaitingForPlayers()
         {
-            Handler.IsLocked = false;
+            IsLocked = false;
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-            Handler.LobbyTimer = Timing.RunCoroutine(this.Lobby());
+            LobbyTimer = Timing.RunCoroutine(Lobby());
         }
 
         public void OnVerified(VerifiedEventArgs ev)
@@ -38,42 +38,58 @@ namespace NGMainPlugin.Systems.LobbySystem
             if (!Round.IsLobby)
                 return;
             ev.Player.Role.Set(RoleTypeId.Tutorial);
-            ev.Player.Teleport(Handler.SpawnPosition);
+            ev.Player.Teleport(SpawnPosition);
         }
 
         private IEnumerator<float> Lobby()
         {
             double countdown = Main.Instance.Config.LobbyTime;
             int requiredPlayers = Main.Instance.Config.MinimumPlayers;
+
             while (Round.IsLobby)
             {
                 string newValue1;
-                if (Handler.IsLocked)
-                    newValue1 = Handler.config.PausedStatus;
-                else if (Exiled.API.Features.Player.List.Count<Exiled.API.Features.Player>((Func<Exiled.API.Features.Player, bool>)(p => p.IsTutorial)) < requiredPlayers)
+
+                if (IsLocked)
+                    newValue1 = config.PausedStatus;
+
+                else if (Player.List.Count((p => p.IsTutorial)) < requiredPlayers)
                 {
                     countdown = Main.Instance.Config.LobbyTime;
-                    newValue1 = Handler.config.WaitingStatus;
+                    newValue1 = config.WaitingStatus;
                 }
                 else
                 {
-                    newValue1 = Handler.config.StartingStatus.Replace("%countdown%", countdown.ToString());
+                    newValue1 = config.StartingStatus.Replace("%countdown%", countdown.ToString());
                     --countdown;
                 }
-                string str1 = Handler.config.TextShown.Replace("%status%", newValue1);
-                int num = Exiled.API.Features.Player.List.Count<Exiled.API.Features.Player>((Func<Exiled.API.Features.Player, bool>)(p => p.IsTutorial));
+
+                string str1 = config.TextShown.Replace("%status%", newValue1);
+
+                int num = Player.List.Count((p => p.IsTutorial));
                 string newValue2 = num.ToString();
                 string str2 = str1.Replace("%playercount%", newValue2);
+
                 num = Server.MaxPlayerCount;
-                string newValue3 = num.ToString();
-                Map.Broadcast((ushort)1, str2.Replace("%maxplayers%", newValue3), shouldClearPrevious: true);
+                string maxPlayers = num.ToString();
+                string hint = $"<line-height=0%>\n<voffset=17em>{str2.Replace("%maxplayers%", maxPlayers)}\n<voffset=-37em>";
+
+                //Map.Broadcast(1, str2.Replace("%maxplayers%", hint), shouldClearPrevious: true);
+                foreach (Player p in Player.List)
+                {
+                    p.HintDisplay.Show(new TextHint(hint, new HintParameter[] { new StringHintParameter(hint) }, new HintEffect[1] { new AlphaEffect(1f) }, 3f));
+                }
+
                 if (countdown == 0.0)
                 {
-                    foreach (Exiled.API.Features.Player player in Exiled.API.Features.Player.List.Where<Exiled.API.Features.Player>((Func<Exiled.API.Features.Player, bool>)(p => p.Role.Type == RoleTypeId.Tutorial)))
+                    foreach (Player player in Player.List.Where((p => p.Role.Type == RoleTypeId.Tutorial)))
                         player.Role.Set(RoleTypeId.Spectator);
-                    Timing.CallDelayed(0.1f, (Action)(() => Round.Start()));
+
+                    Timing.CallDelayed(0.1f, (() => Round.Start()));
+
                     break;
                 }
+
                 yield return Timing.WaitForSeconds(1f);
             }
         }

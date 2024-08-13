@@ -112,7 +112,7 @@
     <Compile Include="NGMainPlugin\Commands\softorino.cs" />
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
     <Compile Include="NGMainPlugin\Commands\Test.cs" />
-    <Compile Include="NGMainPlugin\Commands\DataAgree.cs" />
+    <Compile Include="NGMainPlugin\Commands\Data.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
     <Compile Include="NGMainPlugin\Configs\Items.cs" />

@@ -13,7 +13,7 @@ namespace NGMainPlugin.Systems.RespawnTimer.Commands
 
         public string[] Aliases { get; } = new string[] { };
 
-        public string Description { get; } = "See your playtime.";
+        public string Description { get; } = Main.Instance.Config.DBPTDescriptionClient;
 
         public bool SanitizeResponse => true;
 
@@ -23,11 +23,11 @@ namespace NGMainPlugin.Systems.RespawnTimer.Commands
 
             if (info != null)
             {
-                response = $"<color=green>Your playtime: </color> {TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}";
+                response = String.Format(Main.Instance.Config.DBClientPlaytime, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                 return true;
             }
 
-            response = "<color=red>You have not agreed to the data collection, your playtime is not stored.</color>";
+            response = Main.Instance.Config.DBDataNotStored;
             return false;
         }
     }
@@ -39,10 +39,7 @@ namespace NGMainPlugin.Systems.RespawnTimer.Commands
 
         public string[] Aliases { get; } = new string[] { };
 
-        public string Description { get; } = "See other players' playtime.\n" +
-            "No arguments = playtime of every player on the server.\n" +
-            "<int> Id of a player on the server = playtime of a certain player currently on the server.\n" +
-            "<string> ID or SteamID of a player = playtime of a certain player.";
+        public string Description { get; } = Main.Instance.Config.DBPTDescriptionServer;
 
         public bool SanitizeResponse => true;
 
@@ -56,20 +53,27 @@ namespace NGMainPlugin.Systems.RespawnTimer.Commands
 
             if (arguments.Count == 0)
             {
-                response = "<color=green>Playtime of players on server: </color>\n";
+                response = Main.Instance.Config.DBServerEveryonePlaytime;
                 foreach (Player p in Player.List)
                 {
-                    PlayerInfo info = Database.GetPlayerInfo(Player.Get(sender));
+                    PlayerInfo info = Database.GetPlayerInfo(p);
                     if (info == null)
                         continue;
 
-                    response += $"<color=yellow>{p.Nickname}</color> - {TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}\n";
+                    response += $"<color=yellow>[{p.CanStoreCustomData()}] {p.Nickname}</color> - {TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}\n";
                 }
 
                 return true;
             }
             else if (arguments.Count == 1)
             {
+                /*if (arguments.At(0) == "all")
+                {
+                    response = Database.DebugInfo();
+
+                    return true;
+                }*/
+
                 Player p = Player.Get(arguments.At(0));
                 PlayerInfo info;
                 if (p == null)
@@ -78,23 +82,23 @@ namespace NGMainPlugin.Systems.RespawnTimer.Commands
 
                     if (info == null)
                     {
-                        response = "<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
+                        response = Main.Instance.Config.DBServerWrongID;
                         return false;
                     }
 
-                    response = $"<color=green>Playtime of {arguments.At(0)}:</color> {TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}";
+                    response = String.Format(Main.Instance.Config.DBServerPlayerPlaytime, arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                     return true;
 
                 }
 
-                info = Database.GetPlayerInfo(Player.Get(sender));
+                info = Database.GetPlayerInfo(p);
                 if (info == null)
                 {
-                    response = "<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
+                    response = Main.Instance.Config.DBServerDataNotStored;
                     return false;
                 }
 
-                response = $"<color=green>Playtime of {p.Nickname}: {TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}";
+                response = String.Format(Main.Instance.Config.DBServerPlayerPlaytime, p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                 return true;
             }
 
