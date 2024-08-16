@@ -8,7 +8,7 @@ namespace NGMainPlugin.Systems.Liftaudio
 {
     internal class Methods
     {
-        public static IEnumerator<float> CheckingPlayerLift(Lift lift)
+        /*public static IEnumerator<float> CheckingPlayerLift(Lift lift)
         {
             yield return Timing.WaitForSeconds(0.5f);
             short idlift = -2;
@@ -18,8 +18,8 @@ namespace NGMainPlugin.Systems.Liftaudio
                 if (!lift.Players.Any<Player>())
                     AudioSystem.Methods.StopAudio(idlift);
                 else if (!AudioSystem.Methods.IsPlaying(idlift))
-                    idlift = Main.Instance.Config.ListOfPossibeMusics.RandomItem<LocalSoundConfig>().PlayPreset(lift.Transform, true);
+                    idlift = NGMainPlguin.Instance.Config.ListOfPossibeMusics.RandomItem().PlayPreset(lift.Transform, true);
             }
-        }
+        }*/
     }
 }

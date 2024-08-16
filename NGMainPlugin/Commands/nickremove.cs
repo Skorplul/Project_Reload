@@ -1,29 +1,21 @@
-﻿using CommandSystem;
-using System;
-using Exiled.API.Features;
-using System.Collections.Generic;
-
-namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Commands
 {
+    using CommandSystem;
+    using System;
+    using Exiled.API.Features;
+
     [CommandHandler(typeof(ClientCommandHandler))]
-    public class NickRemove : ParentCommand
+    public class NickRemove : ICommand
     {
-        public static Main Plugin { get; set; }
+        public string Command => "nickremove";
 
-        public NickRemove()
-        {
-            LoadGeneratedCommands();
-        }
+        public string[] Aliases => new string[] { };
 
-        public override string Command { get; } = "nickremove";
+        public string Description => "Remove your custom nickname.";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public bool SanitizeResponse => true;
 
-        public override string Description { get; } = "Remove your nickname.";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 

@@ -1,27 +1,23 @@
-﻿using CommandSystem;
-using System;
-using Exiled.API.Features;
-using NGMainPlugin.Systems.SystemEvents;
-using Exiled.Permissions.Extensions;
-using PlayerRoles;
-
-
-namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Commands
 {
+    using CommandSystem;
+    using System;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using PlayerRoles;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class LiveEvents : ParentCommand
+    public class LiveEvents : ICommand
     {
-        public LiveEvents() => LoadGeneratedCommands();
+        public string Command => "LiveEvents";
 
-        public override string Command { get; } = "LiveEvent";
+        public string[] Aliases => new string[] { };
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Used to make events manualy executed from the Team for the communty.";
 
-        public override string Description { get; } = "Used to make events manualy executed from the Team for the communty.";
+        public bool SanitizeResponse => true;
 
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
@@ -54,4 +50,5 @@ namespace NGMainPlugin.Commands
             return true;
         }
     }
+
 }

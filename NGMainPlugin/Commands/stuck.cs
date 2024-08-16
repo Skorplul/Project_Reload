@@ -1,32 +1,29 @@
-﻿using CommandSystem;
-using System;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-
-
-namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Commands
 {
+    using CommandSystem;
+    using System;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(ClientCommandHandler))]
-    public class stuck : ParentCommand
+    public class Stuck : ICommand
     {
-        public stuck() => LoadGeneratedCommands();
+        public string Command => "stuck";
 
-        public override string Command { get; } = "stuck";
+        public string[] Aliases => new string[] { };
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "If you are stuck, use this to notify a teammember!";
 
-        public override string Description { get; } = "If you are stuck, use this to notify a teammember!";
+        public bool SanitizeResponse => true;
 
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
             if (!Round.IsStarted)
             {
                 response = "You can‘t use this here!";
-                return false; 
+                return false;
             }
             if (Round.IsEnded)
             {
@@ -34,7 +31,7 @@ namespace NGMainPlugin.Commands
                 return false;
             }
 
-            foreach  (Player ply in Player.List)
+            foreach (Player ply in Player.List)
             {
                 if (ply.CheckPermission(PlayerPermissions.ForceclassSelf))
                 {

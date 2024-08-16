@@ -1,30 +1,22 @@
-﻿using System;
-using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-
-namespace NGMainPlugin.Systems.RGBNuke;
-
-public class DiscoCommand
+﻿namespace NGMainPlugin.Systems.RGBNuke
 {
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class DiscoNuke : ParentCommand
+    public class Disco : ICommand
     {
-        public DiscoNuke() => LoadGeneratedCommands();
+        public string Command => "disco";
 
-        public override string Command { get; } = "rgbnuke";
+        public string[] Aliases => new string[] { "disconuke" };
 
-        public override string[] Aliases => new string[] {"disco", "disconuke"};
+        public string Description => "Start or stop the RGB nuke effect, does not actually start/stop the nuke.\n Usage:\n.disco start - Start Effect\n.disco stop - Stop Effect";
 
-        public override string Description { get; } = "Start or stop the RGB nuke effect, does not actually start/stop the nuke.";
+        public bool SanitizeResponse => true;
 
-        private const string Usage = "You can start or stop the RGB nuke effect:\n" +
-                                     "Start the effect - disco start\n" +
-                                     "Stop the effect - disco stop";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
@@ -36,13 +28,13 @@ public class DiscoCommand
 
             if (arguments.Count == 0)
             {
-                response = Usage;
+                response = Description;
                 return false;
             }
 
             if (arguments.At(0) == "start")
             {
-                NukeHandler.Start();
+                RGBNuke.Start();
                 // Disabled because of bugs on Modded_Main
                 //AudioPlayer.PlayAudio();
                 response = "Started the effect";
@@ -51,14 +43,14 @@ public class DiscoCommand
 
             if (arguments.At(0) == "stop")
             {
-                NukeHandler.Stop();
+                RGBNuke.Stop();
                 // Disabled because of bugs on Modded_Main
                 //AudioPlayer.RemoveDummy();
                 response = "Stopped the effect";
                 return true;
             }
 
-            response = Usage;
+            response = Description;
             return false;
         }
     }

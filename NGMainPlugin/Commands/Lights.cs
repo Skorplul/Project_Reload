@@ -1,28 +1,21 @@
-﻿using CommandSystem;
-using System;
-using Exiled.API.Features;
-
-namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Commands
 {
+    using CommandSystem;
+    using System;
+    using Exiled.API.Features;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class Lights : ParentCommand
+    public class Lights : ICommand
     {
-        public static Main Plugin { get; set; }
+        public string Command => "lights";
 
-        public Lights()
-        {
-            LoadGeneratedCommands();
-        }
+        public string[] Aliases => new string[] { };
 
-        public override string Command { get; } = "lights";
+        public string Description => "Change the ";
 
-        public override string[] Aliases { get; } = new string[] { };
+        public bool SanitizeResponse => true;
 
-        public override string Description { get; } = "Change the lights of the Facillaty.";
-
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
@@ -54,11 +47,11 @@ namespace NGMainPlugin.Commands
                     response = "The r/g/b values have to be between 0 - 255";
                     return false;
                 }
-                
+
                 //convert to percentage
-                r = r/255; 
-                g = g/255; 
-                b = b/255;
+                r = r / 255;
+                g = g / 255;
+                b = b / 255;
 
                 UnityEngine.Color NewMapLights = new UnityEngine.Color(r, g, b);
                 Map.ChangeLightsColor(NewMapLights);

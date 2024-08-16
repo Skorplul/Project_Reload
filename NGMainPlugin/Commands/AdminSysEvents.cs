@@ -1,30 +1,27 @@
-﻿using CommandSystem;
-using System;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using NGMainPlugin.API;
-
-
-namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Commands
 {
+    using CommandSystem;
+    using System;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using NGMainPlugin.API;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class AdminSysEvents : ParentCommand
+    public class AutoEvent : ICommand
     {
-        public AdminSysEvents() => LoadGeneratedCommands();
+        public string Command => "AutoEvent";
 
-        public override string Command { get; } = "AutoEvent";
+        public string[] Aliases => new string[] { };
 
-        public override string[] Aliases { get; } = new string[] { };
+        public string Description => "Manualy Trigger a Server Event.";
 
-        public override string Description { get; } = "Manualy Trigger a Server Event.";
+        public bool SanitizeResponse => true;
 
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
-            if(player == null)
+            if (player == null)
             {
                 response = "Player is null, please contact a Dev!";
                 return false;

@@ -1,28 +1,26 @@
-﻿using CommandSystem;
-using Exiled.API.Features;
-using MapEditorReborn.API.Features;
-using MapEditorReborn.API.Features.Objects;
-using MapEditorReborn.API.Features.Serializable;
-using System;
-using Exiled.API.Enums;
-using Exiled.Permissions.Extensions;
-
-namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Commands
 {
+    using CommandSystem;
+    using Exiled.API.Features;
+    using MapEditorReborn.API.Features;
+    using MapEditorReborn.API.Features.Objects;
+    using MapEditorReborn.API.Features.Serializable;
+    using System;
+    using Exiled.API.Enums;
+    using Exiled.Permissions.Extensions;
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    public class TransformPlayer : ParentCommand
+    public class Transform : ICommand
     {
-        public TransformPlayer() => LoadGeneratedCommands();
+        public string Command => "trnasform";
 
-        public override string Command { get; } = "trnasform";
+        public string[] Aliases => new string[] { "trf" };
 
-        public override string[] Aliases { get; } = { "trf" };
+        public string Description => "Gives a specified player an other skin, while he keeps his role.";
 
-        public override string Description { get; } = "Gives a specified player an other skin, while he keeps his role.";
+        public bool SanitizeResponse => true;
 
-        public override void LoadGeneratedCommands() { }
-
-        protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
