@@ -15,6 +15,8 @@
 
         private static bool friendlyFireDisable = false;
 
+        private static bool Banned = false;
+
         public static void Enable()
         {
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
@@ -69,14 +71,20 @@
 
         private static void OnBan(BannedEventArgs ev)
         {
+            Banned = true;
             Map.Broadcast(1, $"<align=center><color=red>A PLAYER HAS BEEN BANNED \n Name: {ev.Target.Nickname} \n UserID: {ev.Target.UserId} \n Reason: {ev.Details.Reason} \n Durration: {ev.Details.IssuanceTime} \n Issuer: {ev.Details.Issuer}", global::Broadcast.BroadcastFlags.AdminChat);
             Map.Broadcast(10, $"[<color=#f67979>N</color><color=#e86e6c>e</color><color=#d96260>x</color><color=#cb5754>u</color><color=#bd4c48>s</color><color=#af413c>G</color><color=#a13631>a</color><color=#932a26>m</color><color=#851f1b>i</color><color=#771211>n</color><color=#6a0303>g</color>]: {ev.Target.Nickname} has been banned from the server!");
         }
 
         private static void OnKick(KickedEventArgs ev)
         {
-            Map.Broadcast(1, $"<align=\"center\"><color=#ff0000>A PLAYER HAS BEEN KICKED \n Name: {ev.Player.Nickname} \n UserID: {ev.Player.UserId} \n Reason: {ev.Reason}", global::Broadcast.BroadcastFlags.AdminChat);
-            Map.Broadcast(10, $"[<color=#f67979>N</color><color=#e86e6c>e</color><color=#d96260>x</color><color=#cb5754>u</color><color=#bd4c48>s</color><color=#af413c>G</color><color=#a13631>a</color><color=#932a26>m</color><color=#851f1b>i</color><color=#771211>n</color><color=#6a0303>g</color>]: {ev.Player.Nickname} has been kicked from the server!");
+            if (!Banned)
+            {
+                Map.Broadcast(1, $"<align=\"center\"><color=#ff0000>A PLAYER HAS BEEN KICKED \n Name: {ev.Player.Nickname} \n UserID: {ev.Player.UserId} \n Reason: {ev.Reason}", global::Broadcast.BroadcastFlags.AdminChat);
+                Map.Broadcast(10, $"[<color=#f67979>N</color><color=#e86e6c>e</color><color=#d96260>x</color><color=#cb5754>u</color><color=#bd4c48>s</color><color=#af413c>G</color><color=#a13631>a</color><color=#932a26>m</color><color=#851f1b>i</color><color=#771211>n</color><color=#6a0303>g</color>]: {ev.Player.Nickname} has been kicked from the server!");
+            }
+            else if (Banned)
+                Banned = false;
         }
 
         private static void OnWaitingForPlayers()
