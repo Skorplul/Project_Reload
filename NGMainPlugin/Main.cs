@@ -85,9 +85,12 @@
         {
             Log.Info("-----[NGMainPlugin Disable]-----");
 
+            ///throws error; please check @lastpenguin
+            /*
             // Close the DB
             Log.Info("Closing Database...");
             Database.CloseBD();
+            */
 
             // Unpatch everything
             Log.Info("Harmony Unpatching...");
