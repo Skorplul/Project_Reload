@@ -30,10 +30,13 @@
             Instance = this;
 
             Log.Info("-----[NGMainPlugin Initialize]-----");
-
+            
+            ///throws error; please check @lastpenguin
+            /*
             // Load Database
             Log.Info("Loading Database...");
             Database.InitDB();
+            */
 
             // Load all configs
             Log.Info("Loading Configs...");
