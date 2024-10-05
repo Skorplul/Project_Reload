@@ -5,6 +5,8 @@
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
     using PlayerRoles;
+    using Exiled.API.Enums;
+    using LightContainmentZoneDecontamination;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LiveEvents : ICommand
@@ -38,12 +40,8 @@
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Tutorial);
-                ply.Mute();
-
-                if (ply.RemoteAdminAccess)
-                {
-                    ply.UnMute();
-                }
+                if (!ply.RemoteAdminAccess)
+                    ply.Mute();
             }
 
             response = "The Event Mode Has Been Activated!";
