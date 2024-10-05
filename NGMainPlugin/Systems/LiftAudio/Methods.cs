@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace NGMainPlugin.Systems.Liftaudio
 {
-    internal class Methods
+    public class Methods
     {
-        /*public static IEnumerator<float> CheckingPlayerLift(Lift lift)
+        public static IEnumerator<float> CheckingPlayerLift(Lift lift)
         {
             yield return Timing.WaitForSeconds(0.5f);
             short idlift = -2;
@@ -20,6 +20,6 @@ namespace NGMainPlugin.Systems.Liftaudio
                 else if (!AudioSystem.Methods.IsPlaying(idlift))
                     idlift = NGMainPlguin.Instance.Config.ListOfPossibeMusics.RandomItem().PlayPreset(lift.Transform, true);
             }
-        }*/
+        }
     }
 }

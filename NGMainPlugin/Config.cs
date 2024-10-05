@@ -16,7 +16,7 @@
     using NGMainPlugin.Systems.CustomItems;
     using System.Linq;
     using HarmonyLib;
-    using NGMainPlugin.Commands;
+    using AudioSystem.Models.SoundConfigs;
     using NGMainPlugin.Systems.SCPSwap;
 
     public class Config : IConfig
@@ -65,7 +65,7 @@
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]
         public bool Single079Cassi { get; set; } = true;
 
-        /*public List<LocalSoundConfig> ListOfPossibeMusics { get; set; } = new List<LocalSoundConfig>()
+        public List<LocalSoundConfig> ListOfPossibeMusics { get; set; } = new List<LocalSoundConfig>()
         {
             new LocalSoundConfig()
             {
@@ -81,6 +81,6 @@
                 DummyName = "test1",
                 Radius = 4f
             },
-        };*/
+        };
     }
 }

@@ -1,13 +1,16 @@
 ﻿namespace NGMainPlugin.Systems.EventHandlers
 {
+    using System.Collections.Generic;
     using Exiled.API.Features;
     using PlayerRoles;
     using NGMainPlugin.API;
+    using NGMainPlugin.Systems.Liftaudio;
     using Exiled.Events.EventArgs.Player;
     using Exiled.Events.EventArgs.Scp079;
     using Exiled.Events.EventArgs.Server;
+    using MEC;
 
-    internal static class EventHandlers
+    public static class EventHandlers
     {
         internal static Config Config;
 
@@ -43,14 +46,14 @@
             Exiled.Events.Handlers.Server.EndingRound -= OnEndingRound;
         }
 
-        private static void OnRoundStarted()
+        public static void OnRoundStarted()
         {
             PcCurentLvl = 1;
             Commands.Announcement.spoke.Clear();
 
-            // Disabled because of bugs on Modded_Main
-            //foreach (Lift lift in (IEnumerable<Lift>)Lift.List)
-            //    Timing.RunCoroutine(Methods.CheckingPlayerLift(lift));
+            // *Disabled because of bugs on Modded_Main* **not rn**
+            foreach (Lift lift in (IEnumerable<Lift>)Lift.List)
+                Timing.RunCoroutine(Methods.CheckingPlayerLift(lift));
         }
 
         private static void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
