@@ -1,5 +1,6 @@
 ﻿namespace NGMainPlugin.Systems.Database
 {
+    using Exiled.API.Features;
     using Exiled.Loader;
     using HarmonyLib;
     using System.IO;
@@ -23,11 +24,13 @@
 
         public static void LoadConfig()
         {
+            
             // Fill path with missing directories
-            string dir = TranslationsPath.Split('\\').Reverse().Skip(1).Reverse().ToList().Join(delimiter: "\\");
+            string dir = ConfigFolderPath;
+            Log.Info(dir);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-
+            
             if (!File.Exists(TranslationsPath))
             {
                 Translations = new();

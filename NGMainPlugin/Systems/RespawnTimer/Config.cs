@@ -82,6 +82,10 @@
 
         public void LoadConfig()
         {
+            // Fill path with missing directories
+            string dir = ConfigFolderPath;
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
             if (!Directory.Exists(TimerBeforeRespawnPath))
                 File.WriteAllText(TimerBeforeRespawnPath, "");
             if (!Directory.Exists(TimerDuringRespawnPath))

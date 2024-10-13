@@ -34,7 +34,7 @@
         private T GetConfig<T>(string path)
         {
             // Fill path with missing directories
-            string dir = path.Split('\\').Reverse().Skip(1).Reverse().ToList().Join(delimiter: "\\");
+            string dir = ConfigFolderPath;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 

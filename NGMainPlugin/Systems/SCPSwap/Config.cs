@@ -49,7 +49,7 @@
         public static void LoadConfig()
         {
             // Fill path with missing directories
-            string dir = TranslationsPath.Split('\\').Reverse().Skip(1).Reverse().ToList().Join(delimiter: "\\");
+            string dir = ConfigFolderPath;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
