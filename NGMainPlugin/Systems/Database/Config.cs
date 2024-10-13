@@ -27,7 +27,6 @@
             
             // Fill path with missing directories
             string dir = ConfigFolderPath;
-            Log.Info(dir);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             

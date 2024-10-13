@@ -1,5 +1,6 @@
 ﻿namespace NGMainPlugin.Systems.RespawnTimer
 {
+    using Exiled.API.Features;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
@@ -83,7 +84,8 @@
         public void LoadConfig()
         {
             // Fill path with missing directories
-            string dir = ConfigFolderPath;
+            string dir = ConfigFolderPath + "NGMainTime";
+            Log.Info(dir);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             if (!Directory.Exists(TimerBeforeRespawnPath))
@@ -96,6 +98,8 @@
             TimerBeforeRespawn = File.ReadAllText(TimerBeforeRespawnPath);
             TimerDuringRespawn = File.ReadAllText(TimerDuringRespawnPath);
             Hints.AddRange(File.ReadAllLines(HintsPath));
+            Log.Info(TimerDuringRespawn);
+            Log.Info(TimerBeforeRespawn);
         }
     }
 }

@@ -56,6 +56,7 @@
         public void LoadConfigs()
         {
             RespawnTimer.Config = GetConfig<Systems.RespawnTimer.Config>(Systems.RespawnTimer.Config.ConfigPath);
+            Log.Warn(RespawnTimer.Config);
             LobbySystem.Config = GetConfig<Systems.LobbySystem.Config>(Systems.LobbySystem.Config.ConfigPath);
             RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath);
             EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath);
