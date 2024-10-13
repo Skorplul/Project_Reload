@@ -84,15 +84,15 @@
         public void LoadConfig()
         {
             // Fill path with missing directories
-            string dir = ConfigFolderPath + "NGMainTime";
+            string dir = ConfigFolderPath;
             Log.Info(dir);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
-            if (!Directory.Exists(TimerBeforeRespawnPath))
+            if (!File.Exists(TimerBeforeRespawnPath))
                 File.WriteAllText(TimerBeforeRespawnPath, "");
-            if (!Directory.Exists(TimerDuringRespawnPath))
+            if (!File.Exists(TimerDuringRespawnPath))
                 File.WriteAllText(TimerDuringRespawnPath, "");
-            if (!Directory.Exists(HintsPath))
+            if (!File.Exists(HintsPath))
                 File.WriteAllText(HintsPath, "");
 
             TimerBeforeRespawn = File.ReadAllText(TimerBeforeRespawnPath);
