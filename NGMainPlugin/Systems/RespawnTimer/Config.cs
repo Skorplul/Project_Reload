@@ -17,10 +17,10 @@
         public static string ConfigPath = Path.Combine(ConfigFolderPath, "config.yml");
 
         [YamlIgnore]
-        public static string TimerBeforeRespawnPath = Path.Combine(ConfigFolderPath, "TimerBeforeRespawn.txt");
+        public static string TimerBeforeRespawnPath = Path.Combine(ConfigFolderPath, "TimerBeforeSpawn.txt");
 
         [YamlIgnore]
-        public static string TimerDuringRespawnPath = Path.Combine(ConfigFolderPath, "TimerDuringRespawn.txt");
+        public static string TimerDuringRespawnPath = Path.Combine(ConfigFolderPath, "TimerDuringSpawn.txt");
 
         [YamlIgnore]
         public static string HintsPath = Path.Combine(ConfigFolderPath, "Hints.txt");
@@ -87,10 +87,6 @@
         {
             // Fill path with missing directories
             string dir = ConfigFolderPath;
-<<<<<<< Updated upstream
-            Log.Info(dir);
-=======
->>>>>>> Stashed changes
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             if (!File.Exists(TimerBeforeRespawnPath))
