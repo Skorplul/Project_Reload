@@ -31,7 +31,7 @@
         [YamlIgnore]
         public ItemConfigs ItemConfigs;
 
-        private T GetConfig<T>(string path)
+        private T GetConfig<T>(string path, object config)
         {
             // Fill path with missing directories
             string dir = ConfigFolderPath;
@@ -42,8 +42,8 @@
 
             if (!File.Exists(path))
             {
-                Result = Activator.CreateInstance<T>();
-                File.WriteAllText(path, Loader.Serializer.Serialize(Result));
+                Result = (T)config;
+                File.WriteAllText(path, Loader.Serializer.Serialize(config));
             }
             else
             {
@@ -55,12 +55,11 @@
 
         public void LoadConfigs()
         {
-            RespawnTimer.Config = GetConfig<Systems.RespawnTimer.Config>(Systems.RespawnTimer.Config.ConfigPath);
-            Log.Warn(RespawnTimer.Config);
-            LobbySystem.Config = GetConfig<Systems.LobbySystem.Config>(Systems.LobbySystem.Config.ConfigPath);
-            RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath);
-            EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath);
-            SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath);
+            RespawnTimer.Config = GetConfig<Systems.RespawnTimer.Config>(Systems.RespawnTimer.Config.ConfigPath, new Systems.RespawnTimer.Config());
+            LobbySystem.Config = GetConfig<Systems.LobbySystem.Config>(Systems.LobbySystem.Config.ConfigPath, new Systems.LobbySystem.Config());
+            RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath, new Systems.RGBNuke.Config());
+            EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath, new Systems.EventHandlers.Config());
+            SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
         }
 
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]

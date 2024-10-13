@@ -24,7 +24,6 @@
 
         public static void LoadConfig()
         {
-            
             // Fill path with missing directories
             string dir = ConfigFolderPath;
             if (!Directory.Exists(dir))
