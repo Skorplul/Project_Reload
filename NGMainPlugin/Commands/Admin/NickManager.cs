@@ -49,8 +49,8 @@
             {
                 if (arguments.Count() >= 4)
                 {
-                    string reason = string.Join("_", arguments.Skip(2));
-                    target.Broadcast(10, $"Your nickname has been removed by an Admin! Reason:<color=yellow> {reason} </color>");
+                    string reason = string.Join(" ", arguments.Skip(2));
+                    target.Broadcast(10, $"Your nickname has been removed by an Admin! \nReason:<color=yellow> {reason} </color>");
                     target.DisplayNickname = null;
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
