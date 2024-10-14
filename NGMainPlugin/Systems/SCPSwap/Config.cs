@@ -1,12 +1,10 @@
 ﻿namespace NGMainPlugin.Systems.SCPSwap
 {
     using Exiled.Loader;
-    using HarmonyLib;
     using PlayerRoles;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
-    using System.Linq;
     using YamlDotNet.Serialization;
 
     public class Config

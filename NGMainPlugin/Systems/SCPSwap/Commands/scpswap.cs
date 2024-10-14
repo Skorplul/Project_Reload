@@ -5,6 +5,7 @@
     using Exiled.API.Features;
     using PlayerRoles;
     using System.Collections.Generic;
+    using NGMainPlugin.Systems.SCPSwap;
 
     [CommandHandler(typeof(ClientCommandHandler))]
     public class SCPSwapCommand : ICommand
@@ -16,7 +17,6 @@
         public string Description => Config.Translations.CommandDescription;
 
         public bool SanitizeResponse => true;
-
 
         public static List<string> swaped = new List<string>();
 
