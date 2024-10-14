@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\Commands\DataInfo.cs" />
