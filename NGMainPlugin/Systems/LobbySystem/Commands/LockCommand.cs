@@ -4,7 +4,6 @@
     using System;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(ClientCommandHandler))]
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class LockCommand : ParentCommand
     {
