@@ -41,6 +41,7 @@
 
             if (arguments.Array[2] == "remove")
             {
+                target.DisplayNickname = null;
                 response = $"Nick of user {target.Nickname} has been removed.";
                 return true;
             }
