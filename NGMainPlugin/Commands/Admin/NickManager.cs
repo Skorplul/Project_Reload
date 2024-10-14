@@ -38,6 +38,11 @@
             }
 
             Player target = Player.Get(arguments.Array[1]);
+            if (target == null)
+            {
+                response = $"This player does not exist!";
+                return false;
+            }
             string OldName = target.DisplayNickname;
 
             if (arguments.Array[2] == "remove")
