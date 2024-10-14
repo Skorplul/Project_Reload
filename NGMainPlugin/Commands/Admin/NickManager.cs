@@ -21,9 +21,9 @@
         {
             Player player = Player.Get(sender);
 
-            if (arguments.Count() < 2)
+            if (arguments.Count() < 3)
             {
-                response = "{nick <PlayerID> <NewNick>} to change the nickname from a user\nor {nick <PlayerID> remove} to remove the nickname from a user";
+                response = "{nick <PlayerID> <NewNick>} to change the nickname from a user\nor {nick <PlayerID> remove} to remove the nickname from a user\nor {nick <PlayerID> remove <reson>} to remove the nickname and tell them the reason";
                 return false;
             }
             if (player == null)
@@ -38,16 +38,27 @@
             }
 
             Player target = Player.Get(arguments.Array[1]);
+            string OldName = target.DisplayNickname;
 
             if (arguments.Array[2] == "remove")
             {
-                target.DisplayNickname = null;
-                response = $"Nick of user {target.Nickname} has been removed.";
-                return true;
+                if (arguments.Count() <= 4)
+                {
+                    string reason = string.Join("_", arguments.Skip(2));
+                    target.Broadcast(10, $"Your nickname has been removed by an Admin! Reason:<color=yellow> {reason} </color>");
+                    target.DisplayNickname = null;
+                    response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
+                    return true;
+                }
+                else
+                {
+                    target.DisplayNickname = null;
+                    response = $"Nick of user {target.Nickname} has been removed.";
+                    return true;
+                }
             }
 
             string NewName = string.Join("_", arguments.Skip(1));
-            string OldName = target.DisplayNickname;
             target.DisplayNickname = NewName;
 
             response = $"Nick of user {target.Nickname} has been changed to {NewName}. (Before: {OldName})";
