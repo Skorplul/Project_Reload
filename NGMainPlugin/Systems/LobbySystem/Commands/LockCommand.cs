@@ -16,7 +16,7 @@
 
         public override string Description { get; } = "Locks/unlocks the lobby!";
 
-        public override string[] Aliases { get; } = new string[] { "llock" };
+        public override string[] Aliases { get; } = new string[] { "llobby" };
 
         public override void LoadGeneratedCommands() { }
 
