@@ -21,7 +21,7 @@
         {
             Player player = Player.Get(sender);
 
-            if (arguments.Count() < 3)
+            if (arguments.Count() < 2)
             {
                 response = "{nick <PlayerID> <NewNick>} to change the nickname from a user\nor {nick <PlayerID> remove} to remove the nickname from a user\nor {nick <PlayerID> remove <reson>} to remove the nickname and tell them the reason";
                 return false;
