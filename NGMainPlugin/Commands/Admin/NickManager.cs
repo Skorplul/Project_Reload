@@ -58,7 +58,7 @@
                 else
                 {
                     target.DisplayNickname = null;
-                    response = $"Nick of user {target.Nickname} has been removed.";
+                    response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
                 }
             }
