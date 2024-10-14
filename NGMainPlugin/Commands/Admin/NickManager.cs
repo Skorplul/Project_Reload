@@ -47,7 +47,7 @@
 
             if (arguments.Array[2] == "remove")
             {
-                if (arguments.Count() <= 4)
+                if (arguments.Count() >= 4)
                 {
                     string reason = string.Join("_", arguments.Skip(2));
                     target.Broadcast(10, $"Your nickname has been removed by an Admin! Reason:<color=yellow> {reason} </color>");
