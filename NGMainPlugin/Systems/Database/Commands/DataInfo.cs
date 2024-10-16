@@ -45,7 +45,7 @@
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Player.Get(sender).CheckPermission("NG.pt"))
+            if (!Player.Get(sender).CheckPermission("NG.PtMng"))
             {
                 response = "You dont have a permission to use that command!";
                 return false;

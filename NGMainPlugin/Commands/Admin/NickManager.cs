@@ -31,9 +31,9 @@
                 response = "Player is null, contact a developer!";
                 return false;
             }
-            if (!Permissions.CheckPermission(player, "NG.NickManagement"))
+            if (!Permissions.CheckPermission(player, "NG.NickManage"))
             {
-                response = $"You don't have the permission <color=yellow>NG.NickManagement</color>";
+                response = $"You don't have the permission <color=yellow>NG.NickManage</color>";
                 return false;
             }
 
