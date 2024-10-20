@@ -198,6 +198,7 @@ public class TranquilizerGun : CustomWeapon
             player.Scale = Vector3.one * 0.2f;
             player.Health = newHealth;
             player.IsGodModeEnabled = true;
+            player.EnableEffect(EffectType.Ensnared);
 
             player.EnableEffect<AmnesiaVision>(duration);
             player.EnableEffect<AmnesiaItems>(duration);
@@ -220,6 +221,7 @@ public class TranquilizerGun : CustomWeapon
 
             newHealth = player.Health;
 
+            player.DisableEffect(EffectType.Ensnared);
             player.IsGodModeEnabled = false;
             player.Scale = previousScale;
             player.Health = newHealth;
