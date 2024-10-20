@@ -72,7 +72,7 @@
         {
             PcCurentLvl = ev.NewLevel;
         }
-
+        /*
         private static void OnBan(BannedEventArgs ev)
         {
             Banned = true;
@@ -90,7 +90,7 @@
             else if (Banned)
                 Banned = false;
         }
-
+        */
         private static void OnWaitingForPlayers()
         {
             if (friendlyFireDisable)
