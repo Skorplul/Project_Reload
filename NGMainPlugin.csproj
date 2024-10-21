@@ -99,13 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
-    <Compile Include="NGMainPlugin\Commands\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\Commands\DataInfo.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
-    <Compile Include="NGMainPlugin\Commands\Lights.cs" />
-    <Compile Include="NGMainPlugin\Commands\LiveEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
@@ -140,7 +141,7 @@
     <Compile Include="NGMainPlugin\Systems\RespawnTimer\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RespawnTimer\RespawnTimer.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\AudioPlayer.cs" />
-    <Compile Include="NGMainPlugin\Commands\DiscoCommand.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\DiscoCommand.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\RGBNuke.cs" />
     <Compile Include="NGMainPlugin\Systems\EventsSystem\Events.cs" />
     <Compile Include="NGMainPlugin\Systems\EventsSystem\EventsSystem.cs" />

@@ -3,6 +3,7 @@
     using CommandSystem;
     using System;
     using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Lights : ICommand
@@ -29,6 +30,11 @@
                 Map.ResetLightsColor();
                 response = "Reset all Lights.";
                 return true;
+            }
+            if (!Permissions.CheckPermission(player, "NG.Lights")) 
+            {
+                response = $"You dont have the permission <color=yellow>NG.Lights</color>!";
+                return false;
             }
             if (arguments.Count < 3)
             {

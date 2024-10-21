@@ -30,7 +30,7 @@
                 return false;
             }
 
-            if (!player.CheckPermission("ng.transform"))
+            if (!player.CheckPermission("NG.transform"))
             {
                 response = "Dazu hast du keine Rechte!";
                 return false;

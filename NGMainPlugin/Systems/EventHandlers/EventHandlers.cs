@@ -25,8 +25,8 @@
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
             Exiled.Events.Handlers.Scp079.GainingLevel += OnSCP079GainingLvl;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
-            Exiled.Events.Handlers.Player.Banned += OnBan;
-            Exiled.Events.Handlers.Player.Kicked += OnKick;
+            //Exiled.Events.Handlers.Player.Banned += OnBan;
+            //Exiled.Events.Handlers.Player.Kicked += OnKick;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeaving;
@@ -38,8 +38,8 @@
             Exiled.Events.Handlers.Player.TriggeringTesla -= OnTriggeringTesla;
             Exiled.Events.Handlers.Scp079.GainingLevel -= OnSCP079GainingLvl;
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
-            Exiled.Events.Handlers.Player.Banned -= OnBan;
-            Exiled.Events.Handlers.Player.Kicked -= OnKick;
+            //Exiled.Events.Handlers.Player.Banned -= OnBan;
+            //Exiled.Events.Handlers.Player.Kicked -= OnKick;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers -= OnWaitingForPlayers;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeaving;
@@ -72,7 +72,7 @@
         {
             PcCurentLvl = ev.NewLevel;
         }
-
+        /*
         private static void OnBan(BannedEventArgs ev)
         {
             Banned = true;
@@ -90,7 +90,7 @@
             else if (Banned)
                 Banned = false;
         }
-
+        */
         private static void OnWaitingForPlayers()
         {
             if (friendlyFireDisable)

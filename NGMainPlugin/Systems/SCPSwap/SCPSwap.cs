@@ -1,7 +1,5 @@
 ﻿namespace NGMainPlugin.Systems.SCPSwap
 {
-    using NGMainPlugin.Systems.SCPSwap.Commands;
-
     internal static class SCPSwap
     {
         internal static Config Config;
@@ -20,7 +18,7 @@
 
         private static void OnRoundStarted()
         {
-            SCPSwapCommand.swaped.Clear();
+            Commands.SCPSwapCommand.swaped.Clear();
         }
     }
 }

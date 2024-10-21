@@ -11,6 +11,7 @@ using InventorySystem.Items.Firearms.Attachments;
 using PlayerStatsSystem;
 using YamlDotNet.Serialization;
 
+#nullable enable
 [CustomItem(ItemType.GunE11SR)]
 public class SniperRifle : CustomWeapon
 {
