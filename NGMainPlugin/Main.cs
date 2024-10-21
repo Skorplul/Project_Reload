@@ -1,206 +1,114 @@
-﻿using Exiled.API.Features;
-using Server = Exiled.Events.Handlers.Server;
-using Player = Exiled.Events.Handlers.Player;
-using SCP079 = Exiled.Events.Handlers.Scp079;
-using Warhead = Exiled.Events.Handlers.Warhead;
-using Exiled.CustomItems.API.Features;
-using HarmonyLib;
-using NGMainPlugin.Commands;
-using NGMainPlugin.Systems.PainkillerHandlers;
-using Exiled.API.Interfaces;
-using Exiled.Events.EventArgs.Player;
-using Exiled.Events.Features;
-using System.IO;
-using NGMainPlugin.Systems.RespawnTimer.API.Features;
-using System.Net;
-using System;
-using NGMainPlugin.DB;
-
-namespace NGMainPlugin
+﻿namespace NGMainPlugin
 {
-    public class Main : Plugin<Config>
+    using System;
+    using HarmonyLib;
+    using Exiled.API.Features;
+    using NGMainPlugin.Systems;
+    using NGMainPlugin.Systems.LobbySystem;
+    using NGMainPlugin.Systems.RGBNuke;
+    using NGMainPlugin.Systems.RespawnTimer;
+    using NGMainPlugin.Systems.EventHandlers;
+    using NGMainPlugin.Systems.CustomItems;
+    using NGMainPlugin.Systems.Database;
+
+    public class NGMainPlguin : Plugin<Config>
     {
-        public override string Author { get; } = "Skorp 1.0 and LastPenguin";
-        public override string Name { get; } = "NGMainPlugin";
-        public override string Prefix { get; } = "NGM";
-        public override Version Version { get; } = new Version(1, 4, 0);
+        public override string Author => "Skorp 1.0 and LastPenguin";
+        public override string Name => "NGMainPlugin";
+        public override string Prefix => "NGM";
+        public override Version Version => new Version(2, 1, 0);
+        public override Version RequiredExiledVersion => new Version(8, 9, 11);
 
-        public override Version RequiredExiledVersion { get; } = new Version(8, 9, 11);
+        public static NGMainPlguin Instance { get; private set; }
 
-        public EventHandlers EventHandlers;
-        public PainkillerHand PainkillerHand;
-        public Systems.LobbySystem.Handler LobbySystemHandler;
-        public Systems.DiscordLogs.LogHandler DCLogHandler;
-        public Systems.SystemEvents.Handlers SysEvHandler;
-        public Systems.RGBNuke.EventHandler GayNukeHandler;
-
-        public static Main Instance { get; private set; }
-        private Harmony Harmony { get; set; } = new Harmony("LobbySystem");
-
-        public static NGMainPlugin.Main Singleton;
-
-        public static string RespawnTimerDirectoryPath { get; } = Path.Combine(Paths.Configs, nameof(NGMainPlugin.Systems.RespawnTimer));
+        private Harmony Harmony { get; } = new Harmony($"com.NGMainPlugin-{DateTime.Now.Ticks}");
 
         public override void OnEnabled()
         {
-            this.Harmony.PatchAll();
-            Config.LoadItems(); 
-
-            Log.Debug("Registering items..");
-            CustomItem.RegisterItems(overrideClass: Config.ItemConfigs);
-
             Instance = this;
-            EventHandlers = new EventHandlers(this);
-            PainkillerHand = new PainkillerHand(this);
-            LobbySystemHandler = new Systems.LobbySystem.Handler();
-            DCLogHandler = new Systems.DiscordLogs.LogHandler();
-            SysEvHandler = new Systems.SystemEvents.Handlers();
-            GayNukeHandler = new Systems.RGBNuke.EventHandler();
 
+            Log.Info("                                                                                                                                                                         \r\n                                                                                                                                                                         \r\n          `7MN.   `7MF`7MM\"\"\"YMM  `YMM'   `MP`7MMF'   `7MF'.M\"\"\"bgd                       .g8\"\"\"bgd       db     `7MMM.     ,MMF`7MMF`7MN.   `7MF' .g8\"\"\"bgd             \r\n            MMN.    M   MM    `7    VMb.  ,P   MM       M ,MI    \"Y                     .dP'     `M      ;MM:      MMMb    dPMM   MM   MMN.    M .dP'     `M             \r\n            M YMb   M   MM   d       `MM.M'    MM       M `MMb.                         dM'       `     ,V^MM.     M YM   ,M MM   MM   M YMb   M dM'       `             \r\n            M  `MN. M   MMmmMM         MMb     MM       M   `YMMNq.                     MM             ,M  `MM     M  Mb  M' MM   MM   M  `MN. M MM                      \r\nmmmmm mmmmm M   `MM.M   MM   Y  ,    ,M'`Mb.   MM       M .     `MM                     MM.    `7MMF'  AbmmmqMA    M  YM.P'  MM   MM   M   `MM.M MM.    `7MMFmmmmm mmmmm \r\n            M     YMM   MM     ,M   ,P   `MM.  YM.     ,M Mb     dM                     `Mb.     MM   A'     VML   M  `YM'   MM   MM   M     YMM `Mb.     MM             \r\n          .JML.    YM .JMMmmmmMMM .MM:.  .:MMa. `bmmmmd\"' P\"Ybmmd\"                        `\"bmmmdPY .AMA.   .AMMA.JML. `'  .JMML.JMML.JML.    YM   `\"bmmmdPY             \r\n                                                                                                                                                                         \r\n                                                                                                                                                                         \r\n\r\n");
 
-            Log.Debug("Loading Database...");
+            ///throws error; please check @lastpenguin
+            
+            // Load Database
+            Log.Info("Loading Database...");
             Database.InitDB();
+            
 
-            // Events for the DataBase
-            Player.Verified += Database.OnVerified;
-            Player.Left += Database.OnPlayerLeft;
-            Server.RoundEnded += Database.OnRoundEnded;
+            // Load all configs
+            Log.Info("Loading Configs...");
+            Config.LoadConfigs();
 
+            // All patches
+            Log.Info("Harmony Patching...");
+            Harmony.PatchAll();
 
-            Player.UsingItemCompleted += PainkillerHand.OnTakingPainkiller;
-            Player.TriggeringTesla += EventHandlers.OnTriggeringTesla;
-            SCP079.GainingLevel += EventHandlers.OnSCP079GainingLvl;
-            Server.RoundStarted += EventHandlers.OnRoundStarted;
-            Server.WaitingForPlayers += LobbySystemHandler.OnWaitingForPlayers;
-            Player.Verified += LobbySystemHandler.OnVerified;
-            Player.Banned += EventHandlers.OnBan;
-            Player.Kicked += EventHandlers.OnKick;
-            Server.RoundEnded += EventHandlers.OnRoundEnded;
-            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            Server.RespawningTeam += SysEvHandler.Spawning;
-            Warhead.Starting += SysEvHandler.WarheadActivating;
-            Player.Left += EventHandlers.OnPlayerLeaving;
-            Server.EndingRound += EventHandlers.OnEndingRound;
+            // Enable all the custom systems
+            Log.Info("-----[Systems]-----");
 
-            Server.RoundStarted += GayNukeHandler.OnRoundStart;
-            Server.RoundEnded += GayNukeHandler.OnRoundEnd;
-            Warhead.Starting += GayNukeHandler.OnWarheadStart;
-            Warhead.Detonated += GayNukeHandler.OnWarheadDetonation;
-            Warhead.Stopping += GayNukeHandler.OnWarheadStop;
+            Log.Info("Enabling Custom Items..");
+            CustomItems.Enable();
 
-            SCPSwap.Plugin = this;
-            Durchsage.Plugin = this;
+            Log.Info("Enabling Event Handlers...");
+            EventHandlers.Enable();
 
-            /// only for RespawnTimer
-            Main.Singleton = this;
-            if (!Directory.Exists(Main.RespawnTimerDirectoryPath))
-            {
-                Log.Warn("RespawnTimer directory does not exist. Creating...");
-                Directory.CreateDirectory(Main.RespawnTimerDirectoryPath);
-            }
-            string str = Path.Combine(Main.RespawnTimerDirectoryPath, "ExampleTimer");
-            if (!Directory.Exists(str))
-                Log.Error("RespawnTimer file not existing!");
-            Exiled.Events.Handlers.Map.Generated += new CustomEventHandler(Systems.RespawnTimer.EventHandler.OnGenerated);
-            Exiled.Events.Handlers.Server.RoundStarted += new CustomEventHandler(Systems.RespawnTimer.EventHandler.OnRoundStart);
-            Exiled.Events.Handlers.Player.Dying += new CustomEventHandler<DyingEventArgs>(Systems.RespawnTimer.EventHandler.OnDying);
-            foreach (IPlugin<IConfig> plugin in Exiled.Loader.Loader.Plugins)
-            {
-                switch (plugin.Name)
-                {
-                    case "Serpents Hand":
-                        if (plugin.Config.IsEnabled)
-                        {
-                            NGMainPlugin.Systems.RespawnTimer.API.API.SerpentsHandTeam.Init(plugin.Assembly);
-                            Log.Debug("Serpents Hand plugin detected!");
-                            break;
-                        }
-                        break;
-                    case "UIURescueSquad":
-                        if (plugin.Config.IsEnabled)
-                        {   
-                            NGMainPlugin.Systems.RespawnTimer.API.API.UiuTeam.Init(plugin.Assembly);
-                            Log.Debug("UIURescueSquad plugin detected!");
-                            break;
-                        }
-                        break;
-                }
-            }
-            if (!this.Config.ReloadTimerEachRound)
-                this.OnReloaded();
-            /// end
+            Log.Info("Enabling Random Painkillers...");
+            RandomPainkillers.Enable();
 
+            Log.Info("Enabling Lobby System...");
+            LobbySystem.Enable();
 
+            Log.Info("Enabling RGBNuke System...");
+            RGBNuke.Enable();
+
+            Log.Info("Enabling Respawn Timer System...");
+            RespawnTimer.Enable();
+
+            Log.Info("-----[NGMainPlugin Initialized]-----");
+            
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            CustomItem.UnregisterItems();
-            this.Harmony.UnpatchAll();
+            Log.Info("-----[NGMainPlugin Disable]-----");
 
-
-            Player.Verified -= Database.OnVerified;
-            Player.Left -= Database.OnPlayerLeft;
-            Server.RoundEnded -= Database.OnRoundEnded;
-
+            ///throws error; please check @lastpenguin
+            
+            // Close the DB
+            Log.Info("Closing Database...");
             Database.CloseBD();
+            
 
+            // Unpatch everything
+            Log.Info("Harmony Unpatching...");
+            Harmony.UnpatchAll();
 
-            Player.TriggeringTesla -= EventHandlers.OnTriggeringTesla;
-            SCP079.GainingLevel -= EventHandlers.OnSCP079GainingLvl;
-            Server.RoundStarted -= EventHandlers.OnRoundStarted;
-            Player.UsingItemCompleted -= PainkillerHand.OnTakingPainkiller;
-            Server.WaitingForPlayers -= LobbySystemHandler.OnWaitingForPlayers;
-            Player.Verified -= LobbySystemHandler.OnVerified;
-            Player.Banned -= EventHandlers.OnBan;
-            Player.Kicked -= EventHandlers.OnKick;
-            Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
-            Server.RespawningTeam -= SysEvHandler.Spawning;
-            Warhead.Starting -= SysEvHandler.WarheadActivating;
-            Player.Left -= EventHandlers.OnPlayerLeaving;
-            Server.EndingRound -= EventHandlers.OnEndingRound;
+            // Disable all the custom systems
+            Log.Info("-----[Systems]-----");
 
-            Server.RoundStarted -= GayNukeHandler.OnRoundStart;
-            Server.RoundEnded -= GayNukeHandler.OnRoundEnd;
-            Warhead.Starting -= GayNukeHandler.OnWarheadStart;
-            Warhead.Detonated -= GayNukeHandler.OnWarheadDetonation;
-            Warhead.Stopping -= GayNukeHandler.OnWarheadStop;
+            Log.Info("Disabling Custom Items..");
+            CustomItems.Disable();
 
-            PainkillerHand = null;
-            EventHandlers = null;
-            Instance = null;
-            LobbySystemHandler = null;
-            DCLogHandler = null;
-            SysEvHandler = null;
-            GayNukeHandler = null;
-            SCPSwap.Plugin = null;
-            Durchsage.Plugin = null;
+            Log.Info("Disabling Event Handlers...");
+            EventHandlers.Disable();
 
-            /// only for RespawnTimer
-            Exiled.Events.Handlers.Map.Generated -= new CustomEventHandler(Systems.RespawnTimer.EventHandler.OnGenerated);
-            Exiled.Events.Handlers.Server.RoundStarted -= new CustomEventHandler(Systems.RespawnTimer.EventHandler.OnRoundStart);
-            Exiled.Events.Handlers.Player.Dying -= new CustomEventHandler<DyingEventArgs>(Systems.RespawnTimer.EventHandler.OnDying);
-            Main.Singleton = null;
-            ///end
+            Log.Info("Disabling Random Painkillers...");
+            RandomPainkillers.Disable();
+
+            Log.Info("Disabling Lobby System...");
+            LobbySystem.Disable();
+
+            Log.Info("Disabling RGBNuke System...");
+            RGBNuke.Disable();
+
+            Log.Info("Disabling Respawn Timer System...");
+            RespawnTimer.Disable();
+
+            Log.Info("-----[NGMainPlugin Disabled]-----");
+            
             base.OnDisabled();
         }
-
-        public override void OnReloaded()
-        {
-            /// only for RespawnTimer
-            if (this.Config.Timers.IsEmpty<string, string>())
-            {
-                Log.Error("Timer list is empty!");
-            }
-            else
-            {
-                TimerView.CachedTimers.Clear();
-                foreach (string name in this.Config.Timers.Values)
-                    TimerView.AddTimer(name);
-            }
-        }
-        ///end
     }
 }

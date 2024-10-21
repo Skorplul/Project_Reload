@@ -6,7 +6,6 @@ using CommandSystem;
 using Exiled.API.Features;
 using UnityEngine;
 
-/// <inheritdoc/>
 [CommandHandler(typeof(ClientCommandHandler))]
 public class C4Charge : ParentCommand
 {
@@ -15,18 +14,14 @@ public class C4Charge : ParentCommand
         LoadGeneratedCommands();
     }
 
-    /// <inheritdoc/>
     public override string Command { get; } = "detonate";
 
-    /// <inheritdoc/>
     public override string[] Aliases { get; } = new string[] { "det" };
 
-    /// <inheritdoc/>
     public override string Description { get; } = "Detonate command for detonating C4 charges";
 
     public override void LoadGeneratedCommands() { }
 
-    /// <inheritdoc/>
     protected override bool ExecuteParent(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
         Player ply = Player.Get(sender);
