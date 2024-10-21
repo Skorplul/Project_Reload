@@ -16,9 +16,7 @@
         {
             typeof(C4Charge),
             typeof(GrenadeLauncher),
-            typeof(DoorRemote),
             typeof(ImpactNade),
-            typeof(Knife),
             typeof(RPG),
             typeof(Scp1499),
             typeof(SniperRifle),

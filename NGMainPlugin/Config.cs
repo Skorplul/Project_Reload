@@ -17,7 +17,6 @@
     using System.Linq;
     using HarmonyLib;
     using AudioSystem.Models.SoundConfigs;
-    using NGMainPlugin.Systems.SCPSwap;
 
     public class Config : IConfig
     {
@@ -59,7 +58,6 @@
             LobbySystem.Config = GetConfig<Systems.LobbySystem.Config>(Systems.LobbySystem.Config.ConfigPath, new Systems.LobbySystem.Config());
             RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath, new Systems.RGBNuke.Config());
             EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath, new Systems.EventHandlers.Config());
-            SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
         }
 
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]

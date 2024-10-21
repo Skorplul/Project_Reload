@@ -4,21 +4,19 @@
     using HarmonyLib;
     using Exiled.API.Features;
     using NGMainPlugin.Systems;
-    using NGMainPlugin.Systems.EventsSystem;
     using NGMainPlugin.Systems.LobbySystem;
     using NGMainPlugin.Systems.RGBNuke;
     using NGMainPlugin.Systems.RespawnTimer;
     using NGMainPlugin.Systems.EventHandlers;
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.Database;
-    using NGMainPlugin.Systems.SCPSwap;
 
     public class NGMainPlguin : Plugin<Config>
     {
         public override string Author => "Skorp 1.0 and LastPenguin";
         public override string Name => "NGMainPlugin";
         public override string Prefix => "NGM";
-        public override Version Version => new Version(2, 0, 1);
+        public override Version Version => new Version(2, 1, 0);
         public override Version RequiredExiledVersion => new Version(8, 9, 11);
 
         public static NGMainPlguin Instance { get; private set; }
@@ -55,9 +53,6 @@
             Log.Info("Enabling Event Handlers...");
             EventHandlers.Enable();
 
-            Log.Info("Enabling SCP Swap..");
-            SCPSwap.Enable();
-
             Log.Info("Enabling Random Painkillers...");
             RandomPainkillers.Enable();
 
@@ -69,12 +64,6 @@
 
             Log.Info("Enabling Respawn Timer System...");
             RespawnTimer.Enable();
-
-            Log.Info("Discord Logs: Unimplemented");
-            DiscordLogs.Enable();
-
-            Log.Info("Events System: Unimplemented");
-            EventsSystem.Enable();
 
             Log.Info("-----[NGMainPlugin Initialized]-----");
             
@@ -105,9 +94,6 @@
             Log.Info("Disabling Event Handlers...");
             EventHandlers.Disable();
 
-            Log.Info("Disabling SCP Swap...");
-            SCPSwap.Disable();
-
             Log.Info("Disabling Random Painkillers...");
             RandomPainkillers.Disable();
 
@@ -119,12 +105,6 @@
 
             Log.Info("Disabling Respawn Timer System...");
             RespawnTimer.Disable();
-
-            Log.Info("Discord Logs: Unimplemented");
-            DiscordLogs.Disable();
-
-            Log.Info("Events System: Unimplemented");
-            EventsSystem.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
             

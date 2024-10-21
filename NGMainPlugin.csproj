@@ -99,20 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\AdminSysEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\Commands\DataInfo.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Translations.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Commands\scpswap.cs" />
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\Commands\Data.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
@@ -122,18 +116,14 @@
     <Compile Include="NGMainPlugin\Systems\Database\Translations.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\EventHandlers.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\C4Charge.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\DoorRemote.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\GrenadeLauncher.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\ImpactNade.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\Knife.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\RPG.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\Scp1499.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\SniperRifle.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\TranquilizerGun.cs" />
     <Compile Include="NGMainPlugin\Main.cs" />
-    <Compile Include="NGMainPlugin\Systems\DiscordLogs.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\CustomItems.cs" />
-    <Compile Include="NGMainPlugin\Systems\LiftAudio\Methods.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\Config.cs" />
@@ -143,8 +133,6 @@
     <Compile Include="NGMainPlugin\Systems\RGBNuke\AudioPlayer.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\DiscoCommand.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\RGBNuke.cs" />
-    <Compile Include="NGMainPlugin\Systems\EventsSystem\Events.cs" />
-    <Compile Include="NGMainPlugin\Systems\EventsSystem\EventsSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\LobbySystem.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Commands\LockCommand.cs" />
