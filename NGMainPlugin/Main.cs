@@ -34,7 +34,6 @@
             // Load Database
             Log.Info("Loading Database...");
             Database.InitDB();
-            
 
             // Load all configs
             Log.Info("Loading Configs...");
@@ -79,7 +78,6 @@
             // Close the DB
             Log.Info("Closing Database...");
             Database.CloseBD();
-            
 
             // Unpatch everything
             Log.Info("Harmony Unpatching...");
