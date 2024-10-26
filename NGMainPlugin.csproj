@@ -36,13 +36,16 @@
       <HintPath>Dependencies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>Dependencies\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="AudioSystem">
       <HintPath>Dependencies\AudioSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="CedModV3">
+      <HintPath>..\..\..\Desktop\CedModV3.dll</HintPath>
     </Reference>
     <Reference Include="DiscordIntegration.Dependency">
       <HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
@@ -109,6 +112,9 @@
     <Compile Include="NGMainPlugin\Commands\Admin\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Notifications.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Types\Ban_Kick.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPSwap\Translations.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
@@ -181,6 +187,8 @@
       <Version>5.0.21</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NGMainPlugin\Systems\Notifications\Commands\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

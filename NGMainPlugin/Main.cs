@@ -12,13 +12,14 @@
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.Database;
     using NGMainPlugin.Systems.SCPSwap;
+    using NGMainPlugin.Systems.Notifications;
 
     public class NGMainPlguin : Plugin<Config>
     {
         public override string Author => "Skorp 1.0 and LastPenguin";
         public override string Name => "NGMainPlugin";
         public override string Prefix => "NGM";
-        public override Version Version => new Version(2, 0, 1);
+        public override Version Version => new Version(2, 2, 1);
         public override Version RequiredExiledVersion => new Version(8, 9, 11);
 
         public static NGMainPlguin Instance { get; private set; }
@@ -70,6 +71,9 @@
             Log.Info("Enabling Respawn Timer System...");
             RespawnTimer.Enable();
 
+            Log.Info("Enabling Notification System...");
+            Notifications.Enable();
+
             Log.Info("Discord Logs: Unimplemented");
             DiscordLogs.Enable();
 
@@ -119,6 +123,9 @@
 
             Log.Info("Disabling Respawn Timer System...");
             RespawnTimer.Disable();
+
+            Log.Info("Disabling Notification System...");
+            Notifications.Disable();
 
             Log.Info("Discord Logs: Unimplemented");
             DiscordLogs.Disable();

@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.SCPSwap.Commands
+﻿namespace NGMainPlugin.Commands
 {
     using CommandSystem;
     using System;
