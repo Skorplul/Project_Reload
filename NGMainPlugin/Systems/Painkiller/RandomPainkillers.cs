@@ -10,25 +10,49 @@
     {
         readonly static Random Random = new Random();
 
-        private static List<EffectType> PainEffects = new List<EffectType>()
+        private static Dictionary<EffectType, double> PainEffectProbabilities = new Dictionary<EffectType, double>
         {
-            EffectType.Invisible,
-            EffectType.Bleeding,
-            EffectType.Poisoned,
-            EffectType.MovementBoost,
-            EffectType.Flashed,
-            EffectType.Ensnared
+            { EffectType.Invisible, 10.0 },
+            { EffectType.Bleeding, 10.0 },
+            { EffectType.Poisoned, 10.0 },
+            { EffectType.MovementBoost, 25.0 },
+            { EffectType.Ensnared, 1.0 },
         };
-        private static List<ItemType> PainItems = new List<ItemType>()
+
+        private static Dictionary<ItemType, double> PainItemProbabilities = new Dictionary<ItemType, double>
         {
-            ItemType.Painkillers,
-            ItemType.AntiSCP207,
-            ItemType.KeycardFacilityManager,
-            ItemType.KeycardScientist,
-            ItemType.Medkit,
-            ItemType.SCP018,
-            ItemType.SCP207
+            { ItemType.Painkillers, 5.0 },
+            { ItemType.AntiSCP207, 2.0 },
+            { ItemType.KeycardFacilityManager, 2.0 },
+            { ItemType.KeycardScientist, 15.0 },
+            { ItemType.Medkit, 60.0 },
+            { ItemType.SCP018, 10.0 },
+            { ItemType.SCP207, 5.0 },
         };
+
+        private static T SelectRandomAction<T>(Dictionary<T, double> probabilities)
+        {
+            double totalProbability = 0;
+            foreach (var probability in probabilities.Values)
+            {
+                totalProbability += probability;
+            }
+
+            double randomValue = Random.NextDouble() * totalProbability;
+            double cumulative = 0;
+
+            foreach (var kvp in probabilities)
+            {
+                cumulative += kvp.Value;
+                if (randomValue <= cumulative)
+                {
+                    return kvp.Key;
+                }
+            }
+
+            // Fallback if no action was selected (should not happen if probabilities are set correctly)
+            throw new Exception("No action selected; check probability values.");
+        }
 
         public static void Enable()
         {
@@ -40,14 +64,6 @@
             Exiled.Events.Handlers.Player.UsingItemCompleted -= OnItemUsingCompleted;
         }
 
-        private static EffectType GetEff(int EffectListVal)
-        {
-            return PainEffects[EffectListVal];
-        }
-        private static ItemType GetItem(int ItemListVal)
-        {
-            return PainItems[ItemListVal];
-        }
 
         private static string GetEffString(EffectType SelEffect)
         {
@@ -96,50 +112,36 @@
         {
             if (ev.Item.Type == ItemType.Painkillers)
             {
-                int Durr = Random.Next(5, 15);
-                int RandEff = Random.Next(0, 13);
+                int duration = Random.Next(5, 15);
 
-                if (RandEff <= 5)
+                if (Random.Next(2) == 0) // 50% chance for either effect or item
                 {
-                    EffectType DoEffect = GetEff(RandEff);
-                    string EffectString = GetEffString(DoEffect);
+                    EffectType selectedEffect = SelectRandomAction(PainEffectProbabilities);
+                    string effectString = GetEffString(selectedEffect);
 
-                    if (EffectString == "Error")
+                    if (effectString == "Error")
                     {
                         Log.Warn("Error in the selection for Painkiller-Effect selection!");
                         return;
                     }
 
-                    if (EffectString == "Ensnared")
-                    {
-                        EffectString = "English or Spanish";
-
-                        ev.Player.ShowHint($"[<color=#FB045B>P</color><color=#F81353>a</color><color=#F5224B>i</color><color=#F23143>n</color><color=#EF403B>k</color><color=#EC4F33>i</color><color=#E95E2B>l</color><color=#E66D23>l</color><color=#E37C1B>e</color><color=#E08B13>r</color>]: You recieved <color=#f90000ff>{EffectString}</color> for <color=#f90000ff>{Durr}</color> seconds!");
-                        ev.Player.EnableEffect(DoEffect, 10, Durr, false);
-
-                        return;
-                    }
-
-                    ev.Player.ShowHint($"[<color=#FB045B>P</color><color=#F81353>a</color><color=#F5224B>i</color><color=#F23143>n</color><color=#EF403B>k</color><color=#EC4F33>i</color><color=#E95E2B>l</color><color=#E66D23>l</color><color=#E37C1B>e</color><color=#E08B13>r</color>]: You recieved <color=#f90000ff>{EffectString}</color> for <color=#f90000ff>{Durr}</color> seconds!");
-                    ev.Player.EnableEffect(DoEffect, 10, Durr, false);
+                    ev.Player.ShowHint($"[Painkiller]: You received {effectString} for {duration} seconds!");
+                    ev.Player.EnableEffect(selectedEffect, 10, duration, false);
                 }
-                else if (RandEff >= 6)
+                else
                 {
-                    RandEff = RandEff - 6;
+                    ItemType selectedItem = SelectRandomAction(PainItemProbabilities);
+                    string itemString = GetItemString(selectedItem);
 
-                    ItemType DoItem = GetItem(RandEff);
-                    string ItemString = GetItemString(DoItem);
-
-                    if (ItemString == "Error")
+                    if (itemString == "Error")
                     {
                         Log.Warn("Error in the selection for Painkiller-item selection!");
                         return;
                     }
 
-                    ev.Player.ShowHint($"[<color=#FB045B>P</color><color=#F81353>a</color><color=#F5224B>i</color><color=#F23143>n</color><color=#EF403B>k</color><color=#EC4F33>i</color><color=#E95E2B>l</color><color=#E66D23>l</color><color=#E37C1B>e</color><color=#E08B13>r</color>]: You recieved <color=#f90000ff>{ItemString}</color>!");
-                    ev.Player.AddItem(DoItem);
+                    ev.Player.ShowHint($"[Painkiller]: You received {itemString}!");
+                    ev.Player.AddItem(selectedItem);
                 }
-
             }
         }
     }
