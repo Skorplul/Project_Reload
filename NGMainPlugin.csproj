@@ -132,7 +132,7 @@
     <Compile Include="NGMainPlugin\Systems\LobbySystem\LobbySystem.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Commands\LockCommand.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Patches\RoundStartPatch.cs" />
-    <Compile Include="NGMainPlugin\Systems\RandomPainkillers.cs" />
+    <Compile Include="NGMainPlugin\Systems\Painkiller\RandomPainkillers.cs" />
     <None Include="TechSuppe\FAQ\Head.md" />
   </ItemGroup>
   <ItemGroup>
