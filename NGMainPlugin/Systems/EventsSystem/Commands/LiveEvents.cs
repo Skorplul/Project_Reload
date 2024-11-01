@@ -7,6 +7,7 @@
     using PlayerRoles;
     using Exiled.API.Enums;
     using LightContainmentZoneDecontamination;
+    using NGMainPlugin.API;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LiveEvents : ICommand
@@ -39,6 +40,11 @@
 
             foreach (Player ply in Player.List)
             {
+                if (ply.IsMuted)
+                {
+                    EventsAPI.MutedBeforeEvent.Add(ply);
+                }
+
                 ply.Role.Set(RoleTypeId.Tutorial);
                 if (!ply.RemoteAdminAccess)
                     ply.Mute();

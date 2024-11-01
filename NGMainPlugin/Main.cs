@@ -62,7 +62,7 @@
             Log.Info("Discord Logs: Unimplemented");
             DiscordLogs.Enable();
 
-            Log.Info("Events System: Unimplemented");
+            Log.Info("Events System:");
             EventsSystem.Enable();
 
             Log.Info("-----[NGMainPlugin Initialized]-----");
