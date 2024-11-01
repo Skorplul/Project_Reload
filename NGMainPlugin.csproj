@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\AdminSysEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\Notifications\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\Notifications\Notifications.cs" />
     <Compile Include="NGMainPlugin\Systems\Notifications\Types\Ban_Kick.cs" />

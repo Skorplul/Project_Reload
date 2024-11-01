@@ -2,6 +2,7 @@
 {
     using Exiled.Events.EventArgs.Server;
     using Exiled.Events.EventArgs.Warhead;
+    using System;
 
     internal static class EventsSystem
     {
@@ -31,6 +32,8 @@
         private static void WarheadActivating(StartingEventArgs ev)
         {
             if (NoNuke)
+                ev.IsAllowed = false;
+            if (NoAutoNuke && ev.IsAuto)
                 ev.IsAllowed = false;
         }
     }

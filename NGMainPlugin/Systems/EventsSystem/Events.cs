@@ -8,9 +8,6 @@
 
     public  class Events
     {
-        public void Infection()
-        {
         
-        }
     }
 }

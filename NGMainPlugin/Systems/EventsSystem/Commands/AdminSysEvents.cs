@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Systems.EventsSystem.Commands
 {
     using CommandSystem;
     using System;
@@ -36,15 +36,13 @@
                 response = "You need to use this in the Lobby!";
                 return false;
             }
-            if (ServerEvents.EventRound)
+            if (EventsAPI.EventRound)
             {
                 response = "An event is already running!";
                 return false;
             }
 
-
-            ServerEvents.EventRound = true;
-
+            EventsAPI.EventRound = true;
             response = "Event has been triggered.";
             return true;
         }

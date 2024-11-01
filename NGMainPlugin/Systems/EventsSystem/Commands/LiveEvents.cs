@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Commands
+﻿namespace NGMainPlugin.Systems.EventsSystem.Commands
 {
     using CommandSystem;
     using System;
