@@ -101,31 +101,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\AdminSysEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
-    <Compile Include="NGMainPlugin\Systems\Database\Commands\DataInfo.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\LiveEvents.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
     <Compile Include="NGMainPlugin\Systems\Notifications\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\Notifications\Notifications.cs" />
     <Compile Include="NGMainPlugin\Systems\Notifications\Types\Ban_Kick.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Translations.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Commands\scpswap.cs" />
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
-    <Compile Include="NGMainPlugin\Systems\Database\Commands\Data.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
-    <Compile Include="NGMainPlugin\Systems\Database\Config.cs" />
-    <Compile Include="NGMainPlugin\Systems\Database\Database.cs" />
-    <Compile Include="NGMainPlugin\Systems\Database\Translations.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\EventHandlers.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\C4Charge.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\DoorRemote.cs" />
@@ -155,7 +145,6 @@
     <Compile Include="NGMainPlugin\Systems\LobbySystem\LobbySystem.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Commands\LockCommand.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Patches\RoundStartPatch.cs" />
-    <Compile Include="NGMainPlugin\Systems\RandomPainkillers.cs" />
     <None Include="TechSuppe\FAQ\Head.md" />
   </ItemGroup>
   <ItemGroup>
