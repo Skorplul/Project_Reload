@@ -9,7 +9,6 @@
     using NGMainPlugin.Systems.RespawnTimer;
     using NGMainPlugin.Systems.EventHandlers;
     using NGMainPlugin.Systems.CustomItems;
-    using NGMainPlugin.Systems.Database;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -28,12 +27,6 @@
             Instance = this;
 
             Log.Info("                                                                                                                                                                         \r\n                                                                                                                                                                         \r\n          `7MN.   `7MF`7MM\"\"\"YMM  `YMM'   `MP`7MMF'   `7MF'.M\"\"\"bgd                       .g8\"\"\"bgd       db     `7MMM.     ,MMF`7MMF`7MN.   `7MF' .g8\"\"\"bgd             \r\n            MMN.    M   MM    `7    VMb.  ,P   MM       M ,MI    \"Y                     .dP'     `M      ;MM:      MMMb    dPMM   MM   MMN.    M .dP'     `M             \r\n            M YMb   M   MM   d       `MM.M'    MM       M `MMb.                         dM'       `     ,V^MM.     M YM   ,M MM   MM   M YMb   M dM'       `             \r\n            M  `MN. M   MMmmMM         MMb     MM       M   `YMMNq.                     MM             ,M  `MM     M  Mb  M' MM   MM   M  `MN. M MM                      \r\nmmmmm mmmmm M   `MM.M   MM   Y  ,    ,M'`Mb.   MM       M .     `MM                     MM.    `7MMF'  AbmmmqMA    M  YM.P'  MM   MM   M   `MM.M MM.    `7MMFmmmmm mmmmm \r\n            M     YMM   MM     ,M   ,P   `MM.  YM.     ,M Mb     dM                     `Mb.     MM   A'     VML   M  `YM'   MM   MM   M     YMM `Mb.     MM             \r\n          .JML.    YM .JMMmmmmMMM .MM:.  .:MMa. `bmmmmd\"' P\"Ybmmd\"                        `\"bmmmdPY .AMA.   .AMMA.JML. `'  .JMML.JMML.JML.    YM   `\"bmmmdPY             \r\n                                                                                                                                                                         \r\n                                                                                                                                                                         \r\n\r\n");
-
-            ///throws error; please check @lastpenguin
-            
-            // Load Database
-            Log.Info("Loading Database...");
-            Database.InitDB();
 
             // Load all configs
             Log.Info("Loading Configs...");
@@ -72,12 +65,6 @@
         public override void OnDisabled()
         {
             Log.Info("-----[NGMainPlugin Disable]-----");
-
-            ///throws error; please check @lastpenguin
-            
-            // Close the DB
-            Log.Info("Closing Database...");
-            Database.CloseBD();
 
             // Unpatch everything
             Log.Info("Harmony Unpatching...");
