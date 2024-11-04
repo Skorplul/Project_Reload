@@ -30,5 +30,10 @@
             VP.Role.Set(RoleTypeId.Scp0492);
 
         }
+
+        public static void PeanutRun()
+        {
+            
+        }
     }
 }
