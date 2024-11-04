@@ -19,4 +19,11 @@ namespace NGMainPlugin.API
         /// </summary>
         internal static List<Player> MutedBeforeEvent = new List<Player>();
     }
+
+    public enum EventsType
+    {
+        None,
+        Virus,
+        PeanutRun,
+    }
 }

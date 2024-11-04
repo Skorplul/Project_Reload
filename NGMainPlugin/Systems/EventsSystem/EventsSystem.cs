@@ -4,16 +4,18 @@
     using Exiled.Events.EventArgs.Server;
     using Exiled.Events.EventArgs.Warhead;
     using Exiled.API.Features;
+    using PlayerRoles;
     using NGMainPlugin.API;
     using System;
     using MapEditorReborn.Commands.UtilityCommands;
 
-    internal static class EventsSystem
+    public static class EventsSystemHandler
     {
         //Event commands params
         private static bool NoRespawn = false;
         private static bool NoAutoNuke = false;
         private static bool NoNuke = false;
+        public static EventsType eventRoundType;
 
         public static void Enable()
         {
@@ -24,6 +26,7 @@
             Exiled.Events.Handlers.Player.IssuingMute += OnMuted;
             Exiled.Events.Handlers.Player.RevokingMute += OnUnMuted;
             Exiled.Events.Handlers.Server.EndingRound += OnEndingRound;
+            Exiled.Events.Handlers.Player.Dying += OnDying;
         }
 
         public static void Disable()
@@ -35,6 +38,7 @@
             Exiled.Events.Handlers.Player.IssuingMute -= OnMuted;
             Exiled.Events.Handlers.Player.RevokingMute -= OnUnMuted;
             Exiled.Events.Handlers.Server.EndingRound -= OnEndingRound;
+            Exiled.Events.Handlers.Player.Dying -= OnDying;
         }
 
         private static void Spawning(RespawningTeamEventArgs ev)
@@ -99,6 +103,7 @@
         {
             if (EventsAPI.EventRound)
             {
+                eventRoundType = EventsType.None;
                 EventsAPI.EventRound = false;
                 EventsAPI.MutedBeforeEvent.Clear();
 
@@ -108,6 +113,17 @@
                     {
                         ply.UnMute();
                     }
+                }
+            }
+        }
+
+        private static void OnDying(DyingEventArgs ev)
+        {
+            if (EventsAPI.EventRound)
+            {
+                if (ev.Player.Role.Type == RoleTypeId.ClassD) 
+                {
+                    ev.Player.Role.Set(RoleTypeId.Scp0492);
                 }
             }
         }

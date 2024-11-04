@@ -41,8 +41,42 @@
                 response = "An event is already running!";
                 return false;
             }
+            EventsType eventsT;
 
-            EventsAPI.EventRound = true;
+            static EventsType? GetEventType(string Event, out EventsType eventsT)
+            {
+                eventsT = EventsType.None;
+                switch (Event)
+                {
+                    case "Virus":
+                        return EventsType.Virus;
+                    case "PeanutRun":
+                        return EventsType.PeanutRun;
+                    default:
+                        return null;
+                }
+            }
+
+            GetEventType(arguments.Array[2], out eventsT);
+
+            if (eventsT == EventsType.None)
+            {
+                response = "Not a valid event! <AutoEvent list> for all events.";
+                return false;
+            }
+
+            switch (eventsT)
+            {
+                case EventsType.Virus:
+                    Events.Virus();
+                    break;
+                case EventsType.PeanutRun:
+                    //Events.PeanutRun();
+                    break;
+                default:
+                    break;
+            }
+
             response = "Event has been triggered.";
             return true;
         }
