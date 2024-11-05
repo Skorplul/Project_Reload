@@ -67,6 +67,8 @@
                 return false;
             }
 
+            // I know this could be in GetEventType(), but I just forgor at the time
+            // and I am too layze to fix it :P
             switch (eventsT)
             {
                 case EventsType.Virus:
