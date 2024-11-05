@@ -6,8 +6,7 @@
     using Exiled.API.Features;
     using PlayerRoles;
     using NGMainPlugin.API;
-    using System;
-    using MapEditorReborn.Commands.UtilityCommands;
+    using MEC;
 
     public static class EventsSystemHandler
     {
@@ -103,6 +102,16 @@
         {
             if (EventsAPI.EventRound)
             {
+                switch (eventRoundType)
+                {
+                    case EventsType.PeanutRun:
+                        Timing.KillCoroutines();
+                        break;
+                    default:
+                        break;
+                }
+                
+                Events.scpList.Clear();
                 eventRoundType = EventsType.None;
                 EventsAPI.EventRound = false;
                 EventsAPI.MutedBeforeEvent.Clear();

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 
 namespace NGMainPlugin.API
@@ -20,10 +17,14 @@ namespace NGMainPlugin.API
         internal static List<Player> MutedBeforeEvent = new List<Player>();
     }
 
+    /// <summary>
+    /// Defines the eventtype
+    /// </summary>
     public enum EventsType
     {
         None,
         Virus,
         PeanutRun,
+        LightsOut,
     }
 }

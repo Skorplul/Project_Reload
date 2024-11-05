@@ -52,6 +52,8 @@
                         return EventsType.Virus;
                     case "PeanutRun":
                         return EventsType.PeanutRun;
+                    case "LightsOut":
+                        return EventsType.LightsOut;
                     default:
                         return null;
                 }
@@ -71,7 +73,10 @@
                     Events.Virus();
                     break;
                 case EventsType.PeanutRun:
-                    //Events.PeanutRun();
+                    Events.PeanutRun();
+                    break;
+                case EventsType.LightsOut:
+                    Events.LightsOut();
                     break;
                 default:
                     break;
