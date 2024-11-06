@@ -5,7 +5,6 @@
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
     using NGMainPlugin.API;
-    using System.Linq;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class AutoEvent : ICommand
@@ -32,12 +31,12 @@
                 response = "You don't have the permission for that!";
                 return false;
             }
-            if (arguments.Count <= 1)
+            if (arguments.Count < 1)
             {
                 response = "Usage: AutoEvent <Event>\nFor a list of all possible events: AutoEvent list";
                 return false;
             }
-            if (arguments.Array[2] == "list")
+            if (arguments.Array[1] == "list")
             {
                 response = "Possible events: Virus, PeanutRun, LightsOut and JailbirdFight\nThe events have to be spelled like they are here in the list!";
                 return true;
@@ -52,11 +51,9 @@
                 response = "An event is already running!";
                 return false;
             }
-            EventsType eventsT;
 
-            static EventsType? GetEventType(string Event, out EventsType eventsT)
+            static EventsType GetEventType(string Event)
             {
-                eventsT = EventsType.None;
                 switch (Event)
                 {
                     case "Virus":
@@ -68,11 +65,11 @@
                     case "JailbirdFight":
                         return EventsType.CockFight;
                     default:
-                        return null;
+                        return EventsType.None;
                 }
             }
 
-            GetEventType(arguments.Array[2], out eventsT);
+            EventsType eventsT = GetEventType(arguments.Array[1]);
 
             if (eventsT == EventsType.None)
             {

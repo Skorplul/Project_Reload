@@ -17,6 +17,7 @@
     {
         static Random random= new Random();
         public static List<Player> scpList = new List<Player>();
+        private static Room NutSpawn;
 
         private static IEnumerator<float> DoVirus()
         {
@@ -34,6 +35,20 @@
         private static IEnumerator<float> DoPeanutRun(int timeToNuke)
         {
             yield return Timing.WaitUntilTrue(() => Round.IsStarted);
+            
+            foreach (Room room in Room.List)
+            {
+                if (room.Type == RoomType.Lcz173)
+                {
+                    NutSpawn = room;
+                }
+            }
+
+            foreach (Player ply in Player.List)
+            {
+                ply.Role.Set(RoleTypeId.Scp173);
+                ply.Teleport(NutSpawn);
+            }
             
             yield return Timing.WaitForSeconds(timeToNuke);
             Respawn.TimeUntilNextPhase = -1;
@@ -82,7 +97,7 @@
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Scientist);
-                ply.AddItem(ItemType.Jailbird, 8);
+                ply.AddItem(ItemType.ParticleDisruptor, 8);
                 ply.EnableEffect(EffectType.Ensnared, i);
             }
 
