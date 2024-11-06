@@ -130,9 +130,12 @@
         {
             if (EventsAPI.EventRound)
             {
-                if (ev.Player.Role.Type == RoleTypeId.ClassD) 
-                {
-                    ev.Player.Role.Set(RoleTypeId.Scp0492);
+                if (eventRoundType == EventsType.Virus)
+                {    
+                    if (ev.Player.Role.Type == RoleTypeId.ClassD || ev.Player.Role.Type == RoleTypeId.Spectator || ev.Player.Role.Type == RoleTypeId.None) 
+                    {
+                        ev.Player.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
+                    }
                 }
             }
         }
