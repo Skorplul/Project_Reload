@@ -5,6 +5,7 @@
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
     using NGMainPlugin.API;
+    using System.Linq;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class AutoEvent : ICommand
@@ -29,6 +30,11 @@
             if (!player.CheckPermission("NG.Events"))
             {
                 response = "You don't have the permission for that!";
+                return false;
+            }
+            if (arguments.Count <= 1)
+            {
+                response = "Usage: AutoEvent <Event>\nFor a list of all possible events: AutoEvent list";
                 return false;
             }
             if (arguments.Array[2] == "list")
