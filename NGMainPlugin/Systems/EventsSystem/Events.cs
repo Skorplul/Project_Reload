@@ -51,9 +51,9 @@
                 ply.Teleport(NutSpawn, NutSpwanVector);
             }
             
-            yield return Timing.WaitForSeconds(timeToNuke);
+            yield return Timing.WaitForSeconds(10);
             Respawn.TimeUntilNextPhase = -1;
-            Warhead.DetonationTimer = Config.PeanutRunTimeToExplode;
+            Warhead.DetonationTimer = 90;
             Warhead.IsLocked = true;
             Warhead.Start();
         }
