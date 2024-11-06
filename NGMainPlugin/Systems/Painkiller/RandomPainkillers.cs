@@ -112,9 +112,9 @@
         {
             if (ev.Item.Type == ItemType.Painkillers)
             {
-                int duration = Random.Next(5, 15);
+                int duration = Random.Next(3, 9);
 
-                if (Random.Next(2) == 0) // 50% chance for either effect or item
+                if (Random.Next(5) == 0) // 50% chance for either effect or item
                 {
                     EffectType selectedEffect = SelectRandomAction(PainEffectProbabilities);
                     string effectString = GetEffString(selectedEffect);
