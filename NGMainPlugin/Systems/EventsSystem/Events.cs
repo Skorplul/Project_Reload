@@ -7,6 +7,8 @@
     using Exiled.API.Extensions;
     using System.Collections.Generic;
     using MEC;
+    using Exiled.API.Enums;
+    using Exiled.API.Features.Doors;
 
     /// <summary>
     /// The functions execute Eventrounds on the Server. Ask Skorp for defenitions.
@@ -60,6 +62,67 @@
             
             Map.TurnOffAllLights(3000);
         }
+        private static IEnumerator<float> DoCockFight()
+        {
+            yield return Timing.WaitUntilTrue(() => Round.IsStarted);
+
+            Respawn.TimeUntilNextPhase = -1;
+            Warhead.AutoDetonate = false;
+            Warhead.IsLocked = true;
+
+            foreach (Door door in Door.List)
+            {
+                if (door.IsCheckpoint)
+                {
+                    door.Lock(5000, DoorLockType.AdminCommand);
+                }
+            }
+
+            int i = Config.JailbirdFightStartTime;
+            foreach (Player ply in Player.List)
+            {
+                ply.Role.Set(RoleTypeId.Scientist);
+                ply.AddItem(ItemType.Jailbird, 8);
+                ply.EnableEffect(EffectType.Ensnared, i);
+            }
+
+            while (i > 0)
+            {
+                if (i >= 5)
+                {
+                    Map.Broadcast(1, $"<color=red>Start in {i}</color>");
+                    i--;
+                }
+
+                //Colors have to be reworked!
+                switch (i)
+                {
+                    case 4:
+                        Map.Broadcast(1, $"<color=ff7777>Start in {i}</color>");
+                        i--;
+                        break;
+                    case 3:
+                        Map.Broadcast(1, $"<color=ffdddd>Start in {i}</color>");
+                        i--;
+                        break;
+                    case 2:
+                        Map.Broadcast(1, $"<color=ddffdd>Start in {i}</color>");
+                        i--;
+                        break;
+                    case 1:
+                        Map.Broadcast(1, $"<color=77ff77>Start in {i}</color>");
+                        i--;
+                        break;
+                    case 0:
+                        Map.Broadcast(1, $"<color=00ff00>Start!</color>");
+                        i--;
+                        break;
+                    default:
+                        break;
+                }
+                yield return Timing.WaitForSeconds(1);
+            }
+        }
 
         public static void Virus()
         {
@@ -85,6 +148,14 @@
             EventsAPI.EventRound = true;
 
             Timing.RunCoroutine(DoLightsOut());
+        }
+
+        public static void CockFight()
+        {
+            EventsSystemHandler.eventRoundType = EventsType.CockFight;
+            EventsAPI.EventRound = true;
+
+            Timing.RunCoroutine(DoCockFight());
         }
     }
 }

@@ -15,5 +15,7 @@
         [Description("The time between nuke activation and Explotion.")]
         public static int PeanutRunTimeToExplode { get; set; } = 90;
 
+        [Description("Time from spawn till start of the fight.")]
+        public static int JailbirdFightStartTime { get; set; } = 5;
     }
 }

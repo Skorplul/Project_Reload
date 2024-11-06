@@ -54,6 +54,8 @@
                         return EventsType.PeanutRun;
                     case "LightsOut":
                         return EventsType.LightsOut;
+                    case "JailbirdFight":
+                        return EventsType.CockFight;
                     default:
                         return null;
                 }
@@ -79,6 +81,9 @@
                     break;
                 case EventsType.LightsOut:
                     Events.LightsOut();
+                    break;
+                case EventsType.CockFight:
+                    Events.CockFight();
                     break;
                 default:
                     break;
