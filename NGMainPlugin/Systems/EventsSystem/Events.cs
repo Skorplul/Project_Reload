@@ -18,7 +18,7 @@
         static Random random= new Random();
         public static List<Player> TempList = new List<Player>();
         private static Room NutSpawn;
-        private static UnityEngine.Vector3 NutSpwanVector = UnityEngine.Vector3.up;
+        private static UnityEngine.Vector3 NutSpwanVector = UnityEngine.Vector3.up*6;
 
         private static IEnumerator<float> DoVirus()
         {
