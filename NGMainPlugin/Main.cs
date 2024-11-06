@@ -99,10 +99,10 @@
             Log.Info("Disabling Notification System...");
             Notifications.Disable();
 
-            Log.Info("Discord Logs: Unimplemented");
+            Log.Info("Disableing Discord Logs: Unimplemented");
             DiscordLogs.Disable();
 
-            Log.Info("Events System...");
+            Log.Info("Disableing Events System...");
             EventsSystemHandler.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
