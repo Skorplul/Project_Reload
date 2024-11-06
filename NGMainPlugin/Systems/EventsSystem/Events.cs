@@ -18,8 +18,7 @@
 
         private static IEnumerator<float> DoVirus()
         {
-            if (!Round.IsStarted)
-                yield return Timing.WaitForSeconds(1);
+            yield return Timing.WaitUntilTrue(() => Round.IsStarted);
             
             foreach (Player ply in Player.List) 
             {
@@ -29,24 +28,20 @@
             Player VP = Player.List.GetRandomValue();
             VP.Role.Set(RoleTypeId.Scp0492);
             Respawn.TimeUntilNextPhase = -1;
-            yield return Timing.KillCoroutines();
         }
         private static IEnumerator<float> DoPeanutRun(int timeToNuke)
         {
-            if (!Round.IsStarted)
-                yield return Timing.WaitForSeconds(1);
+            yield return Timing.WaitUntilTrue(() => Round.IsStarted);
             
             yield return Timing.WaitForSeconds(timeToNuke);
             Respawn.TimeUntilNextPhase = -1;
-            Warhead.DetonationTimer = 90;
+            Warhead.DetonationTimer = Config.PeanutRunTimeToExplode;
             Warhead.IsLocked = true;
             Warhead.Start();
-            yield return Timing.KillCoroutines();
         }
         private static IEnumerator<float> DoLightsOut()
         {
-            if (!Round.IsStarted)
-                yield return Timing.WaitForSeconds(1);
+            yield return Timing.WaitUntilTrue(() => Round.IsStarted);
 
             foreach (Player ply in Player.List)
             {
@@ -56,6 +51,7 @@
                 }
                 else
                 {
+                    ply.Role.Set(RoleTypeId.ClassD);
                     ply.AddItem(ItemType.Lantern);
                 }
             }
@@ -63,7 +59,6 @@
             scpList[NutP].Role.Set(RoleTypeId.Scp173);
             
             Map.TurnOffAllLights(3000);
-            yield return Timing.KillCoroutines();
         }
 
         public static void Virus()
@@ -81,7 +76,7 @@
             EventsAPI.EventRound = true;
             Warhead.AutoDetonate = false;
 
-            Timing.RunCoroutine(DoPeanutRun(10));
+            Timing.RunCoroutine(DoPeanutRun(Config.PeanutRunTimeToNuke));
         }
 
         public static void LightsOut()
