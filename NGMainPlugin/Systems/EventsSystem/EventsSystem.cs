@@ -107,6 +107,9 @@
                     case EventsType.PeanutRun:
                         Timing.KillCoroutines();
                         break;
+                    case EventsType.CockFight:
+                        Server.FriendlyFire = false;
+                        break;
                     default:
                         break;
                 }

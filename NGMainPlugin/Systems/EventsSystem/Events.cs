@@ -136,6 +136,7 @@
                     default:
                         break;
                 }
+                Server.FriendlyFire = true;
                 yield return Timing.WaitForSeconds(1);
             }
         }
