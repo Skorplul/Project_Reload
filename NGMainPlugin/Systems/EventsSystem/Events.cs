@@ -18,6 +18,7 @@
         static Random random= new Random();
         public static List<Player> scpList = new List<Player>();
         private static Room NutSpawn;
+        private static UnityEngine.Vector3 NutSpwanVector = UnityEngine.Vector3.up;
 
         private static IEnumerator<float> DoVirus()
         {
@@ -47,7 +48,7 @@
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Scp173);
-                ply.Teleport(NutSpawn);
+                ply.Teleport(NutSpawn, NutSpwanVector);
             }
             
             yield return Timing.WaitForSeconds(timeToNuke);
