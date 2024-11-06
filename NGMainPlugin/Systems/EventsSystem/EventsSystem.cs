@@ -114,7 +114,7 @@
                         break;
                 }
                 
-                Events.scpList.Clear();
+                Events.TempList.Clear();
                 eventRoundType = EventsType.None;
                 EventsAPI.EventRound = false;
                 EventsAPI.MutedBeforeEvent.Clear();

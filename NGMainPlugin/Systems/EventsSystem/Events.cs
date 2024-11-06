@@ -16,7 +16,7 @@
     public static class Events
     {
         static Random random= new Random();
-        public static List<Player> scpList = new List<Player>();
+        public static List<Player> TempList = new List<Player>();
         private static Room NutSpawn;
         private static UnityEngine.Vector3 NutSpwanVector = UnityEngine.Vector3.up;
 
@@ -65,7 +65,7 @@
             {
                 if (ply.IsScp)
                 {
-                    scpList.Add(ply);
+                    TempList.Add(ply);
                 }
                 else
                 {
@@ -73,8 +73,8 @@
                     ply.AddItem(ItemType.Lantern);
                 }
             }
-            int NutP = random.Next(0, scpList.Count);
-            scpList[NutP].Role.Set(RoleTypeId.Scp173);
+            int NutP = random.Next(0, TempList.Count);
+            TempList[NutP].Role.Set(RoleTypeId.Scp173);
             
             Map.TurnOffAllLights(3000);
         }
@@ -82,6 +82,7 @@
         {
             yield return Timing.WaitUntilTrue(() => Round.IsStarted);
 
+            Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = -1;
             Warhead.AutoDetonate = false;
             Warhead.IsLocked = true;
@@ -136,8 +137,27 @@
                     default:
                         break;
                 }
+                foreach (Player ply in Player.List)
+                {
+                    TempList.Add(ply);
+                }
                 Server.FriendlyFire = true;
                 yield return Timing.WaitForSeconds(1);
+
+                while (Round.IsStarted)
+                {
+                    foreach (Player ply in Player.List)
+                    {
+                        if (ply.IsAlive)
+                        {
+                            TempList.Remove(ply);
+                        }
+                    }
+                    if (TempList.Count <= 0)
+                    {
+                        Round.IsLocked = false;
+                    }
+                }
             }
         }
 
