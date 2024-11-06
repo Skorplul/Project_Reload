@@ -98,23 +98,23 @@
                 switch (i)
                 {
                     case 4:
-                        Map.Broadcast(1, $"<color=ff7777>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=ff4800>Start in {i}</color>");
                         i--;
                         break;
                     case 3:
-                        Map.Broadcast(1, $"<color=ffdddd>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=ff8000>Start in {i}</color>");
                         i--;
                         break;
                     case 2:
-                        Map.Broadcast(1, $"<color=ddffdd>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=ffb700>Start in {i}</color>");
                         i--;
                         break;
                     case 1:
-                        Map.Broadcast(1, $"<color=77ff77>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=ffff00>Start in {i}</color>");
                         i--;
                         break;
                     case 0:
-                        Map.Broadcast(1, $"<color=00ff00>Start!</color>");
+                        Map.Broadcast(1, $"<color=62ff00>Start!</color>");
                         i--;
                         break;
                     default:
