@@ -31,6 +31,11 @@
                 response = "You don't have the permission for that!";
                 return false;
             }
+            if (arguments.Array[2] == "list")
+            {
+                response = "Possible events: Virus, PeanutRun, LightsOut and JailbirdFight\nThe events have to be spelled like they are here in the list!";
+                return true;
+            }
             if (Round.IsStarted)
             {
                 response = "You need to use this in the Lobby!";
@@ -86,7 +91,9 @@
                     Events.CockFight();
                     break;
                 default:
-                    break;
+                    Log.Warn("[EventSystem] Error while selecting the correct event.");
+                    response = "Something went wrong. Contact a Developer!";
+                    return false;
             }
 
             response = "Event has been triggered.";
