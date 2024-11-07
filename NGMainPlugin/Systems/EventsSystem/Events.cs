@@ -44,6 +44,8 @@
                 }
             }
 
+            Door.LockAll(Config.PeanutRunTimeToNuke, DoorLockType.AdminCommand);
+
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Scp173);
@@ -51,6 +53,10 @@
             }
             
             yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);
+            foreach (Door door in Door.List)
+            {
+                door.IsOpen = true;
+            }
             Respawn.TimeUntilNextPhase = -1;
             Warhead.DetonationTimer = Config.PeanutRunTimeToExplode;
             Warhead.IsLocked = true;
