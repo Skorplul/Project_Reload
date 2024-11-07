@@ -59,8 +59,8 @@
             }
             Respawn.TimeUntilNextPhase = -1;
             Warhead.DetonationTimer = Config.PeanutRunTimeToExplode;
-            Warhead.IsLocked = true;
             Warhead.Start();
+            Warhead.IsLocked = true;
         }
         private static IEnumerator<float> DoLightsOut()
         {
