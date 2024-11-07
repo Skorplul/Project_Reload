@@ -32,7 +32,7 @@
             Player.List.GetRandomValue().Role.Set(RoleTypeId.Scp0492);
             Respawn.TimeUntilNextPhase = -1;
         }
-        private static IEnumerator<float> DoPeanutRun(int timeToNuke)
+        private static IEnumerator<float> DoPeanutRun()
         {
             yield return Timing.WaitUntilTrue(() => Round.IsStarted);
             
@@ -116,7 +116,6 @@
                     i--;
                 }
 
-                //Colors have to be reworked!
                 switch (i)
                 {
                     case 4:
@@ -184,7 +183,7 @@
             EventsAPI.EventRound = true;
             Warhead.AutoDetonate = false;
 
-            Timing.RunCoroutine(DoPeanutRun(Config.PeanutRunTimeToNuke));
+            Timing.RunCoroutine(DoPeanutRun());
         }
 
         public static void LightsOut()
