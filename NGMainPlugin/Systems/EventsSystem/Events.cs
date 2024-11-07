@@ -29,8 +29,7 @@
                 ply.Role.Set(RoleTypeId.ClassD);
             }
 
-            Player VP = Player.List.GetRandomValue();
-            VP.Role.Set(RoleTypeId.Scp0492);
+            Player.List.GetRandomValue().Role.Set(RoleTypeId.Scp0492);
             Respawn.TimeUntilNextPhase = -1;
         }
         private static IEnumerator<float> DoPeanutRun(int timeToNuke)
@@ -51,9 +50,9 @@
                 ply.Teleport(NutSpawn, NutSpwanVector);
             }
             
-            yield return Timing.WaitForSeconds(10);
+            yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);
             Respawn.TimeUntilNextPhase = -1;
-            Warhead.DetonationTimer = 90;
+            Warhead.DetonationTimer = Config.PeanutRunTimeToExplode;
             Warhead.IsLocked = true;
             Warhead.Start();
         }
@@ -103,7 +102,7 @@
                 ply.EnableEffect(EffectType.Ensnared, i);
             }
 
-            while (i > 0)
+            while (i > -3)
             {
                 if (i >= 5)
                 {
@@ -115,49 +114,52 @@
                 switch (i)
                 {
                     case 4:
-                        Map.Broadcast(1, $"<color=ff4800>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=#ff4800>Start in {i}</color>");
                         i--;
                         break;
                     case 3:
-                        Map.Broadcast(1, $"<color=ff8000>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=#ff8000>Start in {i}</color>");
                         i--;
                         break;
                     case 2:
-                        Map.Broadcast(1, $"<color=ffb700>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=#ffb700>Start in {i}</color>");
                         i--;
                         break;
                     case 1:
-                        Map.Broadcast(1, $"<color=ffff00>Start in {i}</color>");
+                        Map.Broadcast(1, $"<color=#ffff00>Start in {i}</color>");
                         i--;
                         break;
                     case 0:
-                        Map.Broadcast(1, $"<color=62ff00>Start!</color>");
+                        Map.Broadcast(1, $"<color=#62ff00>Start!</color>");
                         i--;
                         break;
                     default:
+                        i = -10;
                         break;
                 }
+                yield return Timing.WaitForOneFrame;
+            }
+            foreach (Player ply in Player.List)
+            {
+                    TempList.Add(ply);
+            }
+            Server.FriendlyFire = true;
+            yield return Timing.WaitForSeconds(1);
+
+            while (Round.IsStarted)
+            {
                 foreach (Player ply in Player.List)
                 {
-                    TempList.Add(ply);
+                    if (ply.IsAlive)
+                    {
+                        TempList.Remove(ply);
+                    }
                 }
-                Server.FriendlyFire = true;
-                yield return Timing.WaitForSeconds(1);
-
-                while (Round.IsStarted)
+                if (TempList.Count <= 1)
                 {
-                    foreach (Player ply in Player.List)
-                    {
-                        if (ply.IsAlive)
-                        {
-                            TempList.Remove(ply);
-                        }
-                    }
-                    if (TempList.Count <= 0)
-                    {
-                        Round.IsLocked = false;
-                    }
+                    Round.IsLocked = false;
                 }
+                yield return Timing.WaitForOneFrame;
             }
         }
 

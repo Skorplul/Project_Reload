@@ -25,7 +25,7 @@
             Exiled.Events.Handlers.Player.IssuingMute += OnMuted;
             Exiled.Events.Handlers.Player.RevokingMute += OnUnMuted;
             Exiled.Events.Handlers.Server.EndingRound += OnEndingRound;
-            Exiled.Events.Handlers.Player.Dying += OnDying;
+            Exiled.Events.Handlers.Player.Died += OnDied;
         }
 
         public static void Disable()
@@ -37,7 +37,7 @@
             Exiled.Events.Handlers.Player.IssuingMute -= OnMuted;
             Exiled.Events.Handlers.Player.RevokingMute -= OnUnMuted;
             Exiled.Events.Handlers.Server.EndingRound -= OnEndingRound;
-            Exiled.Events.Handlers.Player.Dying -= OnDying;
+            Exiled.Events.Handlers.Player.Died -= OnDied;
         }
 
         private static void Spawning(RespawningTeamEventArgs ev)
@@ -129,17 +129,11 @@
             }
         }
 
-        private static void OnDying(DyingEventArgs ev)
+        private static void OnDied(DiedEventArgs ev)
         {
-            if (EventsAPI.EventRound)
+            if (EventsAPI.EventRound && eventRoundType == EventsType.Virus)
             {
-                if (eventRoundType == EventsType.Virus)
-                {    
-                    if (ev.Player.Role.Type == RoleTypeId.ClassD || ev.Player.Role.Type == RoleTypeId.Spectator || ev.Player.Role.Type == RoleTypeId.None) 
-                    {
-                        ev.Player.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
-                    }
-                }
+                ev.Player.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
             }
         }
     }
