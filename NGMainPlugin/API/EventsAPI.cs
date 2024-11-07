@@ -26,6 +26,6 @@ namespace NGMainPlugin.API
         Virus,
         PeanutRun,
         LightsOut,
-        CockFight,
+        ParticleFight,
     }
 }

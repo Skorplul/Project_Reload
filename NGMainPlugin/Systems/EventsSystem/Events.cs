@@ -83,7 +83,7 @@
             
             Map.TurnOffAllLights(3000);
         }
-        private static IEnumerator<float> DoCockFight()
+        private static IEnumerator<float> DoParticleFight()
         {
             yield return Timing.WaitUntilTrue(() => Round.IsStarted);
 
@@ -195,12 +195,12 @@
             Timing.RunCoroutine(DoLightsOut());
         }
 
-        public static void CockFight()
+        public static void ParticleFight()
         {
-            EventsSystemHandler.eventRoundType = EventsType.CockFight;
+            EventsSystemHandler.eventRoundType = EventsType.ParticleFight;
             EventsAPI.EventRound = true;
 
-            Timing.RunCoroutine(DoCockFight());
+            Timing.RunCoroutine(DoParticleFight());
         }
     }
 }
