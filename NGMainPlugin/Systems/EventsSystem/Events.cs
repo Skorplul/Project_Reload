@@ -9,8 +9,6 @@
     using MEC;
     using Exiled.API.Enums;
     using Exiled.API.Features.Doors;
-    using Exiled.API.Features.Roles;
-    using PlayerRoles.PlayableScps.Scp3114;
 
     /// <summary>
     /// The functions execute Eventrounds on the Server. Ask Skorp for defenitions.
@@ -20,7 +18,7 @@
         static Random random= new Random();
         public static List<Player> TempList = new List<Player>();
         private static Room NutSpawn;
-        private static UnityEngine.Vector3 NutSpwanVector = UnityEngine.Vector3.up*6;
+        private static UnityEngine.Vector3 NutSpwanVector = new UnityEngine.Vector3(0,-10,0);
 
         private static IEnumerator<float> DoVirus()
         {
@@ -54,7 +52,7 @@
                 ply.Teleport(NutSpawn, NutSpwanVector);
             }
             
-            yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);
+            //yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);
             foreach (Door door in Door.List)
             {
                 door.IsOpen = true;
@@ -157,7 +155,7 @@
             {
                 foreach (Player ply in Player.List)
                 {
-                    if (ply.IsAlive)
+                    if (!ply.IsAlive)
                     {
                         TempList.Remove(ply);
                     }
