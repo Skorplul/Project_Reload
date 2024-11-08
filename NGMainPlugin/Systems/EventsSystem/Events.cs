@@ -9,6 +9,8 @@
     using MEC;
     using Exiled.API.Enums;
     using Exiled.API.Features.Doors;
+    using Exiled.API.Features.Roles;
+    using PlayerRoles.PlayableScps.Scp3114;
 
     /// <summary>
     /// The functions execute Eventrounds on the Server. Ask Skorp for defenitions.
@@ -166,6 +168,29 @@
                 }
                 yield return Timing.WaitForOneFrame;
             }
+        }
+        private static IEnumerator<float> DoSkelett()
+        {
+            yield return Timing.WaitUntilTrue(() => Round.IsStarted);
+            
+            foreach (Player ply in Player.List) 
+            {
+                ply.Role.Set(RoleTypeId.ClassD);
+                ply.EnableEffect(EffectType.Ensnared, 1, 5);
+            }
+            foreach (Door door in Door.List)
+            {
+                if (door.IsCheckpoint)
+                {
+                    door.Lock(3000, DoorLockType.AdminCommand);
+                }
+            }
+
+            Player VP = Player.List.GetRandomValue();
+            VP.Role.Set(RoleTypeId.Scp3114, RoleSpawnFlags.None);
+            VP.DisableAllEffects();
+            Ragdoll.CreateAndSpawn(RoleTypeId.ClassD, VP.Nickname, "Use This for the MiniGame", VP.Position + UnityEngine.Vector3.forward, VP.Rotation, VP);
+            Respawn.TimeUntilNextPhase = -1;
         }
 
         public static void Virus()
