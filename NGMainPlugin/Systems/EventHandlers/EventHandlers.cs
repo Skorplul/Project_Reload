@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Exiled.API.Features;
     using PlayerRoles;
-    using NGMainPlugin.Systems.Liftaudio;
     using NGMainPlugin.API;
     using Exiled.Events.EventArgs.Player;
     using Exiled.Events.EventArgs.Scp079;
@@ -43,11 +42,6 @@
         {
             PcCurentLvl = 1;
             Commands.Announcement.spoke.Clear();
-
-            /* *Disabled because of bugs on Modded_Main* **not rn**
-            foreach (Lift lift in (IEnumerable<Lift>)Lift.List)
-                Timing.RunCoroutine(Methods.CheckingPlayerLift(lift));
-            */
         }
 
         private static void OnTriggeringTesla(TriggeringTeslaEventArgs ev)
@@ -65,7 +59,6 @@
         {
             PcCurentLvl = ev.NewLevel;
         }
-        
         private static void OnWaitingForPlayers()
         {
             if (friendlyFireDisable)

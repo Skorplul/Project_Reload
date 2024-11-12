@@ -4,7 +4,6 @@
     using HarmonyLib;
     using Exiled.API.Features;
     using NGMainPlugin.Systems;
-    using NGMainPlugin.Systems.EventsSystem;
     using NGMainPlugin.Systems.LobbySystem;
     using NGMainPlugin.Systems.RGBNuke;
     using NGMainPlugin.Systems.RespawnTimer;
@@ -47,6 +46,9 @@
             Log.Info("Enabling Event Handlers...");
             EventHandlers.Enable();
 
+            Log.Info("Enabling Random Painkillers...");
+            RandomPainkillers.Enable();
+
             Log.Info("Enabling Lobby System...");
             LobbySystem.Enable();
 
@@ -86,6 +88,9 @@
 
             Log.Info("Disabling Event Handlers...");
             EventHandlers.Disable();
+
+            Log.Info("Disabling Random Painkillers...");
+            RandomPainkillers.Disable();
 
             Log.Info("Disabling Lobby System...");
             LobbySystem.Disable();
