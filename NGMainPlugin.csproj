@@ -36,13 +36,16 @@
       <HintPath>Dependencies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>Dependencies\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="AudioSystem">
       <HintPath>Dependencies\AudioSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="CedModV3">
+      <HintPath>..\..\..\Desktop\CedModV3.dll</HintPath>
     </Reference>
     <Reference Include="DiscordIntegration.Dependency">
       <HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
@@ -99,13 +102,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\AdminSysEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\Translations.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\Commands\scpswap.cs" />
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
@@ -160,10 +169,13 @@
     <PackageReference Include="EXILED">
       <Version>8.9.11</Version>
     </PackageReference>
+    <PackageReference Include="EXILED" Version="8.9.11" />
     <PackageReference Include="LiteDB">
       <Version>5.0.21</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NGMainPlugin\Systems\Notifications\Commands\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

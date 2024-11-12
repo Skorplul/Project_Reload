@@ -8,6 +8,7 @@
     using Exiled.Events.EventArgs.Scp079;
     using Exiled.Events.EventArgs.Server;
     using MEC;
+    using System.Data.SqlClient;
 
     public static class EventHandlers
     {
@@ -26,8 +27,6 @@
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
-            Exiled.Events.Handlers.Player.Left += OnPlayerLeaving;
-            Exiled.Events.Handlers.Server.EndingRound += OnEndingRound;
         }
 
         public static void Disable()
@@ -37,8 +36,6 @@
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers -= OnWaitingForPlayers;
-            Exiled.Events.Handlers.Player.Left -= OnPlayerLeaving;
-            Exiled.Events.Handlers.Server.EndingRound -= OnEndingRound;
         }
 
         public static void OnRoundStarted()
@@ -79,27 +76,6 @@
                 Log.Debug($"{nameof(OnRoundEnded)}: Enabling friendly fire.");
                 Server.FriendlyFire = true;
                 friendlyFireDisable = true;
-            }
-        }
-
-        private static void OnEndingRound (EndingRoundEventArgs ev)
-        {
-            if (ServerEvents.EventRound)
-            {
-                ServerEvents.EventRound = false;
-
-                foreach (Player ply in Player.List)
-                {
-                    ply.UnMute();
-                }
-            }
-        }
-
-        private static void OnPlayerLeaving(LeftEventArgs ev)
-        {
-            if (ServerEvents.EventRound)
-            {
-                ev.Player.UnMute();
             }
         }
     }
