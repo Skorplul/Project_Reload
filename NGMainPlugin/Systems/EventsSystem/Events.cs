@@ -224,14 +224,5 @@
 
             Timing.RunCoroutine(DoParticleFight());
         }
-
-        public static void Skelli()
-        {
-            EventsSystemHandler.eventRoundType = EventsType.Skelli;
-            EventsAPI.EventRound = true;
-            Warhead.AutoDetonate = false;
-
-            Timing.RunCoroutine(DoSkelett());
-        }
     }
 }
