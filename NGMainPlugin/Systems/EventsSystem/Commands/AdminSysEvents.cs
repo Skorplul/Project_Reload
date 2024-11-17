@@ -64,8 +64,6 @@
                         return EventsType.LightsOut;
                     case "ParticleFight":
                         return EventsType.ParticleFight;
-                    case "Skelli":
-                        return EventsType.Skelli;
                     default:
                         return EventsType.None;
                 }
@@ -94,9 +92,6 @@
                     break;
                 case EventsType.ParticleFight:
                     Events.ParticleFight();
-                    break;
-                case EventsType.Skelli:
-                    Events.Skelli();
                     break;
                 default:
                     Log.Warn("[EventSystem] Error while selecting the correct event.");

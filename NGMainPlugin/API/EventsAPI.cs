@@ -27,6 +27,5 @@ namespace NGMainPlugin.API
         PeanutRun,
         LightsOut,
         ParticleFight,
-        Skelli,
     }
 }
