@@ -8,6 +8,7 @@
     using NGMainPlugin.Systems.RGBNuke;
     using NGMainPlugin.Systems.RespawnTimer;
     using NGMainPlugin.Systems.EventHandlers;
+    using NGMainPlugin.Systems.EventsSystem;
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.Notifications;
 
@@ -61,9 +62,6 @@
             Log.Info("Enabling Notification System...");
             Notifications.Enable();
 
-            Log.Info("Discord Logs: Unimplemented");
-            DiscordLogs.Enable();
-
             Log.Info("Events System...");
             EventsSystemHandler.Enable();
 
@@ -103,9 +101,6 @@
 
             Log.Info("Disabling Notification System...");
             Notifications.Disable();
-
-            Log.Info("Disableing Discord Logs: Unimplemented");
-            DiscordLogs.Disable();
 
             Log.Info("Disableing Events System...");
             EventsSystemHandler.Disable();

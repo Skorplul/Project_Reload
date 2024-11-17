@@ -101,20 +101,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NGMainPlugin\API\ServerEvents.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\LiveEvents.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Translations.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
-    <Compile Include="NGMainPlugin\Systems\SCPSwap\Commands\scpswap.cs" />
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
@@ -130,6 +124,14 @@
     <Compile Include="NGMainPlugin\Systems\CustomItems\CustomItems.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\LiveEvents.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Events.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\EventsSystem.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Notifications.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Types\Ban_Kick.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RespawnTimer\Config.cs" />
@@ -174,8 +176,6 @@
       <Version>5.0.21</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NGMainPlugin\Systems\Notifications\Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
