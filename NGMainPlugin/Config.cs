@@ -3,19 +3,15 @@
     using Exiled.API.Interfaces;
     using Exiled.API.Features;
     using Exiled.Loader;
-    using System;
     using System.ComponentModel;
     using System.IO;
     using YamlDotNet.Serialization;
     using System.Collections.Generic;
-    using PlayerRoles;
     using NGMainPlugin.Systems.RespawnTimer;
     using NGMainPlugin.Systems.LobbySystem;
     using NGMainPlugin.Systems.RGBNuke;
     using NGMainPlugin.Systems.EventHandlers;
     using NGMainPlugin.Systems.CustomItems;
-    using System.Linq;
-    using HarmonyLib;
     using AudioSystem.Models.SoundConfigs;
 
     public class Config : IConfig
@@ -58,6 +54,8 @@
             LobbySystem.Config = GetConfig<Systems.LobbySystem.Config>(Systems.LobbySystem.Config.ConfigPath, new Systems.LobbySystem.Config());
             RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath, new Systems.RGBNuke.Config());
             EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath, new Systems.EventHandlers.Config());
+            //SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
+            //Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
         }
 
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]
