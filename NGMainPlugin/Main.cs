@@ -8,14 +8,16 @@
     using NGMainPlugin.Systems.RGBNuke;
     using NGMainPlugin.Systems.RespawnTimer;
     using NGMainPlugin.Systems.EventHandlers;
+    using NGMainPlugin.Systems.EventsSystem;
     using NGMainPlugin.Systems.CustomItems;
+    using NGMainPlugin.Systems.Notifications;
 
     public class NGMainPlguin : Plugin<Config>
     {
         public override string Author => "Skorp 1.0 and LastPenguin";
         public override string Name => "NGMainPlugin";
         public override string Prefix => "NGM";
-        public override Version Version => new Version(2, 1, 0);
+        public override Version Version => new Version(2, 4, 0);
         public override Version RequiredExiledVersion => new Version(8, 9, 11);
 
         public static NGMainPlguin Instance { get; private set; }
@@ -57,6 +59,12 @@
             Log.Info("Enabling Respawn Timer System...");
             RespawnTimer.Enable();
 
+            Log.Info("Enabling Notification System...");
+            Notifications.Enable();
+
+            Log.Info("Events System...");
+            EventsSystemHandler.Enable();
+
             Log.Info("-----[NGMainPlugin Initialized]-----");
             
             base.OnEnabled();
@@ -90,6 +98,12 @@
 
             Log.Info("Disabling Respawn Timer System...");
             RespawnTimer.Disable();
+
+            Log.Info("Disabling Notification System...");
+            Notifications.Disable();
+
+            Log.Info("Disableing Events System...");
+            EventsSystemHandler.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
             
