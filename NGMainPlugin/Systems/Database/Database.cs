@@ -17,6 +17,13 @@
         {
             return CachedPlayerData.GetOrAdd(player, () => Database.GetPlayerData(player));
         }
+
+        public static void AddXP(this Player player, int xp)
+        {
+            var data = player.GetPlayerData();
+            data.XP += xp;
+            data.Update();
+        } 
     }
 
     internal class PlayerData
