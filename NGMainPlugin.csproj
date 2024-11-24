@@ -121,6 +121,11 @@
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\SniperRifle.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\TranquilizerGun.cs" />
     <Compile Include="NGMainPlugin\Main.cs" />
+	<Compile Include="NGMainPlugin\Systems\Database\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Database.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Translations.cs" />
+	<Compile Include="NGMainPlugin\Systems\Database\Commands\DataInfo.cs" />
+	<Compile Include="NGMainPlugin\Systems\Database\Commands\Data.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\CustomItems.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Config.cs" />
@@ -176,6 +181,8 @@
       <Version>5.0.21</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NGMainPlugin\Systems\Database\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
