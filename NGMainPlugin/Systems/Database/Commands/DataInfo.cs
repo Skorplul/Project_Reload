@@ -56,7 +56,7 @@
                 response = Config.Translations.DBServerEveryonePlaytime;
                 foreach (Player p in Player.List)
                 {
-                    PlayerData info = Database.GetPlayerInfo(p);
+                    PlayerData info = Database.GetPlayerInfo(p.UserId);
                     if (info == null)
                         continue;
 

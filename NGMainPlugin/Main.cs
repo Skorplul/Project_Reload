@@ -18,7 +18,7 @@
         public override string Author => "Skorp 1.0 and LastPenguin";
         public override string Name => "NGMainPlugin";
         public override string Prefix => "NGM";
-        public override Version Version => new Version(2, 4, 0);
+        public override Version Version => new Version(2, 5, 0);
         public override Version RequiredExiledVersion => new Version(8, 9, 11);
 
         public static NGMainPlguin Instance { get; private set; }
