@@ -44,8 +44,9 @@
     <Reference Include="AudioSystem">
       <HintPath>Dependencies\AudioSystem.dll</HintPath>
     </Reference>
-    <Reference Include="CedModV3">
-      <HintPath>..\..\..\Desktop\CedModV3.dll</HintPath>
+    <Reference Include="CSharpDiscordWebhook.NET, Version=2.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\CSharpDiscordWebhook.NET.dll</HintPath>
     </Reference>
     <Reference Include="DiscordIntegration.Dependency">
       <HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
@@ -101,6 +102,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NGMainPlugin\API\DiscordWebhookAPI.cs" />
     <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
@@ -112,6 +114,8 @@
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\DiscordLogs.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\EventHandlers.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\C4Charge.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\GrenadeLauncher.cs" />
