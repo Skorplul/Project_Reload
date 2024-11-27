@@ -89,9 +89,10 @@
             // Respawn Time
             TimeSpan timeUntilSpawnWave = Respawn.TimeUntilSpawnWave;
 
-            var offset = Config.TimerOffset ? (RespawnTokensManager.GetTeamDominance(SpawnableTeamType.NineTailedFox) == 1.0 ? 18 : 14) : 0;
-            minutes = (int)(timeUntilSpawnWave.TotalSeconds + offset) / 60;
-            seconds = (int)(timeUntilSpawnWave.TotalSeconds + offset) % 60;
+            int offset = Config.TimerOffset ? (RespawnTokensManager.GetTeamDominance(SpawnableTeamType.NineTailedFox) == 1.0 ? 18 : 14) : 0;
+            int finoffset() => Respawn.IsSpawning ? 0 : offset;
+            minutes = (int)(timeUntilSpawnWave.TotalSeconds + finoffset()) / 60;
+            seconds = (int)(timeUntilSpawnWave.TotalSeconds + finoffset()) % 60;
 
             stringBuilder.Replace("{minutes}", string.Format("{0}{1}", !Config.LeadingZeros || minutes >= 10 ? string.Empty : "0", minutes));
             stringBuilder.Replace("{seconds}", string.Format("{0}{1}", !Config.LeadingZeros || seconds >= 10 ? string.Empty : "0", seconds));
