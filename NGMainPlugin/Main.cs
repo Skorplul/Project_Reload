@@ -12,6 +12,7 @@
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.Notifications;
     using NGMainPlugin.Systems.Database;
+    using NGMainPlugin.Systems.Discord;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -70,6 +71,9 @@
             Log.Info("Events System...");
             EventsSystemHandler.Enable();
 
+            Log.Info("Enabling DiscordLogs...");
+            DiscordLogs.Enable();
+
             Log.Info("-----[NGMainPlugin Initialized]-----");
             
             base.OnEnabled();
@@ -113,6 +117,9 @@
 
             Log.Info("Disableing Events System...");
             EventsSystemHandler.Disable();
+
+            Log.Info("Disableing DiscordLogs...");
+            DiscordLogs.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
             
