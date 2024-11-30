@@ -165,7 +165,7 @@ public class TranquilizerGun : CustomWeapon
         {
             if (DropItems)
             {
-                if (player.Items.Count < 0)
+                if (player.Items.Count > 0)
                 {
                     foreach (Item item in player.Items.ToList())
                     {
