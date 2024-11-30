@@ -145,14 +145,28 @@
 
         internal static void OnPlayerLeft(LeftEventArgs ev)
         {
-            UpdateData(ev.Player);
+            try 
+            {
+                UpdateData(ev.Player);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("UpdateData() in NGMainPlugin.Systems.Database.Database is throwing ERRORS");
+            }
         }
 
         internal static void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
-                UpdateData(p);
+                try
+                {
+                    UpdateData(p);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("UpdateData() in NGMainPlugin.Systems.Database.Database is throwing ERRORS");
+                }
             }
         }
     }
