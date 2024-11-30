@@ -138,6 +138,10 @@
     <Compile Include="NGMainPlugin\Systems\RGBNuke\AudioPlayer.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\DiscoCommand.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\RGBNuke.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPswap\Command\scpswap.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPswap\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPswap\SCPSwap.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPswap\Translation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\LobbySystem.cs" />
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Commands\LockCommand.cs" />
