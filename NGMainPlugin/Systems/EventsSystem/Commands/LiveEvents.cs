@@ -35,7 +35,7 @@
                 return false;
             }
 
-            Respawn.TimeUntilNextPhase = 3000;
+            Respawn.PauseWaves();
             Warhead.AutoDetonate = false;
 
             foreach (Player ply in Player.List)

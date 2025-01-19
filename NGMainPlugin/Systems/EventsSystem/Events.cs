@@ -30,7 +30,7 @@
             }
 
             Player.List.GetRandomValue().Role.Set(RoleTypeId.Scp0492);
-            Respawn.TimeUntilNextPhase = -1;
+            Respawn.PauseWaves();
         }
         private static IEnumerator<float> DoPeanutRun()
         {
@@ -57,7 +57,7 @@
             {
                 door.IsOpen = true;
             }
-            Respawn.TimeUntilNextPhase = -1;
+            Respawn.PauseWaves();
             Warhead.DetonationTimer = Config.PeanutRunTimeToExplode;
             Warhead.Start();
             Warhead.IsLocked = true;
@@ -88,7 +88,7 @@
             yield return Timing.WaitUntilTrue(() => Round.IsStarted);
 
             Round.IsLocked = true;
-            Respawn.TimeUntilNextPhase = -1;
+            Respawn.PauseWaves();
             Warhead.AutoDetonate = false;
             Warhead.IsLocked = true;
 
@@ -188,7 +188,7 @@
             VP.Role.Set(RoleTypeId.Scp3114, RoleSpawnFlags.None);
             VP.DisableAllEffects();
             Ragdoll.CreateAndSpawn(RoleTypeId.ClassD, VP.Nickname, "Use This for the MiniGame", VP.Position + UnityEngine.Vector3.forward, VP.Rotation, VP);
-            Respawn.TimeUntilNextPhase = -1;
+            Respawn.PauseWaves();
         }
 
         public static void Virus()

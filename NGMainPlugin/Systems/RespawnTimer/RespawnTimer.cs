@@ -86,24 +86,25 @@
             stringBuilder.Replace("{round_minutes}", string.Format("{0}{1}", !Config.LeadingZeros || minutes >= 10 ? string.Empty : "0", minutes));
             stringBuilder.Replace("{round_seconds}", string.Format("{0}{1}", !Config.LeadingZeros || seconds >= 10 ? string.Empty : "0", seconds));
 
-            // Respawn Time
-            TimeSpan timeUntilSpawnWave = Respawn.TimeUntilSpawnWave;
+            // NOT NEEDED ANYMORE DUE TO SL UPDATE!!
+            //// Respawn Time
+            //TimeSpan timeUntilSpawnWave = Respawn.TimeUntilSpawnWave;
 
-            int offset = Config.TimerOffset ? (RespawnTokensManager.GetTeamDominance(SpawnableTeamType.NineTailedFox) == 1.0 ? 18 : 14) : 0;
-            int finoffset() => Respawn.IsSpawning ? 0 : offset;
-            minutes = (int)(timeUntilSpawnWave.TotalSeconds + finoffset()) / 60;
-            seconds = (int)(timeUntilSpawnWave.TotalSeconds + finoffset()) % 60;
+            //int offset = Config.TimerOffset ? (RespawnTokensManager.GetTeamDominance(SpawnableTeamType.NineTailedFox) == 1.0 ? 18 : 14) : 0;
+            //int finoffset() => Respawn.IsSpawning ? 0 : offset;
+            //minutes = (int)(timeUntilSpawnWave.TotalSeconds + finoffset()) / 60;
+            //seconds = (int)(timeUntilSpawnWave.TotalSeconds + finoffset()) % 60;
 
-            stringBuilder.Replace("{minutes}", string.Format("{0}{1}", !Config.LeadingZeros || minutes >= 10 ? string.Empty : "0", minutes));
-            stringBuilder.Replace("{seconds}", string.Format("{0}{1}", !Config.LeadingZeros || seconds >= 10 ? string.Empty : "0", seconds));
+            //stringBuilder.Replace("{minutes}", string.Format("{0}{1}", !Config.LeadingZeros || minutes >= 10 ? string.Empty : "0", minutes));
+            //stringBuilder.Replace("{seconds}", string.Format("{0}{1}", !Config.LeadingZeros || seconds >= 10 ? string.Empty : "0", seconds));
 
-            // Next Known Team
-            stringBuilder.Replace("{team}", Respawn.NextKnownTeam == SpawnableTeamType.ChaosInsurgency ? Config.Ci : Config.Ntf);
+            //// Next Known Team
+            //stringBuilder.Replace("{team}", Respawn.NextKnownTeam == SpawnableTeamType.ChaosInsurgency ? Config.Ci : Config.Ntf);
 
-            // Spectators and Tickets
-            stringBuilder.Replace("{spectators_num}", Player.List.Where(p => p.IsDead && !p.IsOverwatchEnabled).Count().ToString());
-            stringBuilder.Replace("{ntf_spawn_chance}", Mathf.Round(Respawn.NtfTickets).ToString());
-            stringBuilder.Replace("{ci_spawn_chance}", Mathf.Round(Respawn.ChaosTickets).ToString());
+            //// Spectators and Tickets
+            //stringBuilder.Replace("{spectators_num}", Player.List.Where(p => p.IsDead && !p.IsOverwatchEnabled).Count().ToString());
+            //stringBuilder.Replace("{ntf_spawn_chance}", Mathf.Round(Respawn.NtfTickets).ToString());
+            //stringBuilder.Replace("{ci_spawn_chance}", Mathf.Round(Respawn.ChaosTickets).ToString());
 
             // Warhead Status
             stringBuilder.Replace("{warhead_status}", Config.WarheadStatus[Warhead.Status]);

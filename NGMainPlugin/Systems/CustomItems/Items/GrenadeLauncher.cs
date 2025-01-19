@@ -73,7 +73,7 @@ namespace NGMainPlugin.Items
             {
                 ev.IsAllowed = false;
 
-                if (!(ev.Player.CurrentItem is Firearm firearm) || firearm.Ammo >= ClipSize)
+                if (!(ev.Player.CurrentItem is Firearm firearm) || firearm.MagazineAmmo >= ClipSize)
                     return;
 
                 Log.Debug($"{Name}.{nameof(OnReloading)}: {ev.Player.Nickname} is reloading!");
@@ -93,9 +93,10 @@ namespace NGMainPlugin.Items
                     }
 
                     ev.Player.DisableEffect(EffectType.Invisible);
-                    ev.Player.Connection.Send(new RequestMessage(ev.Firearm.Serial, RequestType.Reload));
+                    // hope still works lol
+                    //ev.Player.Connection.Send(new RequestMessage(ev.Firearm.Serial, RequestType.Reload));
 
-                    Timing.CallDelayed(3f, () => firearm.Ammo = ClipSize);
+                    Timing.CallDelayed(3f, () => firearm.MagazineAmmo = ClipSize);
 
                     loadedGrenade = item.Type == ItemType.GrenadeFlash ? ProjectileType.Flashbang :
                         item.Type == ItemType.GrenadeHE ? ProjectileType.FragGrenade : ProjectileType.Scp018;
@@ -113,7 +114,7 @@ namespace NGMainPlugin.Items
             ev.IsAllowed = false;
 
             if (ev.Player.CurrentItem is Firearm firearm)
-                firearm.Ammo -= 1;
+                firearm.MagazineAmmo -= 1;
 
             Vector3 pos = ev.Player.CameraTransform.TransformPoint(new Vector3(0.0715f, 0.0225f, 0.45f));
             Projectile projectile;

@@ -37,7 +37,7 @@ public class Scp1499 : CustomItem
             new()
             {
                 Chance = 10,
-                Location = SpawnLocationType.InsideHid,
+                Location = SpawnLocationType.InsideHidUpper,
             },
         },
     };
