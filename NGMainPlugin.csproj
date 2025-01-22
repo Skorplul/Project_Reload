@@ -103,6 +103,7 @@
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\TEST.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
