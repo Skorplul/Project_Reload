@@ -8,7 +8,7 @@
     using System.Linq;
     using YamlDotNet.Serialization;
 
-    internal class Config
+    public class Config
     {
         [YamlIgnore]
         private static string ConfigFolderPath = Path.Combine(NGMainPlguin.Instance.Config.ConfigFolderPath, "RespawnTimer");

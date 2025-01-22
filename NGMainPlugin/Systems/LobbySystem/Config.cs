@@ -6,7 +6,7 @@
     using UnityEngine;
     using YamlDotNet.Serialization;
 
-    internal class Config
+    public class Config
     {
         [YamlIgnore]
         public static string ConfigPath = Path.Combine(NGMainPlguin.Instance.Config.ConfigFolderPath, "lobbySystem.yml");
@@ -21,11 +21,11 @@
         [Description("Info text for the lobby.")]
         public string TextShown { get; set; } = "<size=27>│ %status% │ <b>SERVER NAME</b>  │ <color=red>%playercount%/%maxplayers%</color> Inmates Waiting │</size>";
 
-        public string PausedStatus { get; set; } = "<color=red>\uD83D\uDFE5</color> Lobby Paused";
+        public string PausedStatus { get; set; } = "<color=red></color> Lobby Paused";
 
-        public string WaitingStatus { get; set; } = "<color=yellow>\uD83D\uDFE8</color> Waiting for Players";
+        public string WaitingStatus { get; set; } = "<color=yellow></color> Waiting for Players";
 
-        public string StartingStatus { get; set; } = "<color=green>\uD83D\uDFE9</color> Starting in %countdown% Seconds";
+        public string StartingStatus { get; set; } = "<color=green></color> Starting in %countdown% Seconds";
 
         [Description("Room where the Lobby will be.")]
         public RoomType SpawnRoom { get; set; }

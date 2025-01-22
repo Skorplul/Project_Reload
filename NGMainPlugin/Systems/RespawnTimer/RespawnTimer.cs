@@ -101,8 +101,8 @@
             //// Next Known Team
             //stringBuilder.Replace("{team}", Respawn.NextKnownTeam == SpawnableTeamType.ChaosInsurgency ? Config.Ci : Config.Ntf);
 
-            //// Spectators and Tickets
-            //stringBuilder.Replace("{spectators_num}", Player.List.Where(p => p.IsDead && !p.IsOverwatchEnabled).Count().ToString());
+            // Spectators and Tickets
+            stringBuilder.Replace("{spectators_num}", Player.List.Where(p => p.IsDead && !p.IsOverwatchEnabled).Count().ToString());
             //stringBuilder.Replace("{ntf_spawn_chance}", Mathf.Round(Respawn.NtfTickets).ToString());
             //stringBuilder.Replace("{ci_spawn_chance}", Mathf.Round(Respawn.ChaosTickets).ToString());
 

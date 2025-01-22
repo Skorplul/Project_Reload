@@ -30,6 +30,7 @@
         {
             // Fill path with missing directories
             string dir = ConfigFolderPath;
+            Log.Warn(dir);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
@@ -38,6 +39,7 @@
             if (!File.Exists(path))
             {
                 Result = (T)config;
+                File.Create(path);
                 File.WriteAllText(path, Loader.Serializer.Serialize(config));
             }
             else
