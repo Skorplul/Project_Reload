@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NGMainPlugin\API\DiscordWebhookAPI.cs" />
     <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\TEST.cs" />
@@ -176,6 +177,8 @@
       <Version>5.0.21</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NGMainPlugin\Systems\Discord\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

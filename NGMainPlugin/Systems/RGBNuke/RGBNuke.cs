@@ -88,36 +88,17 @@
 
         internal static void Start()
         {
-            if (NukeCoroutine.IsValid)
-            {
-                Timing.KillCoroutines(NukeCoroutine);
-            }
-
-            NukeCoroutine = Timing.RunCoroutine(Run());
+            CedMod.Commands.RainbowLightsCommand rgbLight = new CedMod.Commands.RainbowLightsCommand();
+            rgbLight.Execute(arguments, sender, out response);
+            rgbLight.
+                //todo!
         }
 
         internal static void Stop()
         {
-            Timing.KillCoroutines(NukeCoroutine);
-
             foreach (var instance in RoomLightController.Instances)
             {
                 instance.NetworkOverrideColor = Color.clear;
-            }
-        }
-
-        private static IEnumerator<float> Run()
-        {
-            var i = 0;
-            while (true)
-            {
-                foreach (var instance in RoomLightController.Instances)
-                {
-                    instance.NetworkOverrideColor = NukeColors[i];
-                }
-
-                i = (i + 1) % NukeColors.Length;
-                yield return Timing.WaitForSeconds(Config.ColorChangeTime);
             }
         }
     }

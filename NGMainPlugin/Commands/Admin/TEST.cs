@@ -5,6 +5,7 @@
     using Exiled.API.Features;
     using NGMainPlugin.API;
     using System.Linq;
+    using CedMod.Commands;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Test : ICommand
@@ -35,7 +36,6 @@
                 response = $"You dont have permission!";
                 return false;
             }
-
             if (arguments.Count >= 1)
             {
                 string msg = string.Join(" ", arguments.Skip(0));
