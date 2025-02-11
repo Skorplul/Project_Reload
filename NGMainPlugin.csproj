@@ -176,9 +176,16 @@
       <Version>5.0.21</Version>
     </PackageReference>
     <Compile Include="NGMainPlugin\Systems\Subclasses\Config.cs" />
-    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\AllSeeing.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Fettsack.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\Subclasses.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Drogendealer.cs" />
+    <Compile Include="NGMainPlugin\API\Enums\Subclasses.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\BugsBunny.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guards\Allseeing.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guards\Blitz.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guards\Sondereinheit.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guards\Kamikaze.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Spy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
