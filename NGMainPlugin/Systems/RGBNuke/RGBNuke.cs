@@ -88,9 +88,9 @@
 
         internal static void Start()
         {
-            CedMod.Commands.RainbowLightsCommand rgbLight = new CedMod.Commands.RainbowLightsCommand();
-            rgbLight.Execute(arguments, sender, out response);
-            rgbLight.
+            //CedMod.Commands.RainbowLightsCommand rgbLight = new CedMod.Commands.RainbowLightsCommand();
+            //rgbLight.Execute(arguments, sender, out response);
+            //rgbLight.
                 //todo!
         }
 

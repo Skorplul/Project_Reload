@@ -1,16 +1,16 @@
-using Exiled.API.Features;
 using NGMainPlugin.API.Enums;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 using System;
 using System.Collections.Generic;
-using Exiled.Events.Commands.Reload;
 
 namespace NGMainPlugin.Systems.Subclasses;
 
-public class Subclasses
+public static class Subclasses
 {
-    readonly static Random Random = new Random();
+    private readonly static Random Random = new Random();
+
+    public static int WaveCount = 0;
 
     /// <summary>
     /// D-Class SubProbs
@@ -25,7 +25,7 @@ public class Subclasses
     /// <summary>
     /// Guards Probs
     /// </summary>
-    private static Dictionary<SubclassType, double> GuardProbs = new Dictionary<SubclassType, double>
+    private static Dictionary<SubclassType, double> MTFProbs = new Dictionary<SubclassType, double>
     {
         { SubclassType.Blitz, 10.0 },
         { SubclassType.Kamikaze, 7.5 },
@@ -36,8 +36,8 @@ public class Subclasses
     /// <summary>
     /// Chaos Probs
     /// </summary>
-    static Dictionary<SubclassType, double> CIProbs = new Dictionary<SubclassType, double>
-    {
+    private static Dictionary<SubclassType, double> CIProbs = new Dictionary<SubclassType, double>
+    { 
         { SubclassType.Spy, 5.0 },
     };
 
@@ -53,6 +53,8 @@ public class Subclasses
 
     public static void DoSubclass(SpawnedEventArgs ev)
     {
+        WaveCount++;
+
         SubclassType SubClass = GetSubclass(ev.Player.Role);
 
         switch (SubClass)
@@ -67,16 +69,16 @@ public class Subclasses
                 Drogendealer.SetRole(ev.Player);
                 break;
             case SubclassType.Blitz:
-                Blitz.SetRole();
+                Blitz.SetRole(ev.Player);
                 break;
             case SubclassType.Kamikaze:
-                Kamikaze.SetRole();
+                Kamikaze.SetRole(ev.Player);
                 break;
             case SubclassType.AllSeeing:
-                Allseeing.SetRole();
+                Allseeing.SetRole(ev.Player);
                 break;
             case SubclassType.Sondereinheit:
-                Sondereinheit.SetRole();
+                Sondereinheit.SetRole(ev.Player); // ToDo: erst nach der dritten Welle Spawnbar.
                 break;
             case SubclassType.Spy:
                 //Spy.SetRole(); (Skin swap needed for this)
@@ -93,7 +95,7 @@ public class Subclasses
             case RoleTypeId.ClassD:
                 return SelectRandomAction(DProbs);
             case RoleTypeId.FacilityGuard:
-                return SelectRandomAction(GuardProbs);
+                return SelectRandomAction(MTFProbs);
             case RoleTypeId.ChaosRepressor | RoleTypeId.ChaosMarauder | RoleTypeId.ChaosRifleman | RoleTypeId.ChaosConscript:
                 return SelectRandomAction(CIProbs);
             default:

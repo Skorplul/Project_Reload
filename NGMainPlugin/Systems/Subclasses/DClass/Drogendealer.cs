@@ -1,6 +1,6 @@
 using Exiled.API.Features;
 
-namespace NGMainPlugin;
+namespace NGMainPlugin.Systems.Subclasses;
 
 public static class Drogendealer
 {
