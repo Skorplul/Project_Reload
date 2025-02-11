@@ -12,6 +12,7 @@
     using NGMainPlugin.Systems.RGBNuke;
     using NGMainPlugin.Systems.EventHandlers;
     using NGMainPlugin.Systems.CustomItems;
+    using NGMainPlugin.Systems.SCPSwap;
     using AudioSystem.Models.SoundConfigs;
 
     public class Config : IConfig
@@ -56,7 +57,7 @@
             LobbySystem.Config = GetConfig<Systems.LobbySystem.Config>(Systems.LobbySystem.Config.ConfigPath, new Systems.LobbySystem.Config());
             RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath, new Systems.RGBNuke.Config());
             EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath, new Systems.EventHandlers.Config());
-            //SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
+            SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
             //Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
         }
 

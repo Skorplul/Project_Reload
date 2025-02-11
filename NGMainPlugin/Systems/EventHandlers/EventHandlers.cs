@@ -1,14 +1,12 @@
 ﻿namespace NGMainPlugin.Systems.EventHandlers
 {
-    using System.Collections.Generic;
     using Exiled.API.Features;
     using PlayerRoles;
-    using NGMainPlugin.API;
     using Exiled.Events.EventArgs.Player;
     using Exiled.Events.EventArgs.Scp079;
     using Exiled.Events.EventArgs.Server;
-    using MEC;
-    using System.Data.SqlClient;
+    using Exiled.Events.EventArgs.Scp330;
+    using System;
 
     public static class EventHandlers
     {
@@ -20,6 +18,8 @@
 
         private static bool Banned = false;
 
+        private static Random random = new Random();
+
         public static void Enable()
         {
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
@@ -27,6 +27,7 @@
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
+            Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
         }
 
         public static void Disable()
@@ -36,6 +37,20 @@
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers -= OnWaitingForPlayers;
+            Exiled.Events.Handlers.Scp330.InteractingScp330 -= OnInteractingScp330;
+        }
+
+        private static void OnInteractingScp330(InteractingScp330EventArgs ev)
+        {
+            if (!Config.PinkIn330)
+                return;
+
+            if (random.Next(0, 100) <= Config.PinkCandyChance)
+            {
+                ev.Candy = InventorySystem.Items.Usables.Scp330.CandyKindID.Pink;
+            }
+            else
+                return;
         }
 
         public static void OnRoundStarted()

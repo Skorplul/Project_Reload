@@ -15,5 +15,11 @@
 
         [Description("Should friendly fire get enabled at the end of the round.")]
         public bool RoundEndFF { get; set; } = true;
+
+        [Description("If it should be possible to pull a pink candy from the bowl.")]
+        public bool PinkIn330 { get; set; } = true;
+
+        [Description("Percantage chance to pull a pink candy from the bowl. (only relevant if PinkIn330 is true)")]
+        public float PinkCandyChance { get; set; } = 10.0f;
     }
 }

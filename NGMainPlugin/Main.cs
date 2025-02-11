@@ -11,6 +11,7 @@
     using NGMainPlugin.Systems.EventsSystem;
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.Notifications;
+    using NGMainPlugin.Systems.Subclasses;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -28,7 +29,7 @@
         {
             Instance = this;
 
-            Log.Info("                                                                                                                                                                         \r\n                                                                                                                                                                         \r\n          `7MN.   `7MF`7MM\"\"\"YMM  `YMM'   `MP`7MMF'   `7MF'.M\"\"\"bgd                       .g8\"\"\"bgd       db     `7MMM.     ,MMF`7MMF`7MN.   `7MF' .g8\"\"\"bgd             \r\n            MMN.    M   MM    `7    VMb.  ,P   MM       M ,MI    \"Y                     .dP'     `M      ;MM:      MMMb    dPMM   MM   MMN.    M .dP'     `M             \r\n            M YMb   M   MM   d       `MM.M'    MM       M `MMb.                         dM'       `     ,V^MM.     M YM   ,M MM   MM   M YMb   M dM'       `             \r\n            M  `MN. M   MMmmMM         MMb     MM       M   `YMMNq.                     MM             ,M  `MM     M  Mb  M' MM   MM   M  `MN. M MM                      \r\nmmmmm mmmmm M   `MM.M   MM   Y  ,    ,M'`Mb.   MM       M .     `MM                     MM.    `7MMF'  AbmmmqMA    M  YM.P'  MM   MM   M   `MM.M MM.    `7MMFmmmmm mmmmm \r\n            M     YMM   MM     ,M   ,P   `MM.  YM.     ,M Mb     dM                     `Mb.     MM   A'     VML   M  `YM'   MM   MM   M     YMM `Mb.     MM             \r\n          .JML.    YM .JMMmmmmMMM .MM:.  .:MMa. `bmmmmd\"' P\"Ybmmd\"                        `\"bmmmdPY .AMA.   .AMMA.JML. `'  .JMML.JMML.JML.    YM   `\"bmmmdPY             \r\n                                                                                                                                                                         \r\n                                                                                                                                                                         \r\n\r\n");
+            Log.Info("        ▄███████▄    ▄████████  ▄██████▄       ▄█    ▄████████  ▄████████     ███             ▄████████    ▄████████  ▄█        ▄██████▄     ▄████████ ████████▄       \r\n       ███    ███   ███    ███ ███    ███     ███   ███    ███ ███    ███ ▀█████████▄        ███    ███   ███    ███ ███       ███    ███   ███    ███ ███   ▀███      \r\n       ███    ███   ███    ███ ███    ███     ███   ███    █▀  ███    █▀     ▀███▀▀██        ███    ███   ███    █▀  ███       ███    ███   ███    ███ ███    ███      \r\n       ███    ███  ▄███▄▄▄▄██▀ ███    ███     ███  ▄███▄▄▄     ███            ███   ▀       ▄███▄▄▄▄██▀  ▄███▄▄▄     ███       ███    ███   ███    ███ ███    ███      \r\n     ▀█████████▀  ▀▀███▀▀▀▀▀   ███    ███     ███ ▀▀███▀▀▀     ███            ███          ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ███       ███    ███ ▀███████████ ███    ███      \r\n       ███        ▀███████████ ███    ███     ███   ███    █▄  ███    █▄      ███          ▀███████████   ███    █▄  ███       ███    ███   ███    ███ ███    ███      \r\n       ███          ███    ███ ███    ███     ███   ███    ███ ███    ███     ███            ███    ███   ███    ███ ███▌    ▄ ███    ███   ███    ███ ███   ▄███      \r\n      ▄████▀        ███    ███  ▀██████▀  █▄ ▄███   ██████████ ████████▀     ▄████▀          ███    ███   ██████████ █████▄▄██  ▀██████▀    ███    █▀  ████████▀       \r\n                    ███    ███            ▀▀▀▀▀▀                                             ███    ███              ▀                                                 ");
 
             // Load all configs
             Log.Info("Loading Configs...");
@@ -64,6 +65,9 @@
 
             Log.Info("Events System...");
             EventsSystemHandler.Enable();
+
+            Log.Info("Enabling Subclasses...");
+            Subclasses.Enable();
 
             Log.Info("-----[NGMainPlugin Initialized]-----");
             
@@ -104,6 +108,9 @@
 
             Log.Info("Disableing Events System...");
             EventsSystemHandler.Disable();
+
+            Log.Info("Disabling Subclasses...");
+            Subclasses.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
             

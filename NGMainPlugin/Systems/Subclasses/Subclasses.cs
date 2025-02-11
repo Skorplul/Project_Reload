@@ -53,7 +53,6 @@ public static class Subclasses
 
     public static void DoSubclass(SpawnedEventArgs ev)
     {
-        WaveCount++;
 
         SubclassType SubClass = GetSubclass(ev.Player.Role);
 

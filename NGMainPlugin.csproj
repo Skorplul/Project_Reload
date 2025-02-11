@@ -110,6 +110,8 @@
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
     <Compile Include="NGMainPlugin\Commands\stuck.cs" />
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
