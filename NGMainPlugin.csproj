@@ -188,6 +188,8 @@
     <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Sondereinheit.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Kamikaze.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Spy.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Kind.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\ScaleCom.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
