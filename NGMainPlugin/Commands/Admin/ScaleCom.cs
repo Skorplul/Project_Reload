@@ -3,9 +3,7 @@ namespace NGMainPlugin.Commands
     using CommandSystem;
     using System;
     using Exiled.API.Features;
-    using System.Linq;
     using Exiled.Permissions.Extensions;
-    using UnityEngine;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Scale : ICommand
