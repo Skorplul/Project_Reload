@@ -55,6 +55,7 @@ public static class Subclasses
     {
 
         SubclassType SubClass = GetSubclass(ev.Player.Role);
+        ev.Player.Scale.Set(1, 1, 1);
 
         switch (SubClass)
         {
@@ -66,6 +67,9 @@ public static class Subclasses
                 break;
             case SubclassType.Drogendealer:
                 Drogendealer.SetRole(ev.Player);
+                break;
+            case SubclassType.Kind:
+                Kind.SetRole(ev.Player);
                 break;
             case SubclassType.Blitz:
                 Blitz.SetRole(ev.Player);

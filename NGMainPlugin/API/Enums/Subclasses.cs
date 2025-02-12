@@ -8,6 +8,7 @@ public enum SubclassType
     Fettsack,
     Drogendealer,
     BugBunny,
+    Kind,
 
     // Guards
     Sondereinheit,
