@@ -190,6 +190,7 @@
     <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Spy.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Kind.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\ScaleCom.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Types\LastTeamMember.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
