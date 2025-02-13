@@ -28,6 +28,7 @@
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
             Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
+            Exiled.Events.Handlers.Player.UsingRadioBattery += OnUsingRadioBattery;
         }
 
         public static void Disable()
@@ -38,6 +39,15 @@
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
             Exiled.Events.Handlers.Server.WaitingForPlayers -= OnWaitingForPlayers;
             Exiled.Events.Handlers.Scp330.InteractingScp330 -= OnInteractingScp330;
+            Exiled.Events.Handlers.Player.UsingRadioBattery -= OnUsingRadioBattery;
+        }
+
+        private static void OnUsingRadioBattery(UsingRadioBatteryEventArgs ev)
+        {
+            if (!Config.RadioUsingBattery)
+            {
+                ev.IsAllowed = false;
+            }
         }
 
         private static void OnInteractingScp330(InteractingScp330EventArgs ev)

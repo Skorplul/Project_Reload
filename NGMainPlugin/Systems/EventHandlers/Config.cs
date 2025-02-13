@@ -21,5 +21,8 @@
 
         [Description("Percantage chance to pull a pink candy from the bowl. (only relevant if PinkIn330 is true)")]
         public float PinkCandyChance { get; set; } = 10.0f;
+
+        [Description("Should the Radio Battery get depleted.")]
+        public bool RadioUsingBattery { get; set; } = false;
     }
 }
