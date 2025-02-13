@@ -53,6 +53,8 @@ public static class Subclasses
 
     public static void DoSubclass(SpawnedEventArgs ev)
     {
+        if (ev.Reason != Exiled.API.Enums.SpawnReason.RoundStart)
+            return;
 
         SubclassType SubClass = GetSubclass(ev.Player.Role);
         ev.Player.Scale.Set(1, 1, 1);

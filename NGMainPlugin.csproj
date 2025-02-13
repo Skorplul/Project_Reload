@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\DiscordWebhookAPI.cs" />
     <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\ForceSubClass.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\TEST.cs" />
     <Compile Include="NGMainPlugin\Commands\C4detonate.cs" />
