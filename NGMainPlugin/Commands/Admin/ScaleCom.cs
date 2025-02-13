@@ -55,9 +55,17 @@ namespace NGMainPlugin.Commands
                 return false;
             }
 
+            Player target = Player.Get(arguments.Array[3]);
+            
+            if (target == null)
+            {
+                response = "This target doesn't exist. please use the @steam ID or ServerID";
+                return false;
+            }
+
             try
             {
-                player.Scale.Set(float.Parse(arguments.Array[0]), float.Parse(arguments.Array[1]), float.Parse(arguments.Array[2]));
+                target.Scale.Set(float.Parse(arguments.Array[0]), float.Parse(arguments.Array[1]), float.Parse(arguments.Array[2]));
                 response = "Set own Scale to the specified ones.";
             }
             catch (Exception ex)
