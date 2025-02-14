@@ -14,6 +14,10 @@
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.SCPSwap;
     using AudioSystem.Models.SoundConfigs;
+    using NGMainPlugin.Systems.SCPHud;
+    using NGMainPlugin.Systems.Notifications;
+    using System;
+    using System.Linq;
 
     public class Config : IConfig
     {
@@ -27,29 +31,79 @@
         [YamlIgnore]
         public ItemConfigs ItemConfigs;
 
-        private T GetConfig<T>(string path, object config)
-        {
-            // Fill path with missing directories
+        private T GetConfig<T>(string path, T defaultConfig)
+        {       
             string dir = ConfigFolderPath;
-            Log.Warn(dir);
+            Log.Warn($"Checking config directory: {dir}");
+
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            T Result;
-
             if (!File.Exists(path))
             {
-                Result = (T)config;
-                File.Create(path);
-                File.WriteAllText(path, Loader.Serializer.Serialize(config));
-            }
-            else
-            {
-                Result = Loader.Deserializer.Deserialize<T>(File.ReadAllText(path));
+                Log.Info($"Config file not found. Creating new one at: {path}");
+                File.WriteAllText(path, Loader.Serializer.Serialize(defaultConfig));
+                return defaultConfig;
             }
 
-            return Result;
+            try
+            {
+                string fileContent = File.ReadAllText(path);
+                T existingConfig = Loader.Deserializer.Deserialize<T>(fileContent);
+
+                if (IsConfigOutdated(existingConfig, defaultConfig))
+                {
+                    Log.Warn($"Config file at {path} is outdated. Merging new changes while keeping existing values.");
+                    existingConfig = MergeConfigs(existingConfig, defaultConfig);
+                    File.WriteAllText(path, Loader.Serializer.Serialize(existingConfig));
+                }
+
+                return existingConfig;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to read or parse config file at {path}. Using default config. Exception: {ex.Message}");
+                File.WriteAllText(path, Loader.Serializer.Serialize(defaultConfig)); // Overwrite with a valid default config
+                return defaultConfig;
+            }
         }
+
+        private T MergeConfigs<T>(T existingConfig, T newConfig)
+        {
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                var oldValue = prop.GetValue(existingConfig);
+                var newValue = prop.GetValue(newConfig);
+
+                if (oldValue == null) // If old config is missing a property, update it
+                {
+                    prop.SetValue(existingConfig, newValue);
+                }
+                else if (!prop.PropertyType.IsPrimitive && prop.PropertyType != typeof(string))
+                {
+                    // Recursively merge nested objects
+                    var mergedValue = MergeConfigs(oldValue, newValue);
+                    prop.SetValue(existingConfig, mergedValue);
+                }
+            }
+
+            return existingConfig;
+        }
+
+
+        private bool IsConfigOutdated<T>(T existingConfig, object newConfig)
+        {
+            if (existingConfig == null)
+                return true; // If the existing file is empty or couldn't be deserialized, it's outdated
+
+            // Convert both to dictionaries (key-value pairs) to compare structures
+            var existingProps = existingConfig.GetType().GetProperties().Select(p => p.Name).ToHashSet();
+            var newProps = newConfig.GetType().GetProperties().Select(p => p.Name).ToHashSet();
+
+            // If the new config has extra properties that are missing in the old one, it's outdated
+            return !existingProps.SetEquals(newProps);
+        }
+
 
         public void LoadConfigs()
         {
@@ -58,7 +112,8 @@
             RGBNuke.Config = GetConfig<Systems.RGBNuke.Config>(Systems.RGBNuke.Config.ConfigPath, new Systems.RGBNuke.Config());
             EventHandlers.Config = GetConfig<Systems.EventHandlers.Config>(Systems.EventHandlers.Config.ConfigPath, new Systems.EventHandlers.Config());
             SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
-            //Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
+            Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
+            SCPHud.Config = GetConfig<Systems.SCPHud.Config>(Systems.SCPHud.Config.ConfigPath, new Systems.SCPHud.Config());
         }
 
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]

@@ -1,15 +1,16 @@
-using Exiled.API.Interfaces;
+using YamlDotNet.Serialization;
 using PlayerRoles;
 using NGMainPlugin.API.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 
 namespace NGMainPlugin.Systems.SCPHud
 {
-    public class Config : IConfig
+    public class Config
     {
-        [Description("Is the plugin enabled?")]
-        public bool IsEnabled { get; set; } = true;
+        [YamlIgnore]
+        public static string ConfigPath = Path.Combine(NGMainPlguin.Instance.Config.ConfigFolderPath, "scphud.yml");
         
         [Description("Display strings. Format: Role, display string.")]
         public Dictionary<RoleTypeId, string> DisplayStrings { get; set; } = new Dictionary<RoleTypeId, string>()
@@ -33,8 +34,5 @@ namespace NGMainPlugin.Systems.SCPHud
         
         [Description("The player seeing the list will be highlighted with the special marker to the left. Leave it empty if disabled.")]
         public string PlayersMarker { get; set; } = "<color=#D51D1D>You --></color>";
-        
-        [Description("Display debug messages in server console?")]
-        public bool Debug { get; set; } = false;
     }
 }
