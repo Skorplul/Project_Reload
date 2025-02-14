@@ -70,7 +70,7 @@
             Log.Info("Enabling Subclasses...");
             Subclasses.Enable();
 
-            Log.Info("Enabling SCPHud...")
+            Log.Info("Enabling SCPHud...");
             SCPHud.Enable();
 
             Log.Info("-----[NGMainPlugin Initialized]-----");
@@ -116,7 +116,7 @@
             Log.Info("Disabling Subclasses...");
             Subclasses.Disable();
 
-            Log.Info("Disableing SCPHud...")
+            Log.Info("Disableing SCPHud...");
             SCPHud.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
