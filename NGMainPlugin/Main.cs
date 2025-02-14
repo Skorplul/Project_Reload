@@ -12,6 +12,7 @@
     using NGMainPlugin.Systems.CustomItems;
     using NGMainPlugin.Systems.Notifications;
     using NGMainPlugin.Systems.Subclasses;
+    using NGMainPlugin.Systems.SCPHud;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -69,6 +70,9 @@
             Log.Info("Enabling Subclasses...");
             Subclasses.Enable();
 
+            Log.Info("Enabling SCPHud...")
+            SCPHud.Enable();
+
             Log.Info("-----[NGMainPlugin Initialized]-----");
             
             base.OnEnabled();
@@ -111,6 +115,9 @@
 
             Log.Info("Disabling Subclasses...");
             Subclasses.Disable();
+
+            Log.Info("Disableing SCPHud...")
+            SCPHud.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
             
