@@ -25,7 +25,7 @@ public static class Subclasses
     /// <summary>
     /// Guards Probs
     /// </summary>
-    private static Dictionary<SubclassType, double> MTFProbs = new Dictionary<SubclassType, double>
+    private static Dictionary<SubclassType, double> GuardProbs = new Dictionary<SubclassType, double>
     {
         { SubclassType.Blitz, 10.0 },
         { SubclassType.Kamikaze, 7.5 },
@@ -53,11 +53,14 @@ public static class Subclasses
 
     public static void DoSubclass(SpawnedEventArgs ev)
     {
-        if (ev.Reason != Exiled.API.Enums.SpawnReason.RoundStart)
+        ev.Player.Scale.Set(1, 1, 1);
+        if (ev.Reason == Exiled.API.Enums.SpawnReason.ForceClass || ev.Reason == Exiled.API.Enums.SpawnReason.None || ev.Reason == Exiled.API.Enums.SpawnReason.Died)
+            return;
+
+        if (Random.Next(0, 10) !>= 9)
             return;
 
         SubclassType SubClass = GetSubclass(ev.Player.Role);
-        ev.Player.Scale.Set(1, 1, 1);
 
         switch (SubClass)
         {
@@ -100,7 +103,7 @@ public static class Subclasses
             case RoleTypeId.ClassD:
                 return SelectRandomAction(DProbs);
             case RoleTypeId.FacilityGuard:
-                return SelectRandomAction(MTFProbs);
+                return SelectRandomAction(GuardProbs);
             case RoleTypeId.ChaosRepressor | RoleTypeId.ChaosMarauder | RoleTypeId.ChaosRifleman | RoleTypeId.ChaosConscript:
                 return SelectRandomAction(CIProbs);
             default:

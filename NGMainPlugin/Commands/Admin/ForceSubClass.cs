@@ -22,12 +22,12 @@ public class ForceSubClass : ICommand
     {
         Player player = Player.Get(sender);
 
-        if (arguments.Array[0].ToLower() == "help")
+        if (arguments.Array[1].ToLower() == "help")
         {
             response = "Usage: fsc <subclass> <user>(optional)";
             return true;
         }
-        if (arguments.Array[0].ToLower() == "list")
+        if (arguments.Array[1].ToLower() == "list")
         {
             response = "valid Subclasses:\n Fettsack\n BugsBunny\n Drogendealer\n Kind\n Blitz\n Kamikaze\n AllSeeing\n Sondereinheit";
             return true;
@@ -44,7 +44,7 @@ public class ForceSubClass : ICommand
             return false;
         }
 
-        Player target = Player.Get(arguments.Array[1]);
+        Player target = Player.Get(arguments.Array[2]);
 
         switch (arguments.Array[1].ToLower())
         {

@@ -4,7 +4,7 @@ using Exiled.Events.EventArgs.Server;
 using MEC;
 using PlayerRoles;
 
-namespace NGMainPlugin;
+namespace NGMainPlugin.Systems.Notifications;
 
 public static class LastTeamMember
 {
@@ -16,6 +16,7 @@ public static class LastTeamMember
     public static void OnRoundEnded(RoundEndedEventArgs ev)
     {
         Timing.KillCoroutines();
+        
     }
 
     /// <summary>

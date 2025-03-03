@@ -184,10 +184,10 @@
     <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Drogendealer.cs" />
     <Compile Include="NGMainPlugin\API\Enums\Subclasses.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\BugsBunny.cs" />
-    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Allseeing.cs" />
-    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Blitz.cs" />
-    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Sondereinheit.cs" />
-    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Kamikaze.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guard\Allseeing.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guard\Blitz.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guard\Sondereinheit.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Guard\Kamikaze.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Spy.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Kind.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\ScaleCom.cs" />
