@@ -10,6 +10,7 @@ public static class LastTeamMember
 {
     public static void OnRoundStarted()
     {
+        Done.RemoveAll(p => true);
         Timing.RunCoroutine(LastOfTeam());
     }
 
@@ -39,6 +40,11 @@ public static class LastTeamMember
     /// </summary>
     private static List<Player> Nerds = new List<Player>();
 
+    /// <summary>
+    /// All players that have already seen this message
+    /// </summary>
+    private static List<Player> Done = new List<Player>();
+
     private static IEnumerator<float> LastOfTeam()
     {
         while (true)
@@ -51,25 +57,32 @@ public static class LastTeamMember
             foreach (Player ply in Player.List)
             {
                 if (ply.IsCHI)
+                {
                     Chaos.Add(ply);
+                }
                 else if (ply.Role == RoleTypeId.Scientist)
+                {
                     Nerds.Add(ply);
+                }
                 else if (ply.Role == RoleTypeId.ClassD)
+                {
                     Ds.Add(ply);
+                }
                 else if ((RoleTypeId)ply.Role is RoleTypeId.NtfCaptain or RoleTypeId.NtfPrivate or RoleTypeId.NtfSergeant or RoleTypeId.NtfSpecialist or RoleTypeId.FacilityGuard)
+                {
                     MTF.Add(ply);
+                }
                 // if (ply.Role == RoleTypeId.Spectator || ply.Role == RoleTypeId.Overwatch || ply.Role == RoleTypeId.Filmmaker || ply.IsTutorial || ply.IsScp || ply.Role == RoleTypeId.None)
             }
 
-            if (Chaos.Count == 1)
-                Chaos[0].ShowHint("Du bist der letzte Chaos!", 1);
-            if (Nerds.Count == 1)
-                Nerds[0].ShowHint("Du bist der letzte Scientist!", 1);
-            if (Ds.Count == 1)
-                Ds[0].ShowHint("Du bist die letzte D-Klasse!", 1);
-            if (MTF.Count == 1)
-                MTF[0].ShowHint("Du bist der letzte MTF / Guard!", 1);
-            
+            if (Chaos.Count == 1 && !Done.Contains(Chaos[0]))
+                Chaos[0].ShowHint("Du bist der letzte Chaos!", 7); Done.Add(Chaos[0]); Chaos.Remove(Chaos[0]);
+            if (Nerds.Count == 1 && !Done.Contains(Nerds[0]))
+                Nerds[0].ShowHint("Du bist der letzte Scientist!", 7); Done.Add(Nerds[0]); Nerds.Remove(Nerds[0]);
+            if (Ds.Count == 1 && !Done.Contains(Ds[0]))
+                Ds[0].ShowHint("Du bist die letzte D-Klasse!", 7); Done.Add(Ds[0]); Ds.Remove(Ds[0]);
+            if (MTF.Count == 1 && !Done.Contains(MTF[0]))
+                MTF[0].ShowHint("Du bist der letzte MTF / Guard!", 7); Done.Add(MTF[0]); MTF.Remove(MTF[0]);
 
             yield return Timing.WaitForSeconds(1);
         }
