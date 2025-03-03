@@ -39,7 +39,7 @@ namespace NGMainPlugin.Commands
             {
                 try
                 {
-                    player.Scale.Set(float.Parse(arguments.Array[0]), float.Parse(arguments.Array[1]), float.Parse(arguments.Array[2]));
+                    player.Scale.Set(float.Parse(arguments.Array[1]), float.Parse(arguments.Array[2]), float.Parse(arguments.Array[3]));
                     response = "Set own Scale to the specified ones.";
                 }
                 catch (Exception ex)
@@ -55,7 +55,7 @@ namespace NGMainPlugin.Commands
                 return false;
             }
 
-            Player target = Player.Get(arguments.Array[3]);
+            Player target = Player.Get(arguments.Array[4]);
             
             if (target == null)
             {
@@ -65,13 +65,13 @@ namespace NGMainPlugin.Commands
 
             try
             {
-                target.Scale.Set(float.Parse(arguments.Array[0]), float.Parse(arguments.Array[1]), float.Parse(arguments.Array[2]));
-                response = "Set own Scale to the specified ones.";
+                target.Scale.Set(float.Parse(arguments.Array[1]), float.Parse(arguments.Array[2]), float.Parse(arguments.Array[3]));
+                response = "Set Scale of target to the specified ones.";
             }
             catch (Exception ex)
             {
                 response = "Failed to Parse arguments, please only use numbers as xyz input. (Console for more Info.)";
-                Log.Error($"Failed To Set Scale {player.Nickname}\n{ex}");
+                Log.Error($"Failed To Set Scale {target.Nickname}\n{ex}");
                 return false;
             }
             response = "Set the scale for the user.";
