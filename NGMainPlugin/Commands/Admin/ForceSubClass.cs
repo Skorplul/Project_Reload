@@ -47,35 +47,35 @@ public class ForceSubClass : ICommand
         switch (arguments.Array[1].ToLower())
         {
             case "fettsack":
-                Fettsack.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                Fettsack.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "bugsbunny":
-                BugBunny.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                BugBunny.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "drogendealer":
-                Drogendealer.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                Drogendealer.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "kind":
-                Kind.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                Kind.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "blitz":
-                Blitz.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                Blitz.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "kamikaze":
-                Kamikaze.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                Kamikaze.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "allseeing":
-                Allseeing.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2]));
+                Allseeing.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "sondereinheit":
-                Sondereinheit.SetRole(arguments.Count == 2 ? player : Player.Get(arguments.Array[2])); // ToDo: erst nach der dritten Welle Spawnbar.
+                Sondereinheit.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2])); // ToDo: erst nach der dritten Welle Spawnbar.
                 response = "Set SubClass.";
                 return true;
             case "spy":
