@@ -53,7 +53,7 @@ public static class Subclasses
 
     public static void DoSubclass(SpawnedEventArgs ev)
     {
-        ev.Player.Scale.Set(1, 1, 1);
+        ev.Player.Scale = new UnityEngine.Vector3(1f, 1f, 1f);
         if (ev.Reason == Exiled.API.Enums.SpawnReason.ForceClass || ev.Reason == Exiled.API.Enums.SpawnReason.None || ev.Reason == Exiled.API.Enums.SpawnReason.Died)
             return;
 
