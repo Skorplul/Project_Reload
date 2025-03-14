@@ -16,6 +16,7 @@
     using AudioSystem.Models.SoundConfigs;
     using NGMainPlugin.Systems.SCPHud;
     using NGMainPlugin.Systems.Notifications;
+    using NGMainPlugin.Systems.RemoteKeycard;
     using System;
     using System.Linq;
 
@@ -114,6 +115,7 @@
             SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
             Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
             SCPHud.Config = GetConfig<Systems.SCPHud.Config>(Systems.SCPHud.Config.ConfigPath, new Systems.SCPHud.Config());
+            RemoteKeycards.Config = GetConfig<Systems.RemoteKeycard.Config>(Systems.RemoteKeycard.Config.ConfigPath, new Systems.RemoteKeycard.Config());
         }
 
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]

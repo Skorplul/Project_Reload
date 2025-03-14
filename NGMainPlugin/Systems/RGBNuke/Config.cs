@@ -1,9 +1,9 @@
-﻿namespace NGMainPlugin.Systems.RGBNuke
-{
-    using System.ComponentModel;
-    using System.IO;
-    using YamlDotNet.Serialization;
+﻿using System.ComponentModel;
+using System.IO;
+using YamlDotNet.Serialization;
 
+namespace NGMainPlugin.Systems.RGBNuke
+{
     public class Config
     {
         [YamlIgnore]
