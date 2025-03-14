@@ -1,10 +1,6 @@
 ﻿using Exiled.Events.EventArgs.Player;
 using Exiled.API.Features;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NGMainPlugin.Systems.Notifications
 {
@@ -27,7 +23,7 @@ namespace NGMainPlugin.Systems.Notifications
                     ply.ClearBroadcasts();
                 }
             }
-            Map.Broadcast(1, $"<align=center><color=red>A PLAYER HAS BEEN BANNED \n Name: {ev.Target.Nickname} \n UserID: {ev.Target.UserId} \n Reason: {ev.Reason} \n Durration: {DateTime.Now.AddSeconds((double)ev.Duration).Ticks} \n Issuer: {ev.Player}", global::Broadcast.BroadcastFlags.AdminChat);
+            Map.Broadcast(1, $"<align=center><color=red>A PLAYER HAS BEEN BANNED \n Name: {ev.Target.Nickname} \n UserID: {ev.Target.UserId} \n Reason: {ev.Reason} \n Durration: {DateTime.Now.AddSeconds((double)ev.Duration).Ticks} \n Issuer: {ev.Player}", Broadcast.BroadcastFlags.AdminChat);
         }
 
         internal static void OnKick(KickedEventArgs ev)
