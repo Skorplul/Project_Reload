@@ -13,6 +13,7 @@
     using NGMainPlugin.Systems.Notifications;
     using NGMainPlugin.Systems.Subclasses;
     using NGMainPlugin.Systems.SCPHud;
+    using NGMainPlugin.Systems.RemoteKeycard;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -73,6 +74,9 @@
             Log.Info("Enabling SCPHud...");
             SCPHud.Enable();
 
+            Log.Info("Enabling RemoteKeycards...");
+            RemoteKeycards.Enable();
+
             Log.Info("-----[NGMainPlugin Initialized]-----");
             
             base.OnEnabled();
@@ -118,6 +122,9 @@
 
             Log.Info("Disableing SCPHud...");
             SCPHud.Disable();
+
+            Log.Info("Disableing RemoteKeycards...");
+            RemoteKeycards.Disable();
 
             Log.Info("-----[NGMainPlugin Disabled]-----");
             

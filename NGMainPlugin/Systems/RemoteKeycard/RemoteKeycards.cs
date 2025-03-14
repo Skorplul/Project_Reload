@@ -4,27 +4,27 @@ using Exiled.Events.Features;
 
 namespace NGMainPlugin.Systems.RemoteKeycard
 {
-    public class RemoteKeycards
+    public static class RemoteKeycards
     {
         internal static Config Config;
 
-        public void Start()
+        public static void Enable()
         {
-            Exiled.Events.Handlers.Player.InteractingDoor += new CustomEventHandler<InteractingDoorEventArgs>(this.OnDoorInteract);
-            Exiled.Events.Handlers.Player.UnlockingGenerator += new CustomEventHandler<UnlockingGeneratorEventArgs>(this.OnGeneratorUnlock);
-            Exiled.Events.Handlers.Player.InteractingLocker += new CustomEventHandler<InteractingLockerEventArgs>(this.OnLockerInteract);
-            Exiled.Events.Handlers.Player.ActivatingWarheadPanel += new CustomEventHandler<ActivatingWarheadPanelEventArgs>(this.OnWarheadUnlock);
+            Exiled.Events.Handlers.Player.InteractingDoor += OnDoorInteract;
+            Exiled.Events.Handlers.Player.UnlockingGenerator += OnGeneratorUnlock;
+            Exiled.Events.Handlers.Player.InteractingLocker += OnLockerInteract;
+            Exiled.Events.Handlers.Player.ActivatingWarheadPanel += OnWarheadUnlock;
         }
 
-        public void Stop()
+        public static void Disable()
         {
-            Exiled.Events.Handlers.Player.InteractingDoor -= new CustomEventHandler<InteractingDoorEventArgs>(this.OnDoorInteract);
-            Exiled.Events.Handlers.Player.UnlockingGenerator -= new CustomEventHandler<UnlockingGeneratorEventArgs>(this.OnGeneratorUnlock);
-            Exiled.Events.Handlers.Player.InteractingLocker -= new CustomEventHandler<InteractingLockerEventArgs>(this.OnLockerInteract);
-            Exiled.Events.Handlers.Player.ActivatingWarheadPanel -= new CustomEventHandler<ActivatingWarheadPanelEventArgs>(this.OnWarheadUnlock);
+            Exiled.Events.Handlers.Player.InteractingDoor -= OnDoorInteract;
+            Exiled.Events.Handlers.Player.UnlockingGenerator -= OnGeneratorUnlock;
+            Exiled.Events.Handlers.Player.InteractingLocker -= OnLockerInteract;
+            Exiled.Events.Handlers.Player.ActivatingWarheadPanel -= OnWarheadUnlock;
         }
 
-        private void OnDoorInteract(InteractingDoorEventArgs ev)
+        private static void OnDoorInteract(InteractingDoorEventArgs ev)
         {
             bool flag = !Config.AffectDoors || ev.Door.IsLocked;
             if (!flag)
@@ -37,7 +37,7 @@ namespace NGMainPlugin.Systems.RemoteKeycard
             }
         }
 
-        private void OnWarheadUnlock(ActivatingWarheadPanelEventArgs ev)
+        private static void OnWarheadUnlock(ActivatingWarheadPanelEventArgs ev)
         {
             bool flag = !Config.AffectWarheadPanel;
             if (!flag)
@@ -50,7 +50,7 @@ namespace NGMainPlugin.Systems.RemoteKeycard
             }
         }
 
-        private void OnGeneratorUnlock(UnlockingGeneratorEventArgs ev)
+        private static void OnGeneratorUnlock(UnlockingGeneratorEventArgs ev)
         {
             bool flag = !Config.AffectGenerators;
             if (!flag)
@@ -63,7 +63,7 @@ namespace NGMainPlugin.Systems.RemoteKeycard
             }
         }
 
-        private void OnLockerInteract(InteractingLockerEventArgs ev)
+        private static void OnLockerInteract(InteractingLockerEventArgs ev)
         {
             bool flag = !Config.AffectScpLockers;
             if (!flag)
