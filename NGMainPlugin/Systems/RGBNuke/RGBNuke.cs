@@ -1,5 +1,6 @@
 ﻿namespace NGMainPlugin.Systems.RGBNuke
 {
+    using CedMod;
     using Exiled.API.Features;
     using Exiled.Events.EventArgs.Server;
     using Exiled.Events.EventArgs.Warhead;
@@ -51,7 +52,7 @@
 
             // Make sure leftovers from previous round are gone
             Stop();
-            AudioPlayer.RemoveDummy();
+            //AudioPlayer.RemoveDummy();
 
             if (isEnabled)
             {
@@ -62,7 +63,7 @@
         private static void OnRoundEnd(RoundEndedEventArgs ev)
         {
             Stop();
-            AudioPlayer.RemoveDummy();
+            //AudioPlayer.RemoveDummy();
         }
 
         private static void OnWarheadStart(StartingEventArgs ev)
@@ -70,28 +71,33 @@
             if (!isEnabled) return;
 
             Start();
-            AudioPlayer.PlayAudio();
+            //AudioPlayer.PlayAudio();
         }
 
         private static void OnWarheadDetonation()
         {
             Stop();
-            AudioPlayer.StopAudio();
+            //AudioPlayer.StopAudio();
         }
 
         private static void OnWarheadStop(StoppingEventArgs ev)
         {
             Stop();
-            AudioPlayer.StopAudio();
+            //AudioPlayer.StopAudio();
         }
 
 
         internal static void Start()
         {
-            //CedMod.Commands.RainbowLightsCommand rgbLight = new CedMod.Commands.RainbowLightsCommand();
-            //rgbLight.Execute(arguments, sender, out response);
-            //rgbLight.
-                //todo!
+            foreach (RoomLightController instance in RoomLightController.Instances)
+            {
+                if (instance.TryGetComponent<RainbowLight>(out var _))
+                {
+                    Log.Warn("Rainbowlights already active before RBNuke.Start()!");
+                }
+
+                instance.gameObject.AddComponent<RainbowLight>();
+            }
         }
 
         internal static void Stop()
