@@ -6,18 +6,19 @@ using PlayerRoles;
 
 namespace PRMainPlugin.Systems.Notifications;
 
-public static class LastTeamMember
+public class LastTeamMember
 {
+    static CoroutineHandle _lastOfTeamHandle;
+
     public static void OnRoundStarted()
     {
         Done.RemoveAll(p => true);
-        Timing.RunCoroutine(LastOfTeam());
+        _lastOfTeamHandle = Timing.RunCoroutine(LastOfTeam());
     }
 
     public static void OnRoundEnded(RoundEndedEventArgs ev)
     {
-        Timing.KillCoroutines();
-        
+        Timing.KillCoroutines(_lastOfTeamHandle);
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public static class LastTeamMember
 
     private static IEnumerator<float> LastOfTeam()
     {
-        while (true)
+        while (Round.InProgress)
         {
             Ds.RemoveAll(p => true);
             Nerds.RemoveAll(p => true);
