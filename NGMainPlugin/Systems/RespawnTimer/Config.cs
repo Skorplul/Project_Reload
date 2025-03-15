@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.RespawnTimer
+﻿namespace PRMainPlugin.Systems.RespawnTimer
 {
     using Exiled.API.Features;
     using Exiled.Loader;

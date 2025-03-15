@@ -1,4 +1,4 @@
-namespace NGMainPlugin.Systems.Subclasses;
+namespace PRMainPlugin.Systems.Subclasses;
 
 public class Config
 {

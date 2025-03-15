@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Exiled.API.Features;
 
-namespace NGMainPlugin.API
+namespace PRMainPlugin.API
 {
     internal static class EventsAPI
     {

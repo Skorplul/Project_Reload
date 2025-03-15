@@ -1,7 +1,7 @@
-﻿namespace NGMainPlugin.Systems.CustomItems
+﻿namespace PRMainPlugin.Systems.CustomItems
 {
     using Exiled.Loader;
-    using NGMainPlugin.Items;
+    using PRMainPlugin.Items;
     using System;
     using System.Collections.Generic;
     using System.IO;

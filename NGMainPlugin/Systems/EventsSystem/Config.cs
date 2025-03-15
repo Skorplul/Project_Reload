@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.EventsSystem
+﻿namespace PRMainPlugin.Systems.EventsSystem
 {
     using System.ComponentModel;
     using System.IO;

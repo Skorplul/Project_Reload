@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.RGBNuke
+﻿namespace PRMainPlugin.Systems.RGBNuke
 {
     using System;
     using CommandSystem;

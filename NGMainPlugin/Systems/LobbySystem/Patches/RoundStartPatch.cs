@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.LobbySystem.Patches
+﻿namespace PRMainPlugin.Systems.LobbySystem.Patches
 {
     using Exiled.API.Features;
     using HarmonyLib;

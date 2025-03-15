@@ -1,4 +1,4 @@
-namespace NGMainPlugin;
+namespace PRMainPlugin;
 
 public static class Spy
 {

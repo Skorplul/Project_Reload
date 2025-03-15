@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Exiled.Events.EventArgs.Map;
 using YamlDotNet.Serialization;
 
-namespace NGMainPlugin.Items
+namespace PRMainPlugin.Items
 {
     [CustomItem(ItemType.GrenadeHE)]
     public class ImpactNade : CustomGrenade

@@ -1,9 +1,9 @@
-﻿namespace NGMainPlugin.Commands
+﻿namespace PRMainPlugin.Commands
 {
     using CommandSystem;
     using System;
     using Exiled.API.Features;
-    using NGMainPlugin.API;
+    using PRMainPlugin.API;
     using System.Linq;
     using CedMod.Commands;
 

@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.LobbySystem
+﻿namespace PRMainPlugin.Systems.LobbySystem
 {
     using Exiled.API.Enums;
     using System.ComponentModel;

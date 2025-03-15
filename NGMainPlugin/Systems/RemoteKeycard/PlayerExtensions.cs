@@ -3,7 +3,7 @@ using CustomPlayerEffects;
 using Exiled.API.Features.Items;
 using Exiled.API.Enums;
 
-namespace NGMainPlugin.Systems.RemoteKeycard
+namespace PRMainPlugin.Systems.RemoteKeycard
 {
     public static class PlayerExtensions
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Security.Policy;
 
-namespace NGMainPlugin.API
+namespace PRMainPlugin.API
 {
     public static class DiscordWebhookAPI
     {

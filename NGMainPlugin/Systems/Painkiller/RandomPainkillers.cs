@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems
+﻿namespace PRMainPlugin.Systems
 {
     using System;
     using System.Collections.Generic;

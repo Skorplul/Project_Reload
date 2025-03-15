@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.Notifications
+﻿namespace PRMainPlugin.Systems.Notifications
 {
     internal static class Notifications
     {

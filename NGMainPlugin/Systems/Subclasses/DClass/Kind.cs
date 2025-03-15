@@ -1,5 +1,5 @@
 using Exiled.API.Features;
-namespace NGMainPlugin.Systems.Subclasses;
+namespace PRMainPlugin.Systems.Subclasses;
 
 public static class Kind
 {

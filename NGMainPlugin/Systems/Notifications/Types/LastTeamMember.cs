@@ -4,7 +4,7 @@ using Exiled.Events.EventArgs.Server;
 using MEC;
 using PlayerRoles;
 
-namespace NGMainPlugin.Systems.Notifications;
+namespace PRMainPlugin.Systems.Notifications;
 
 public static class LastTeamMember
 {

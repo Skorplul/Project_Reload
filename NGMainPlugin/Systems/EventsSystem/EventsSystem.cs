@@ -1,11 +1,11 @@
-﻿namespace NGMainPlugin.Systems.EventsSystem
+﻿namespace PRMainPlugin.Systems.EventsSystem
 {
     using Exiled.Events.EventArgs.Player;
     using Exiled.Events.EventArgs.Server;
     using Exiled.Events.EventArgs.Warhead;
     using Exiled.API.Features;
     using PlayerRoles;
-    using NGMainPlugin.API;
+    using PRMainPlugin.API;
     using MEC;
 
     public static class EventsSystemHandler

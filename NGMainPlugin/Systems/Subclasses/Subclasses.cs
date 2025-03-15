@@ -1,10 +1,10 @@
-using NGMainPlugin.API.Enums;
+using PRMainPlugin.API.Enums;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 using System;
 using System.Collections.Generic;
 
-namespace NGMainPlugin.Systems.Subclasses;
+namespace PRMainPlugin.Systems.Subclasses;
 
 public static class Subclasses
 {

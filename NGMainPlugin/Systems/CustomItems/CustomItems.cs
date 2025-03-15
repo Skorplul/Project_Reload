@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.CustomItems
+﻿namespace PRMainPlugin.Systems.CustomItems
 {
     using Exiled.API.Features.Attributes;
     using Exiled.CustomItems.API.Features;

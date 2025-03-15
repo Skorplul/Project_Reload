@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin
+﻿namespace PRMainPlugin
 {
     using Exiled.API.Interfaces;
     using Exiled.API.Features;
@@ -7,16 +7,16 @@
     using System.IO;
     using YamlDotNet.Serialization;
     using System.Collections.Generic;
-    using NGMainPlugin.Systems.RespawnTimer;
-    using NGMainPlugin.Systems.LobbySystem;
-    using NGMainPlugin.Systems.RGBNuke;
-    using NGMainPlugin.Systems.EventHandlers;
-    using NGMainPlugin.Systems.CustomItems;
-    using NGMainPlugin.Systems.SCPSwap;
+    using PRMainPlugin.Systems.RespawnTimer;
+    using PRMainPlugin.Systems.LobbySystem;
+    using PRMainPlugin.Systems.RGBNuke;
+    using PRMainPlugin.Systems.EventHandlers;
+    using PRMainPlugin.Systems.CustomItems;
+    using PRMainPlugin.Systems.SCPSwap;
     using AudioSystem.Models.SoundConfigs;
-    using NGMainPlugin.Systems.SCPHud;
-    using NGMainPlugin.Systems.Notifications;
-    using NGMainPlugin.Systems.RemoteKeycard;
+    using PRMainPlugin.Systems.SCPHud;
+    using PRMainPlugin.Systems.Notifications;
+    using PRMainPlugin.Systems.RemoteKeycard;
     using System;
     using System.Linq;
 
@@ -27,7 +27,7 @@
         public bool Debug { get; set; } = false;
 
         [YamlIgnore]
-        public string ConfigFolderPath = Path.Combine(Paths.Configs, "NGMainPlugin");
+        public string ConfigFolderPath = Path.Combine(Paths.Configs, "PRMainPlugin");
 
         [YamlIgnore]
         public ItemConfigs ItemConfigs;

@@ -2,7 +2,7 @@
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.Features;
 
-namespace NGMainPlugin.Systems.RemoteKeycard
+namespace PRMainPlugin.Systems.RemoteKeycard
 {
     public static class RemoteKeycards
     {

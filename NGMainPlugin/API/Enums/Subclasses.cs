@@ -1,4 +1,4 @@
-namespace NGMainPlugin.API.Enums;
+namespace PRMainPlugin.API.Enums;
 
 public enum SubclassType
 {

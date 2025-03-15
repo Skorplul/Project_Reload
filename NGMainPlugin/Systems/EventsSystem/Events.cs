@@ -1,7 +1,7 @@
-﻿namespace NGMainPlugin.Systems.EventsSystem
+﻿namespace PRMainPlugin.Systems.EventsSystem
 {
     using System;
-    using NGMainPlugin.API;
+    using PRMainPlugin.API;
     using Exiled.API.Features;
     using PlayerRoles;
     using Exiled.API.Extensions;

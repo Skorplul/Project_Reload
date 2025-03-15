@@ -9,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 using Player = Exiled.API.Features.Player;
 
-namespace NGMainPlugin.Systems.SCPHud
+namespace PRMainPlugin.Systems.SCPHud
 {
     public class SCPHud
     {

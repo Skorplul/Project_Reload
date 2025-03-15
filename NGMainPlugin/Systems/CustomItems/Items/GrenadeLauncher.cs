@@ -15,7 +15,7 @@ using Exiled.API.Features.Pickups.Projectiles;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
-namespace NGMainPlugin.Items
+namespace PRMainPlugin.Items
 {
     [CustomItem(ItemType.GunLogicer)]
     public class GrenadeLauncher : CustomWeapon

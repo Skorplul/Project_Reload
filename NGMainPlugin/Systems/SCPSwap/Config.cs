@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace NGMainPlugin.Systems.SCPSwap
+namespace PRMainPlugin.Systems.SCPSwap
 {
     public class Config
     {

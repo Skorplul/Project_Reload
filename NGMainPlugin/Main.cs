@@ -1,31 +1,31 @@
-﻿namespace NGMainPlugin
+﻿namespace PRMainPlugin
 {
     using System;
     using HarmonyLib;
     using Exiled.API.Features;
-    using NGMainPlugin.Systems;
-    using NGMainPlugin.Systems.LobbySystem;
-    using NGMainPlugin.Systems.RGBNuke;
-    using NGMainPlugin.Systems.RespawnTimer;
-    using NGMainPlugin.Systems.EventHandlers;
-    using NGMainPlugin.Systems.EventsSystem;
-    using NGMainPlugin.Systems.CustomItems;
-    using NGMainPlugin.Systems.Notifications;
-    using NGMainPlugin.Systems.Subclasses;
-    using NGMainPlugin.Systems.SCPHud;
-    using NGMainPlugin.Systems.RemoteKeycard;
+    using PRMainPlugin.Systems;
+    using PRMainPlugin.Systems.LobbySystem;
+    using PRMainPlugin.Systems.RGBNuke;
+    using PRMainPlugin.Systems.RespawnTimer;
+    using PRMainPlugin.Systems.EventHandlers;
+    using PRMainPlugin.Systems.EventsSystem;
+    using PRMainPlugin.Systems.CustomItems;
+    using PRMainPlugin.Systems.Notifications;
+    using PRMainPlugin.Systems.Subclasses;
+    using PRMainPlugin.Systems.SCPHud;
+    using PRMainPlugin.Systems.RemoteKeycard;
 
     public class NGMainPlguin : Plugin<Config>
     {
         public override string Author => "Skorp 1.0 and LastPenguin";
-        public override string Name => "NGMainPlugin";
+        public override string Name => "PRMainPlugin";
         public override string Prefix => "NGM";
         public override Version Version => new Version(2, 4, 0);
         public override Version RequiredExiledVersion => new Version(8, 9, 11);
 
         public static NGMainPlguin Instance { get; private set; }
 
-        private Harmony Harmony { get; } = new Harmony($"com.NGMainPlugin-{DateTime.Now.Ticks}");
+        private Harmony Harmony { get; } = new Harmony($"com.PRMainPlugin-{DateTime.Now.Ticks}");
 
         public override void OnEnabled()
         {
@@ -77,14 +77,14 @@
             Log.Info("Enabling RemoteKeycards...");
             RemoteKeycards.Enable();
 
-            Log.Info("-----[NGMainPlugin Initialized]-----");
+            Log.Info("-----[PRMainPlugin Initialized]-----");
             
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            Log.Info("-----[NGMainPlugin Disable]-----");
+            Log.Info("-----[PRMainPlugin Disable]-----");
 
             // Unpatch everything
             Log.Info("Harmony Unpatching...");
@@ -126,7 +126,7 @@
             Log.Info("Disableing RemoteKeycards...");
             RemoteKeycards.Disable();
 
-            Log.Info("-----[NGMainPlugin Disabled]-----");
+            Log.Info("-----[PRMainPlugin Disabled]-----");
             
             base.OnDisabled();
         }

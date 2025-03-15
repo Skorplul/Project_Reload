@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Exiled.API.Features;
 using UnityEngine;
 
-namespace NGMainPlugin.Systems.Subclasses;
+namespace PRMainPlugin.Systems.Subclasses;
 
 public static class Fettsack
 {

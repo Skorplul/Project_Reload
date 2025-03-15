@@ -2,7 +2,7 @@
 using Exiled.API.Features;
 using System;
 
-namespace NGMainPlugin.Systems.Notifications
+namespace PRMainPlugin.Systems.Notifications
 {
     internal static class Ban_Kick
     {

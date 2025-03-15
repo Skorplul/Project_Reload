@@ -1,11 +1,11 @@
 using YamlDotNet.Serialization;
 using PlayerRoles;
-using NGMainPlugin.API.Enums;
+using PRMainPlugin.API.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 
-namespace NGMainPlugin.Systems.SCPHud
+namespace PRMainPlugin.Systems.SCPHud
 {
     public class Config
     {

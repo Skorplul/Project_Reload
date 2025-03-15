@@ -1,4 +1,4 @@
-namespace NGMainPlugin.Items;
+namespace PRMainPlugin.Items;
 
 using System;
 using System.Collections.Generic;

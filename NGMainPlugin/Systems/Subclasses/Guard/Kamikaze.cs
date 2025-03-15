@@ -2,7 +2,7 @@ using Exiled.API.Features;
 using PlayerRoles;
 using UnityEngine;
 
-namespace NGMainPlugin.Systems.Subclasses;
+namespace PRMainPlugin.Systems.Subclasses;
 
 public static class Kamikaze
 {

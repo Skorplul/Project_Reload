@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
-namespace NGMainPlugin.Items
+namespace PRMainPlugin.Items
 {
     [CustomItem(ItemType.ParticleDisruptor)]
     public class RPG : CustomWeapon

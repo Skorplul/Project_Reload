@@ -1,10 +1,10 @@
-﻿namespace NGMainPlugin.Systems.EventsSystem.Commands
+﻿namespace PRMainPlugin.Systems.EventsSystem.Commands
 {
     using CommandSystem;
     using System;
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
-    using NGMainPlugin.API;
+    using PRMainPlugin.API;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class AutoEvent : ICommand

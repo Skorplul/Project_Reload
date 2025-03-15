@@ -1,11 +1,11 @@
 ﻿using CommandSystem;
-using NGMainPlugin.API.Enums;
-using NGMainPlugin.Systems.Subclasses;
+using PRMainPlugin.API.Enums;
+using PRMainPlugin.Systems.Subclasses;
 using System;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 
-namespace NGMainPlugin.Commands.Admin;
+namespace PRMainPlugin.Commands.Admin;
 
 [CommandHandler(typeof(RemoteAdminCommandHandler))]
 public class ForceSubClass : ICommand

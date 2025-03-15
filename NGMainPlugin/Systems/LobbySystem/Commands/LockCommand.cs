@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.LobbySystem.Commands
+﻿namespace PRMainPlugin.Systems.LobbySystem.Commands
 {
     using CommandSystem;
     using System;

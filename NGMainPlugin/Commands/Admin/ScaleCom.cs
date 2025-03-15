@@ -1,4 +1,4 @@
-namespace NGMainPlugin.Commands
+namespace PRMainPlugin.Commands
 {
     using CommandSystem;
     using System;

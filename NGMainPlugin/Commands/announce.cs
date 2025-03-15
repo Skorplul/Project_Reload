@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Commands
+﻿namespace PRMainPlugin.Commands
 {
     using CommandSystem;
     using System;
@@ -6,7 +6,7 @@
     using PlayerRoles;
     using System.Linq;
     using System.Collections.Generic;
-    using NGMainPlugin.Systems.EventHandlers;
+    using PRMainPlugin.Systems.EventHandlers;
 
     [CommandHandler(typeof(ClientCommandHandler))]
     public class Announcement : ICommand

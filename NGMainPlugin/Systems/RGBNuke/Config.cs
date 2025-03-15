@@ -2,7 +2,7 @@
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace NGMainPlugin.Systems.RGBNuke
+namespace PRMainPlugin.Systems.RGBNuke
 {
     public class Config
     {

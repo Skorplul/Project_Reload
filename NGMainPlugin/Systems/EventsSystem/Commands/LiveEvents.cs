@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.EventsSystem.Commands
+﻿namespace PRMainPlugin.Systems.EventsSystem.Commands
 {
     using CommandSystem;
     using System;
@@ -7,7 +7,7 @@
     using PlayerRoles;
     using Exiled.API.Enums;
     using LightContainmentZoneDecontamination;
-    using NGMainPlugin.API;
+    using PRMainPlugin.API;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class LiveEvents : ICommand

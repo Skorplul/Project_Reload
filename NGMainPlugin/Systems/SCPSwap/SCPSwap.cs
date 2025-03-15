@@ -4,7 +4,7 @@ using Exiled.API.Features;
 using PlayerRoles;
 using System.Collections.Generic;
 
-namespace NGMainPlugin.Systems.SCPSwap
+namespace PRMainPlugin.Systems.SCPSwap
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     public class SCPSwap : ParentCommand

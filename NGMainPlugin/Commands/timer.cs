@@ -1,4 +1,4 @@
-﻿namespace NGMainPlugin.Systems.RespawnTimer.Commands
+﻿namespace PRMainPlugin.Systems.RespawnTimer.Commands
 {
     using CommandSystem;
     using System;

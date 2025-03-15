@@ -2,7 +2,7 @@
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace NGMainPlugin.Systems.RemoteKeycard
+namespace PRMainPlugin.Systems.RemoteKeycard
 {
     public class Config
     {
