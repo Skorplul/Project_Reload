@@ -35,7 +35,7 @@
         private T GetConfig<T>(string path, T defaultConfig)
         {       
             string dir = ConfigFolderPath;
-            Log.Warn($"Checking config directory: {dir}");
+            Log.Debug($"Checking config directory: {dir}");
 
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
