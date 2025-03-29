@@ -31,6 +31,9 @@
                 response = "You don't have the permission for that!";
                 return false;
             }
+            //due to two idiots
+            response = "Piss dich entweder beta oder sirius";
+            return false;
             if (arguments.Count < 1)
             {
                 response = "Usage: AutoEvent <Event>\nFor a list of all possible events: AutoEvent list";

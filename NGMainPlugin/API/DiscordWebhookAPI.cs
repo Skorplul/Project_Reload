@@ -14,14 +14,14 @@ namespace PRMainPlugin.API
         /// Send Message to specific webhook
         /// </summary>
         /// <param name="message"></param>
-        public static void SendMs(string message)
+        public static async void SendMs(string message)
         {
-            string webhook = "https://discord.com/api/webhooks/1331689443958067332/ctdN0AQitQYJKlt4-dP7k9QHYh2CGrodgH-Uyj78h6bdwE7jHsKd-WuGA6d7VyJmhKtF";
+            string webhook = Systems.Discord.Loggs.Config.WebHookLogs;
 
             WebClient client = new WebClient();
             client.Headers.Add("Content-Type", "application/json");
             string payload = "{\"content\": \"" + message + "\"}";
-            client.UploadData(webhook, Encoding.UTF8.GetBytes(payload));
+            await Task.Run(() => client.UploadData(webhook, Encoding.UTF8.GetBytes(payload)));
         }
 
         /// <summary>

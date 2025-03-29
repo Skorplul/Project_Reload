@@ -17,6 +17,7 @@
     using PRMainPlugin.Systems.SCPHud;
     using PRMainPlugin.Systems.Notifications;
     using PRMainPlugin.Systems.RemoteKeycard;
+    using PRMainPlugin.Systems.Discord;
     using System;
     using System.Linq;
 
@@ -116,6 +117,7 @@
             Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
             SCPHud.Config = GetConfig<Systems.SCPHud.Config>(Systems.SCPHud.Config.ConfigPath, new Systems.SCPHud.Config());
             RemoteKeycards.Config = GetConfig<Systems.RemoteKeycard.Config>(Systems.RemoteKeycard.Config.ConfigPath, new Systems.RemoteKeycard.Config());
+            Loggs.Config = GetConfig<Systems.Discord.Config>(Systems.Discord.Config.ConfigPath, new Systems.Discord.Config());
         }
 
         [Description("Should SCP079 be able to use CASSI only once per round? Default: true")]

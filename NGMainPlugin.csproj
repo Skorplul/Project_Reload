@@ -111,6 +111,8 @@
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Commands\nickremove.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\Logs.cs" />
     <Compile Include="NGMainPlugin\Systems\RemoteKeycard\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RemoteKeycard\PlayerExtensions.cs" />
     <Compile Include="NGMainPlugin\Systems\RemoteKeycard\RemoteKeycards.cs" />
@@ -199,5 +201,6 @@
     <Compile Include="NGMainPlugin\Systems\SCPHud\SCPHud.cs" />
     <Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

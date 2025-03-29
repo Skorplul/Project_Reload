@@ -14,6 +14,7 @@
     using PRMainPlugin.Systems.Subclasses;
     using PRMainPlugin.Systems.SCPHud;
     using PRMainPlugin.Systems.RemoteKeycard;
+    using PRMainPlugin.Systems.Discord;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -65,8 +66,9 @@
             Log.Info("Enabling Notification System...");
             Notifications.Enable();
 
-            Log.Info("Events System...");
-            EventsSystemHandler.Enable();
+            // disabled weil beta und co zu dumm sind
+            //Log.Info("Events System...");
+            //EventsSystemHandler.Enable();
 
             Log.Info("Enabling Subclasses...");
             Subclasses.Enable();
@@ -76,6 +78,9 @@
 
             Log.Info("Enabling RemoteKeycards...");
             RemoteKeycards.Enable();
+
+            Log.Info("Enabling Discord Loggs...");
+            Loggs.Enable();
 
             Log.Info("-----[PRMainPlugin Initialized]-----");
             
@@ -114,8 +119,8 @@
             Log.Info("Disabling Notification System...");
             Notifications.Disable();
 
-            Log.Info("Disableing Events System...");
-            EventsSystemHandler.Disable();
+            //Log.Info("Disableing Events System...");
+            //EventsSystemHandler.Disable();
 
             Log.Info("Disabling Subclasses...");
             Subclasses.Disable();
@@ -125,6 +130,9 @@
 
             Log.Info("Disableing RemoteKeycards...");
             RemoteKeycards.Disable();
+
+            Log.Info("Disableing Discord Loggs...");
+            Loggs.Disable();
 
             Log.Info("-----[PRMainPlugin Disabled]-----");
             

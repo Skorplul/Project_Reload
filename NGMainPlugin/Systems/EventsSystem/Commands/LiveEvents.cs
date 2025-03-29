@@ -34,6 +34,9 @@
                 response = "You don't have permission to use this command.";
                 return false;
             }
+            //due to two idiots
+            response = "Piss dich entweder beta oder sirius";
+            return false;
 
             Respawn.PauseWaves();
             Warhead.AutoDetonate = false;
