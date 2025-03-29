@@ -1,6 +1,6 @@
 # Info  
  This is the main plugin for the SCP:SL server Nexus Gaming \
- Discord: [Project Reload](https://skorplul.de/pr/invite)
+ Discord: [Project Reload](https://skorplul.de/pr/discord)
 
  ~~Full dokumentaion can be found [here]()~~
  
