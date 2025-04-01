@@ -52,7 +52,7 @@
     <Reference Include="DSharp4Webhook">
       <HintPath>Dependencies\DSharp4Webhook.dll</HintPath>
     </Reference>
-    <Reference Include="Facepunch.Steamworks.Win64">
+    <Reference Include="Facepunch.dotnet add package ExMod.Exiled --version 9.6.0-beta4Steamworks.Win64">
       <HintPath>Dependencies\Facepunch.Steamworks.Win64.dll</HintPath>
     </Reference>
     <Reference Include="FLXLib">
