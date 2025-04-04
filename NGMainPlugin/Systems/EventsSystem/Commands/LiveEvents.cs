@@ -34,9 +34,6 @@
                 response = "You don't have permission to use this command.";
                 return false;
             }
-            //due to two idiots
-            response = "Piss dich entweder beta oder sirius";
-            return false;
 
             Respawn.PauseWaves();
             Warhead.AutoDetonate = false;
@@ -50,7 +47,7 @@
 
                 ply.Role.Set(RoleTypeId.Tutorial);
                 if (!ply.RemoteAdminAccess)
-                    ply.Mute();
+                    ply.IsMuted = true;
             }
 
             response = "The Event Mode Has Been Activated!";

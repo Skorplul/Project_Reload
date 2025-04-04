@@ -25,24 +25,19 @@
                 response = "Player Null! Contact a Developer!";
                 return false;
             }
-            if (arguments.Count == 0)
-            {
-                Map.ResetLightsColor();
-                response = "Reset all Lights.";
-                return true;
-            }
             if (player.UserId != "76561199114184249@steam")
             {
                 response = $"You dont have permission!";
                 return false;
             }
-            if (arguments.Count >= 1)
+            if (arguments.Count >= 0)
             {
-                string msg = string.Join(" ", arguments.Skip(0));
+                foreach (Player ply in Player.List)
+                {
+                    ply.UnMute();
+                }
 
-                DiscordWebhookAPI.SendMs(msg);
-
-                response = "sent!";
+                response = "done!";
                 return true;
             }
             response = "something went wrong!";
