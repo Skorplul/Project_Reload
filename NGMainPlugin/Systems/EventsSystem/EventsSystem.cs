@@ -60,7 +60,7 @@
             {
                 if (!EventsAPI.MutedBeforeEvent.Contains(ev.Player))
                 {
-                    ev.Player.UnMute();
+                    ev.Player.IsMuted = false;
                 }
             }
         }
@@ -123,7 +123,7 @@
                 {
                     if (!EventsAPI.MutedBeforeEvent.Contains(ply))
                     {
-                        ply.UnMute();
+                        ply.IsMuted = false;
                     }
                 }
             }
