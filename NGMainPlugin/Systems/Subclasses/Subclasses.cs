@@ -25,11 +25,11 @@ public static class Subclasses
     /// <summary>
     /// Guards Probs
     /// </summary>
-    private static Dictionary<SubclassType, double> GuardProbs = new Dictionary<SubclassType, double>
+    private static Dictionary<SubclassType, double> MTFProbs = new Dictionary<SubclassType, double>
     {
         { SubclassType.Blitz, 10.0 },
         { SubclassType.Kamikaze, 7.5 },
-        { SubclassType.AllSeeing, 5.0 },
+        { SubclassType.AllSeeing, 3.0 },
         { SubclassType.Sondereinheit, 5.0 },
     };
 
@@ -102,10 +102,18 @@ public static class Subclasses
         {
             case RoleTypeId.ClassD:
                 return SelectRandomAction(DProbs);
-            case RoleTypeId.FacilityGuard:
-                return SelectRandomAction(GuardProbs);
-            case RoleTypeId.ChaosRepressor | RoleTypeId.ChaosMarauder | RoleTypeId.ChaosRifleman | RoleTypeId.ChaosConscript:
+
+            case RoleTypeId.NtfCaptain:
+            case RoleTypeId.NtfSpecialist:
+            case RoleTypeId.NtfSergeant:
+                return SelectRandomAction(MTFProbs);
+
+            case RoleTypeId.ChaosRepressor:
+            case RoleTypeId.ChaosRifleman:
+            case RoleTypeId.ChaosConscript:
+            case RoleTypeId.ChaosMarauder:
                 return SelectRandomAction(CIProbs);
+
             default:
                 return SubclassType.None;
         }
