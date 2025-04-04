@@ -5,6 +5,7 @@
     using Exiled.API.Enums;
     using Exiled.API.Features;
     using Exiled.Events.EventArgs.Player;
+    using PRMainPlugin.API.Enums;
 
     internal static class RandomPainkillers
     {
@@ -21,13 +22,19 @@
 
         private static Dictionary<ItemType, double> PainItemProbabilities = new Dictionary<ItemType, double>
         {
-            { ItemType.Painkillers, 5.0 },
+            { ItemType.Painkillers, 8.0 },
             { ItemType.AntiSCP207, 2.0 },
-            { ItemType.KeycardFacilityManager, 2.0 },
-            { ItemType.KeycardScientist, 15.0 },
-            { ItemType.Medkit, 60.0 },
+            { ItemType.KeycardFacilityManager, 1.0 },
+            { ItemType.KeycardScientist, 10.0 },
+            { ItemType.Medkit, 40.0 },
             { ItemType.SCP018, 10.0 },
             { ItemType.SCP207, 5.0 },
+        };
+
+        private static Dictionary<PainkillerEffects, double> PainCsProbProbabilities = new Dictionary<PainkillerEffects, double>
+        {
+            { PainkillerEffects.KYS_Balls, 50.0 },
+            { PainkillerEffects.KYS, 50.0 },
         };
 
         private static T SelectRandomAction<T>(Dictionary<T, double> probabilities)
@@ -107,15 +114,35 @@
                     return "Error";
             }
         }
+        private static string GetCsString(PainkillerEffects SelCs, Player pl)
+        {
+            switch (SelCs)
+            {
+                case PainkillerEffects.KYS_Balls:
+                    API.CustomPainkillerEffects.DoKYS_Balls(pl);
+                    return "Tötliche Bälle";
+                case PainkillerEffects.KYS:
+                    API.CustomPainkillerEffects.DoKYS(pl);
+                    return "Nades";
+                default:
+                    return "Error";
+            }
+        }
 
         private static void OnItemUsingCompleted(UsingItemCompletedEventArgs ev)
         {
             if (ev.Item.Type == ItemType.Painkillers)
             {
-                int duration = Random.Next(3, 9);
-
-                if (Random.Next(5) == 0) // 50% chance for either effect or item
+                if(Random.Next(100) == 55)
                 {
+                    PainkillerEffects KillEff = SelectRandomAction(PainCsProbProbabilities);
+
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {GetCsString(KillEff, ev.Player)} erhalten!");
+                }
+
+                if (Random.Next(5) == 0) // 25% chance for either effect or item
+                {
+                    int duration = Random.Next(3, 9);
                     EffectType selectedEffect = SelectRandomAction(PainEffectProbabilities);
                     string effectString = GetEffString(selectedEffect);
 
@@ -125,7 +152,7 @@
                         return;
                     }
 
-                    ev.Player.ShowHint($"[Painkiller]: You received {effectString} for {duration} seconds!");
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {effectString} für {duration} Sekunden erhalten!");
                     ev.Player.EnableEffect(selectedEffect, 10, duration, false);
                 }
                 else
@@ -139,7 +166,7 @@
                         return;
                     }
 
-                    ev.Player.ShowHint($"[Painkiller]: You received {itemString}!");
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {itemString} erhalten!");
                     ev.Player.AddItem(selectedItem);
                 }
             }

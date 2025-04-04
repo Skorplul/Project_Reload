@@ -102,7 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NGMainPlugin\API\CustomPainkillerEffects.cs" />
     <Compile Include="NGMainPlugin\API\DiscordWebhookAPI.cs" />
+    <Compile Include="NGMainPlugin\API\Enums\PainkillerEffects.cs" />
     <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\ForceSubClass.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
