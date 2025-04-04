@@ -68,11 +68,14 @@ namespace PRMainPlugin.Systems.Discord
             DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
         }
 
+
+        // fucked sometimes... (NullReference exception)
         private static void OnHurt(HurtEventArgs ev)
         {
-            if (ev == null)
+            if (ev == null || ev.Player == null)
             {
                 Log.Error("OnHurt Is NULL??");
+                return;
             }
             if (Round.IsEnded || ev.DamageHandler.IsFriendlyFire || ev.Amount == 0)
                 return;
