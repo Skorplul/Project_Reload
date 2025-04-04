@@ -11,7 +11,7 @@
     <LangVersion>11.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -180,7 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ExMod.Exiled">
-      <Version>9.4.0</Version>
+      <Version>9.5.1</Version>
     </PackageReference>
     <PackageReference Include="LiteDB">
       <Version>5.0.21</Version>
