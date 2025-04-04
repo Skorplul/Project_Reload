@@ -27,7 +27,12 @@ jobs:
     - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 8.0.101
+
+    - name: Install .NET Framework 4.8 Developer Pack
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dotnet-sdk-4.8
 
     - name: Check .NET version
       run: dotnet --info
