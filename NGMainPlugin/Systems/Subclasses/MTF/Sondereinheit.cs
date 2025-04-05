@@ -18,6 +18,7 @@ public static class Sondereinheit
         ply.AddItem(ItemType.GrenadeHE, 2);
         ply.AddItem(ItemType.Medkit);
         ply.AddItem(ItemType.Radio);
+        ply.AddItem(ItemType.Painkillers);
         ply.AddAmmo(Exiled.API.Enums.AmmoType.Nato762, 200);
         ply.MaxHealth = 150;
     }
