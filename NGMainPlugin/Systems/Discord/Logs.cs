@@ -58,6 +58,7 @@ namespace PRMainPlugin.Systems.Discord
             DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.");
         }
 
+        // fucked sometimes... (NullReference exception)
         private static void OnDied(DiedEventArgs ev)
         {
             if (ev.DamageHandler.IsSuicide)
@@ -72,19 +73,27 @@ namespace PRMainPlugin.Systems.Discord
         // fucked sometimes... (NullReference exception)
         private static void OnHurt(HurtEventArgs ev)
         {
-            if (ev == null || ev.Player == null)
+            try
             {
-                Log.Error("OnHurt Is NULL??");
-                return;
+                if (ev == null || ev.Player == null)
+                {
+                    Log.Error("OnHurt Is NULL??");
+                    return;
+                }
+                if (Round.IsEnded || ev.DamageHandler.IsFriendlyFire || ev.Amount == 0)
+                    return;
+                if (ev.Player == ev.Attacker)
+                {
+                    DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.");
+                    return;
+                }
+                DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
             }
-            if (Round.IsEnded || ev.DamageHandler.IsFriendlyFire || ev.Amount == 0)
-                return;
-            if (ev.Player == ev.Attacker)
+            catch(Exception ex)
             {
-                DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.");
-                return;
+                
+                Log.Warn($"Another {ex.GetType()} in PRMainPlugin.Systems.Discord.Logs.OnHurt");
             }
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
         }
 
         private static void OnHandcuffing(HandcuffingEventArgs ev)
