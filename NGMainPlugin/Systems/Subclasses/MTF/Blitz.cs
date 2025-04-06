@@ -21,6 +21,7 @@ public static class Blitz
                 break;
             }
         }
+        ply.AddItem(ItemType.KeycardMTFPrivate);
         ply.AddItem(ItemType.SCP207);
         ply.EnableEffect(Exiled.API.Enums.EffectType.MovementBoost);
     }
