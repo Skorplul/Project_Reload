@@ -27,6 +27,10 @@
             { ItemType.KeycardFacilityManager, 1.0 },
             { ItemType.KeycardScientist, 10.0 },
             { ItemType.Medkit, 40.0 },
+            { ItemType.Adrenaline, 25.0 },
+            { ItemType.Coin, 15.0 },
+            { ItemType.Flashlight, 5.0 },
+            { ItemType.GrenadeHE, 8.0 },
             { ItemType.SCP018, 10.0 },
             { ItemType.SCP207, 5.0 },
         };
@@ -97,7 +101,7 @@
             switch (SelItem)
             {
                 case ItemType.Painkillers:
-                    return "Painkillers";
+                    return "Painkiller";
                 case ItemType.AntiSCP207:
                     return "Anti-SCP-207";
                 case ItemType.KeycardFacilityManager:
@@ -110,6 +114,14 @@
                     return "SCP-018";
                 case ItemType.SCP207:
                     return "SCP-207";
+                case ItemType.Coin:
+                    return "Münze";
+                case ItemType.Adrenaline:
+                    return "Adrenalin";
+                case ItemType.Flashlight:
+                    return "Taschenlampe";
+                case ItemType.GrenadeHE:
+                    return "Granate";
                 default:
                     return "Error";
             }
@@ -166,7 +178,7 @@
                         return;
                     }
 
-                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {itemString} erhalten!");
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast ein Item erhalten: {itemString}");
                     ev.Player.AddItem(selectedItem);
                 }
             }
