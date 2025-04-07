@@ -126,12 +126,6 @@
     <Compile Include="NGMainPlugin\Commands\timer.cs" />
     <Compile Include="NGMainPlugin\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\EventHandlers\EventHandlers.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\C4Charge.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\GrenadeLauncher.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\ImpactNade.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\RPG.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\Scp1499.cs" />
-    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\SniperRifle.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\Items\TranquilizerGun.cs" />
     <Compile Include="NGMainPlugin\Main.cs" />
     <Compile Include="NGMainPlugin\Systems\CustomItems\CustomItems.cs" />
@@ -204,6 +198,8 @@
     <Compile Include="NGMainPlugin\Systems\SCPHud\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPHud\SCPHud.cs" />
     <Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="NGMainPlugin\Systems\Subclasses\Zombi\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

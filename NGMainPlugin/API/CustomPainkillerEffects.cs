@@ -10,7 +10,8 @@ namespace PRMainPlugin.API
     {
         public static void DoKYS(Player ply)
         {
-            ply.Explode();
+            ply.DisableAllEffects();
+            ply.Explode(ProjectileType.FragGrenade, ply);
         }
 
         public static void DoKYS_Balls(Player ply)

@@ -45,8 +45,8 @@
             // Enable all the custom systems
             Log.Info("-----[Systems]-----");
 
-            //Log.Info("Enabling Custom Items..");
-            //CustomItems.Enable();
+            Log.Info("Enabling Custom Items..");
+            CustomItems.Enable();
 
             Log.Info("Enabling Event Handlers...");
             EventHandlers.Enable();
@@ -66,9 +66,8 @@
             Log.Info("Enabling Notification System...");
             Notifications.Enable();
 
-            // disabled weil beta und co zu dumm sind
-            //Log.Info("Events System...");
-            //EventsSystemHandler.Enable();
+            Log.Info("Events System...");
+            EventsSystemHandler.Enable();
 
             Log.Info("Enabling Subclasses...");
             Subclasses.Enable();
@@ -98,8 +97,8 @@
             // Disable all the custom systems
             Log.Info("-----[Systems]-----");
 
-            //Log.Info("Disabling Custom Items..");
-            //CustomItems.Disable();
+            Log.Info("Disabling Custom Items..");
+            CustomItems.Disable();
 
             Log.Info("Disabling Event Handlers...");
             EventHandlers.Disable();
@@ -119,8 +118,8 @@
             Log.Info("Disabling Notification System...");
             Notifications.Disable();
 
-            //Log.Info("Disableing Events System...");
-            //EventsSystemHandler.Disable();
+            Log.Info("Disableing Events System...");
+            EventsSystemHandler.Disable();
 
             Log.Info("Disabling Subclasses...");
             Subclasses.Disable();
