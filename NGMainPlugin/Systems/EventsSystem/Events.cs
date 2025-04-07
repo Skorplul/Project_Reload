@@ -9,6 +9,7 @@
     using MEC;
     using Exiled.API.Enums;
     using Exiled.API.Features.Doors;
+    using Vector3 = UnityEngine.Vector3;
 
     /// <summary>
     /// The functions execute Eventrounds on the Server. Ask Skorp for defenitions.
@@ -17,8 +18,6 @@
     {
         static Random random= new Random();
         public static List<Player> TempList = new List<Player>();
-        private static Room NutSpawn;
-        private static UnityEngine.Vector3 NutSpwanVector = new UnityEngine.Vector3(0,-10,0);
 
         private static IEnumerator<float> DoVirus()
         {
@@ -35,21 +34,13 @@
         private static IEnumerator<float> DoPeanutRun()
         {
             yield return Timing.WaitUntilTrue(() => Round.IsStarted);
-            
-            foreach (Room room in Room.List)
-            {
-                if (room.Type == RoomType.Lcz173)
-                {
-                    NutSpawn = room;
-                }
-            }
 
             Door.LockAll(Config.PeanutRunTimeToNuke, DoorLockType.AdminCommand);
 
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Scp173);
-                ply.Teleport(NutSpawn, NutSpwanVector);
+                ply.Teleport(RoomType.Lcz173, Vector3.up*10);
             }
             
             //yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);

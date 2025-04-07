@@ -129,10 +129,13 @@
             }
         }
 
+        // temporary logs for testing
         private static void OnDied(DiedEventArgs ev)
         {
+            Log.Info("Player Dead");
             if (EventsAPI.EventRound && eventRoundType == EventsType.Virus)
             {
+                Log.Info($"EvRound & Virus.. respawning as zombi");
                 ev.Player.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
             }
         }
