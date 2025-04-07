@@ -7,6 +7,9 @@
     using Exiled.Events.EventArgs.Server;
     using Exiled.Events.EventArgs.Scp330;
     using System;
+    using Exiled.Events.EventArgs.Scp914;
+    using Exiled.API.Enums;
+    using Scp914;
 
     public static class EventHandlers
     {
@@ -15,8 +18,6 @@
         public static int PcCurentLvl;
 
         private static bool friendlyFireDisable = false;
-
-        private static bool Banned = false;
 
         private static Random random = new Random();
 
@@ -29,6 +30,7 @@
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
             Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
             Exiled.Events.Handlers.Player.UsingRadioBattery += OnUsingRadioBattery;
+            Exiled.Events.Handlers.Scp914.UpgradingPlayer += OnUpgradingPlayer;
         }
 
         public static void Disable()
@@ -40,6 +42,17 @@
             Exiled.Events.Handlers.Server.WaitingForPlayers -= OnWaitingForPlayers;
             Exiled.Events.Handlers.Scp330.InteractingScp330 -= OnInteractingScp330;
             Exiled.Events.Handlers.Player.UsingRadioBattery -= OnUsingRadioBattery;
+            Exiled.Events.Handlers.Scp914.UpgradingPlayer -= OnUpgradingPlayer;
+        }
+
+        private static void OnUpgradingPlayer(UpgradingPlayerEventArgs ev)
+        {
+            // 25% chance to be teleported as an scp
+            int tp = random.Next(4);
+            if (ev.Player.IsScp && ev.KnobSetting == Scp914KnobSetting.Rough && tp == 2) 
+            {
+                ev.Player.Teleport(RoomType.LczClassDSpawn);
+            }
         }
 
         private static void OnUsingRadioBattery(UsingRadioBatteryEventArgs ev)
