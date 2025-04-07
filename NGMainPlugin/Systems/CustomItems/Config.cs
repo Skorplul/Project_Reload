@@ -14,12 +14,6 @@
 
         private static List<Type> ItemList = new()
         {
-            typeof(C4Charge),
-            typeof(GrenadeLauncher),
-            typeof(ImpactNade),
-            typeof(RPG),
-            typeof(Scp1499),
-            typeof(SniperRifle),
             typeof(TranquilizerGun),
         };
 
