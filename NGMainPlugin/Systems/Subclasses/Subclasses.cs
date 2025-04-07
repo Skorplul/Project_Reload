@@ -41,6 +41,14 @@ public static class Subclasses
         { SubclassType.Spy, 5.0 },
     };
 
+    /// <summary>
+    /// Zombie Probs
+    /// </summary>
+    private static Dictionary<SubclassType, double> ZombieProbs = new Dictionary<SubclassType, double>
+    {
+        {SubclassType.Aggressive, 9},
+    };
+
     public static void Enable()
     {
         Exiled.Events.Handlers.Player.Spawned += DoSubclass;

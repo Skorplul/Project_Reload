@@ -204,7 +204,7 @@
     <Compile Include="NGMainPlugin\Systems\SCPHud\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPHud\SCPHud.cs" />
     <Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
+    <Folder Include="NGMainPlugin\Systems\Subclasses\Zombi\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

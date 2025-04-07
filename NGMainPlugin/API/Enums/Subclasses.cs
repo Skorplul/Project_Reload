@@ -1,6 +1,6 @@
 namespace PRMainPlugin.API.Enums;
 
-public enum SubclassType
+public enum SubclassType : sbyte
 {
     None,
     
@@ -18,4 +18,17 @@ public enum SubclassType
 
     // Chaos
     Spy,
+
+    // Zombies
+    Berserker,
+    Healer,
+    Runner,
+    Sleepy,
+    Aggressive,
+    Infected,
+    Supporter,
+    Shadowscreamer,
+    Catch,
+    Necrotic,
+    Typ0
 }

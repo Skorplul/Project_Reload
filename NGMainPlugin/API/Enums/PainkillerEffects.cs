@@ -1,6 +1,6 @@
 ﻿namespace PRMainPlugin.API.Enums;
 
-public enum PainkillerEffects
+public enum PainkillerEffects : sbyte
 {
     None,
 
