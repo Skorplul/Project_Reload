@@ -3,6 +3,7 @@ using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 using System;
 using System.Collections.Generic;
+using PRMainPlugin.API;
 
 namespace PRMainPlugin.Systems.Subclasses;
 
@@ -68,40 +69,7 @@ public static class Subclasses
         if (Random.Next(0, 10) !>= 9)
             return;
 
-        SubclassType SubClass = GetSubclass(ev.Player.Role);
-
-        switch (SubClass)
-        {
-            case SubclassType.Fettsack:
-                Fettsack.SetRole(ev.Player);
-                break;
-            case SubclassType.BugBunny:
-                BugBunny.SetRole(ev.Player);
-                break;
-            case SubclassType.Drogendealer:
-                Drogendealer.SetRole(ev.Player);
-                break;
-            case SubclassType.Kind:
-                Kind.SetRole(ev.Player);
-                break;
-            case SubclassType.Blitz:
-                Blitz.SetRole(ev.Player);
-                break;
-            case SubclassType.Kamikaze:
-                Kamikaze.SetRole(ev.Player);
-                break;
-            case SubclassType.AllSeeing:
-                Allseeing.SetRole(ev.Player);
-                break;
-            case SubclassType.Sondereinheit:
-                Sondereinheit.SetRole(ev.Player); // ToDo: erst nach der dritten Welle Spawnbar.
-                break;
-            case SubclassType.Spy:
-                //Spy.SetRole(); (Skin swap needed for this)
-                break;
-            default:
-                break;
-        }
+        ev.Player.SetSubclass(GetSubclass(ev.Player.Role));
     }
 
     private static SubclassType GetSubclass(RoleTypeId RoleID)

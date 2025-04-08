@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NGMainPlugin\Systems\Subclasses\Zombi\" />
+    <Compile Include="NGMainPlugin\API\CustomPlayerData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

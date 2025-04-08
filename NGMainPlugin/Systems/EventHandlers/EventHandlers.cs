@@ -10,6 +10,7 @@
     using Exiled.Events.EventArgs.Scp914;
     using Exiled.API.Enums;
     using Scp914;
+    using PRMainPlugin.API;
 
     public static class EventHandlers
     {
@@ -31,6 +32,7 @@
             Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
             Exiled.Events.Handlers.Player.UsingRadioBattery += OnUsingRadioBattery;
             Exiled.Events.Handlers.Scp914.UpgradingPlayer += OnUpgradingPlayer;
+            Exiled.Events.Handlers.Player.Left += OnLeft;
         }
 
         public static void Disable()
@@ -43,6 +45,12 @@
             Exiled.Events.Handlers.Scp330.InteractingScp330 -= OnInteractingScp330;
             Exiled.Events.Handlers.Player.UsingRadioBattery -= OnUsingRadioBattery;
             Exiled.Events.Handlers.Scp914.UpgradingPlayer -= OnUpgradingPlayer;
+            Exiled.Events.Handlers.Player.Left -= OnLeft;
+        }
+
+        private static void OnLeft(LeftEventArgs ev)
+        {
+            ev.Player.RemoveData();
         }
 
         private static void OnUpgradingPlayer(UpgradingPlayerEventArgs ev)
