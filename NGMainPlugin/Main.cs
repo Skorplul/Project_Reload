@@ -21,7 +21,7 @@
         public override string Author => "Skorp 1.0";
         public override string Name => "PRMainPlugin";
         public override string Prefix => "NGM";
-        public override Version Version => new Version(2, 7, 0, 0);
+        public override Version Version => new Version(3, 0, 0, 1);
         public override Version RequiredExiledVersion => new Version(9, 5, 1);
 
         public static NGMainPlguin Instance { get; private set; }
