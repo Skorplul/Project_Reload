@@ -4,7 +4,7 @@ using Exiled.API.Features;
 
 namespace PRMainPlugin.API
 {
-    internal static class EventsAPI
+    public static class EventsAPI
     {
         /// <summary>
         /// Gets or sets if the current round is an event round.
@@ -20,7 +20,7 @@ namespace PRMainPlugin.API
     /// <summary>
     /// Defines the eventtype
     /// </summary>
-    public enum EventsType
+    public enum EventsType : sbyte
     {
         None,
         Virus,
