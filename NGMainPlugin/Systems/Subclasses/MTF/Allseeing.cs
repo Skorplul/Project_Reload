@@ -1,6 +1,7 @@
 using PlayerRoles;
 using Exiled.API.Features;
 using UnityEngine;
+using Exiled.API.Features.Items;
 
 namespace PRMainPlugin.Systems.Subclasses;
 
@@ -11,6 +12,15 @@ public static class Allseeing
         ply.ClearInventory();
         ply.Scale = new Vector3(1f, 1f, 1f);
         ply.GrantLoadout(RoleTypeId.NtfPrivate);
+        foreach (Item item in ply.Items)
+        {
+            if (item.Type == ItemType.KeycardMTFPrivate)
+            {
+                ply.RemoveItem(item);
+                ply.AddItem(ItemType.KeycardMTFOperative);
+                break;
+            }
+        }
         ply.EnableEffect(Exiled.API.Enums.EffectType.Scp1344);
     }
 }
