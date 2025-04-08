@@ -199,8 +199,11 @@
     <Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NGMainPlugin\Systems\Subclasses\Zombi\" />
     <Compile Include="NGMainPlugin\API\CustomPlayerData.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Database.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Translation.cs" />
+    <Compile Include="NGMainPlugin\Commands\playtime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
