@@ -23,30 +23,27 @@ namespace NGMainPlugin.Systems.Database
                     " (You can also skip this message by using .DTT force, if you feel like it ever again.)</color>";
 
         [Description(".pt client command description")]
-        public string DBPTDescriptionClient { get; set; } = "See your playtime.";
+        public string DBPTDescriptionClient { get; set; } = "";
 
         [Description(".pt remote admin command description")]
-        public string DBPTDescriptionServer { get; set; } = "See other players' playtime.\n" +
-            "No arguments = playtime of every player on the server.\n" +
-            "<int> Id of a player on the server = playtime of a certain player currently on the server.\n" +
-            "<string> ID or SteamID of a player = playtime of a certain player.";
+        public string DBPTDescriptionServer { get; set; } = "";
 
         [Description("Client .pt command, data is not stored error")]
-        public string DBDataNotStored { get; set; } = "<color=red>You have not agreed to the data collection, your playtime is not stored.</color>";
+        public string DBDataNotStored { get; set; } = "";
 
         [Description("Client .pt command, playtime")]
-        public string DBClientPlaytime { get; set; } = "<color=green>Your playtime: </color> {0}";
+        public string DBClientPlaytime { get; set; } = "";
 
         [Description("Server .pt command, players on server playtime")]
-        public string DBServerEveryonePlaytime { get; set; } = "<color=green>Playtime of players on server: </color>\n";
+        public string DBServerEveryonePlaytime { get; set; } = "";
 
         [Description("Server .pt command, playtime of one player")]
-        public string DBServerPlayerPlaytime { get; set; } = "<color=green>Playtime of {0}:</color> {1}";
+        public string DBServerPlayerPlaytime { get; set; } = "";
 
         [Description("Server .pt command, wrong ID error")]
-        public string DBServerWrongID { get; set; } = "<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
+        public string DBServerWrongID { get; set; } = "";
 
         [Description("Server .pt command, data of player is not stored error")]
-        public string DBServerDataNotStored { get; set; } = "<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
+        public string DBServerDataNotStored { get; set; } = "";
     }
 }

@@ -13,7 +13,7 @@ namespace NGMainPlugin.Systems.Database.Commands
 
         public string[] Aliases { get; } = new string[] { "pt" };
 
-        public string Description { get; } = Config.Translations.DBPTDescriptionClient;
+        public string Description { get; } = "See your playtime.";
 
         public bool SanitizeResponse => true;
 
@@ -23,11 +23,11 @@ namespace NGMainPlugin.Systems.Database.Commands
 
             if (data != null)
             {
-                response = String.Format(Config.Translations.DBClientPlaytime, $"{TimeSpan.FromSeconds(data.Playtime):hh\\:mm\\:ss}");
+                response = String.Format("<color=green>Your playtime: </color> {0}", $"{TimeSpan.FromSeconds(data.Playtime):hh\\:mm\\:ss}");
                 return true;
             }
 
-            response = Config.Translations.DBDataNotStored;
+            response = "<color=red>You have not agreed to the data collection, your playtime is not stored.</color>";
             return false;
         }
     }
@@ -39,7 +39,7 @@ namespace NGMainPlugin.Systems.Database.Commands
 
         public string[] Aliases { get; } = new string[] { };
 
-        public string Description { get; } = Config.Translations.DBPTDescriptionServer;
+        public string Description { get; } = $"See other players' playtime.\\n\" +\r\n            \"No arguments = playtime of every player on the server.\\n\" +\r\n            \"<int> Id of a player on the server = playtime of a certain player currently on the server.\\n\" +\r\n            \"<string> ID or SteamID of a player = playtime of a certain player.";
 
         public bool SanitizeResponse => true;
 
@@ -53,7 +53,7 @@ namespace NGMainPlugin.Systems.Database.Commands
 
             if (arguments.Count == 0)
             {
-                response = Config.Translations.DBServerEveryonePlaytime;
+                response = $"<color=green>Playtime of players on server: </color>\n";
                 foreach (Player p in Player.List)
                 {
                     PlayerData info = Database.GetPlayerInfo(p.UserId);
@@ -82,11 +82,11 @@ namespace NGMainPlugin.Systems.Database.Commands
 
                     if (info == null)
                     {
-                        response = Config.Translations.DBServerWrongID;
+                        response = $"<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
                         return false;
                     }
 
-                    response = String.Format(Config.Translations.DBServerPlayerPlaytime, arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
+                    response = String.Format($"<color=green>Playtime of {0}:</color> {1}", arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                     return true;
 
                 }
@@ -94,11 +94,11 @@ namespace NGMainPlugin.Systems.Database.Commands
                 info = p.GetPlayerData();
                 if (info == null)
                 {
-                    response = Config.Translations.DBServerDataNotStored;
+                    response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
                     return false;
                 }
 
-                response = String.Format(Config.Translations.DBServerPlayerPlaytime, p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
+                response = String.Format($"<color=green>Playtime of {0}:</color> {1}", p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                 return true;
             }
 
