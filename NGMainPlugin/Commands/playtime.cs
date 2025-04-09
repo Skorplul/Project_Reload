@@ -1,4 +1,4 @@
-namespace NGMainPlugin.Systems.Database.Commands
+namespace PRMainPlugin.Systems.Database.Commands
 {
     using CommandSystem;
     using System;
