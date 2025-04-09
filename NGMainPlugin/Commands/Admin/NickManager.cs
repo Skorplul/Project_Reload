@@ -47,13 +47,13 @@
             }
             if (arguments.Array[2] == "true")
             {
-                Database.UpdateAllowNickChange(player, true);
+                Database.UpdateAllowNickChange(target, true);
                 response = "Done!";
                 return true;
             }
             else if (arguments.Array[2] == "false")
             {
-                Database.UpdateAllowNickChange(player, false);
+                Database.UpdateAllowNickChange(target, false);
                 response = "Done!";
                 return true;
             }
