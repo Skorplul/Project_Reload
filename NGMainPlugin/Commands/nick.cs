@@ -4,6 +4,7 @@
     using System;
     using Exiled.API.Features;
     using System.Linq;
+    using PRMainPlugin.Systems.Database;
 
     [CommandHandler(typeof(ClientCommandHandler))]
     public class Nick : ICommand
@@ -28,6 +29,11 @@
             if (player == null)
             {
                 response = "Player is null, contact an admin/developer!";
+                return false;
+            }
+            if (!player.GetPlayerData().NicknameChangable)
+            {
+                response = "Du darfst deinen Name nicht ändern. Solltest du nicht wissen warum, frag bitte ein Teammitglied.";
                 return false;
             }
 

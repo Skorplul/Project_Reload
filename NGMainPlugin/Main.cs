@@ -15,6 +15,7 @@
     using PRMainPlugin.Systems.SCPHud;
     using PRMainPlugin.Systems.RemoteKeycard;
     using PRMainPlugin.Systems.Discord;
+    using PRMainPlugin.Systems.Database;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -44,6 +45,9 @@
 
             // Enable all the custom systems
             Log.Info("-----[Systems]-----");
+
+            Log.Info("Initilising Database...");
+            Database.InitDB();
 
             Log.Info("Enabling Custom Items..");
             CustomItems.Enable();
@@ -96,6 +100,9 @@
 
             // Disable all the custom systems
             Log.Info("-----[Systems]-----");
+
+            Log.Info("Closing Database...");
+            Database.CloseBD();
 
             Log.Info("Disabling Custom Items..");
             CustomItems.Disable();

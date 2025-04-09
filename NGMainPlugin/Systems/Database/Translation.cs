@@ -1,4 +1,4 @@
-namespace NGMainPlugin.Systems.Database
+namespace PRMainPlugin.Systems.Database
 {
     using Exiled.API.Interfaces;
     using System.ComponentModel;

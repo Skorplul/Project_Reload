@@ -5,6 +5,8 @@
     using Exiled.API.Features;
     using System.Linq;
     using Exiled.Permissions.Extensions;
+    using PRMainPlugin.Systems.Database;
+    using UnityEngine.PlayerLoop;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class NickManager : ICommand
@@ -23,7 +25,7 @@
 
             if (arguments.Count() < 2)
             {
-                response = "{nickm <PlayerID> <NewNick>} to change the nickname from a user\nor {nickm <PlayerID> remove} to remove the nickname from a user\nor {nickm <PlayerID> remove <reson>} to remove the nickname and tell them the reason";
+                response = "{nickm <PlayerID> <NewNick>} to change the nickname from a user\nor {nickm <PlayerID> remove} to remove the nickname from a user\nor {nickm <PlayerID> remove <reson>} to remove the nickname and tell them the reason\n{<PlayerID> <true/false> to prohibid nickname changes}";
                 return false;
             }
             if (player == null)
@@ -43,6 +45,19 @@
                 response = $"This player does not exist!";
                 return false;
             }
+            if (arguments.Array[2] == "true")
+            {
+                Database.UpdateAllowNickChange(player, true);
+                response = "Done!";
+                return true;
+            }
+            else if (arguments.Array[2] == "false")
+            {
+                Database.UpdateAllowNickChange(player, false);
+                response = "Done!";
+                return true;
+            }
+
             string OldName = target.DisplayNickname;
 
             if (arguments.Array[2] == "remove")

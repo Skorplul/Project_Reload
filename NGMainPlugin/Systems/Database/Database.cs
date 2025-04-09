@@ -1,9 +1,10 @@
-namespace NGMainPlugin.Systems.Database
+namespace PRMainPlugin.Systems.Database
 {
     using Exiled.API.Features;
     using Exiled.Events.EventArgs.Player;
     using Exiled.Events.EventArgs.Server;
     using LiteDB;
+    using PRMainPlugin.API;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -34,6 +35,9 @@ namespace NGMainPlugin.Systems.Database
         public bool NicknameChangable { get; set; } = true;
         public int Playtime { get; set; }
         public int XP { get; set; }
+        public int ShopPoints { get; set; } // temporary name
+        public int Kills { get; set; }
+        public int Deaths { get; set; }
 
         public void Update()
         {
@@ -55,6 +59,8 @@ namespace NGMainPlugin.Systems.Database
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+
+            XP.Enable();
         }
 
         internal static void CloseBD()
@@ -65,6 +71,12 @@ namespace NGMainPlugin.Systems.Database
             }
 
             DB = null;
+
+            Exiled.Events.Handlers.Player.Verified -= OnVerified;
+            Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;
+            Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
+
+            XP.Disable();
         }
 
         internal static PlayerData GetPlayerInfo(string uid)
@@ -95,6 +107,71 @@ namespace NGMainPlugin.Systems.Database
             DB.GetCollection<PlayerData>("Players").Insert(data);
 
             return data;
+        }
+
+        /// <summary>
+        /// Add or remove {amount} ShopPoints from a {player}
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="amount"></param>
+        /// <returns>Updated ShopPoint amount as int</returns>
+        public static int UpdateShopPoints(Player player, int amount)
+        {
+            var data = player.GetPlayerData();
+
+            data.Id = player.UserId; // Just in case
+            data.Nickname = data.Nickname;
+            data.Rank = player.RankName;
+
+            data.ShopPoints = data.ShopPoints + amount;
+
+            UpdateData(data);
+
+            if (amount > 0)
+               player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {amount} ShopPoints erhalten.");
+
+            return data.ShopPoints;
+        }
+
+        /// <summary>
+        /// Add or remove {amount} XP from a {player}
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="amount"></param>
+        public static void UpdateXP(Player player, int amount)
+        {
+            var data = player.GetPlayerData();
+
+            data.Id = player.UserId; // Just in case
+            data.Nickname = data.Nickname;
+            data.Rank = player.RankName;
+
+            data.ShopPoints = data.ShopPoints + amount;
+            if (amount > 0)
+               player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {amount} XP erhalten.");
+
+            UpdateData(data);
+        }
+
+        /// <summary>
+        /// Updates if a player can change thier nick
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="state"></param>
+        /// <returns>The updated state as bool</returns>
+        public static bool UpdateAllowNickChange(Player player, bool state)
+        {
+            var data = player.GetPlayerData();
+
+            data.Id = player.UserId; // Just in case
+            data.Nickname = data.Nickname;
+            data.Rank = player.RankName;
+
+            data.NicknameChangable = state;
+
+            UpdateData(data);
+
+            return state;
         }
 
         internal static void UpdateData(Player player)
