@@ -4,7 +4,7 @@ namespace NGMainPlugin.Systems.Database.Commands
     using System;
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
-    using NGMainPlugin.Systems.Database;
+    using PRMainPlugin.Systems.Database;
 
     [CommandHandler(typeof(ClientCommandHandler))]
     public class DataInfoClient : ICommand

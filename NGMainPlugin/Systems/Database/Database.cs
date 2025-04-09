@@ -35,7 +35,8 @@ namespace PRMainPlugin.Systems.Database
         public bool NicknameChangable { get; set; } = true;
         public int Playtime { get; set; }
         public int XP { get; set; }
-        public int ShopPoints { get; set; } // temporary name
+        public int Level { get; set; }
+        public int Recons { get; set; }
         public int Kills { get; set; }
         public int Deaths { get; set; }
 
@@ -110,47 +111,31 @@ namespace PRMainPlugin.Systems.Database
         }
 
         /// <summary>
-        /// Add or remove {amount} ShopPoints from a {player}
+        /// Add or remove an amount of Recons or XP from a Player
         /// </summary>
         /// <param name="player"></param>
-        /// <param name="amount"></param>
-        /// <returns>Updated ShopPoint amount as int</returns>
-        public static int UpdateShopPoints(Player player, int amount)
+        /// <param name="recons"></param>
+        /// <param name="xp"></param>
+        /// <returns>A bool, that indecates the success of the opperation</returns>
+        public static bool UpdateReconsAndXP(Player player, int recons = 0, int xp = 0)
         {
             var data = player.GetPlayerData();
 
-            data.Id = player.UserId; // Just in case
-            data.Nickname = data.Nickname;
-            data.Rank = player.RankName;
+            if (recons != 0)
+                data.Recons = data.Recons + recons;
+            if (xp != 0)
+                data.XP = xp;
 
-            data.ShopPoints = data.ShopPoints + amount;
+            data.Update();
 
-            UpdateData(data);
+            if (recons > 0 || xp > 0 && xp == 0)
+               player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons erhalten.");
+            else if (recons == 0)
+                player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {xp} XP erhalten.");
+            else
+                player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons und {xp} XP erhalten.");
 
-            if (amount > 0)
-               player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {amount} ShopPoints erhalten.");
-
-            return data.ShopPoints;
-        }
-
-        /// <summary>
-        /// Add or remove {amount} XP from a {player}
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="amount"></param>
-        public static void UpdateXP(Player player, int amount)
-        {
-            var data = player.GetPlayerData();
-
-            data.Id = player.UserId; // Just in case
-            data.Nickname = data.Nickname;
-            data.Rank = player.RankName;
-
-            data.ShopPoints = data.ShopPoints + amount;
-            if (amount > 0)
-               player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {amount} XP erhalten.");
-
-            UpdateData(data);
+            return true;
         }
 
         /// <summary>
@@ -162,16 +147,35 @@ namespace PRMainPlugin.Systems.Database
         public static bool UpdateAllowNickChange(Player player, bool state)
         {
             var data = player.GetPlayerData();
-
-            data.Id = player.UserId; // Just in case
-            data.Nickname = data.Nickname;
-            data.Rank = player.RankName;
-
             data.NicknameChangable = state;
 
-            UpdateData(data);
+            data.Update();
 
             return state;
+        }
+
+        /// <summary>
+        /// Adds a Kill to the Database entry for this player
+        /// </summary>
+        /// <param name="player"></param>
+        public static void AddKill(Player player)
+        {
+            var data = player.GetPlayerData();
+            data.Kills++;
+
+            data.Update();
+        }
+
+        /// <summary>
+        /// Adds a Death to the Database entry for this player
+        /// </summary>
+        /// <param name="player"></param>
+        public static void AddDeath(Player player)
+        {
+            var data = player.GetPlayerData();
+            data.Deaths++;
+
+            data.Update();
         }
 
         internal static void UpdateData(Player player)
@@ -194,19 +198,6 @@ namespace PRMainPlugin.Systems.Database
 
             DB.GetCollection<PlayerData>("Players").Update(data);
         }
-
-        /*internal static string DebugInfo()
-        {
-            string text = "";
-
-            foreach (var i in DB.GetCollection<PlayerInfo>("Players").FindAll())
-            {
-                text += $"[{i.Track}] {i.Nickname} - {i.Id} - {TimeSpan.FromSeconds(i.Playtime):hh\\:mm\\:ss}\n";
-            }
-
-            return text;
-        }*/
-
 
         // Events
         internal static void OnVerified(VerifiedEventArgs ev)
