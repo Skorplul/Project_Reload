@@ -61,12 +61,21 @@ namespace PRMainPlugin.Systems.Discord
         // fucked sometimes... (NullReference exception)
         private static void OnDied(DiedEventArgs ev)
         {
-            if (ev.DamageHandler.IsSuicide)
+            try
             {
-                DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.");
-                return;
+                if (ev.Attacker == null)
+                    return;
+                if (ev.DamageHandler.IsSuicide)
+                {
+                    DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.");
+                    return;
+                }
+                DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
             }
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
+            catch (Exception ex)
+            {
+                Log.Warn($"Another {ex.GetType()} in PRMainPlugin.Systems.Discord.Logs.OnDied");
+            }
         }
 
 
@@ -75,9 +84,8 @@ namespace PRMainPlugin.Systems.Discord
         {
             try
             {
-                if (ev == null || ev.Player == null)
+                if (ev == null || ev.Player == null || ev.Attacker == null)
                 {
-                    Log.Error("OnHurt Is NULL??");
                     return;
                 }
                 if (Round.IsEnded || ev.DamageHandler.IsFriendlyFire || ev.Amount == 0)
@@ -89,9 +97,8 @@ namespace PRMainPlugin.Systems.Discord
                 }
                 DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                
                 Log.Warn($"Another {ex.GetType()} in PRMainPlugin.Systems.Discord.Logs.OnHurt");
             }
         }

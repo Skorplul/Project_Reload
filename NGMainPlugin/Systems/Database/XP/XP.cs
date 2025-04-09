@@ -88,8 +88,18 @@ public class XP
 
     private static void OnDied(DiedEventArgs ev)
     {
-        Database.AddDeath(ev.Player);
-        Database.AddKill(ev.Attacker);
-        Database.UpdateReconsAndXP(ev.Player, 60, 50);
+        try
+        {
+            Database.AddDeath(ev.Player);
+            if (ev.Attacker != null)
+            {
+                Database.AddKill(ev.Attacker);
+                Database.UpdateReconsAndXP(ev.Attacker, 60, 50);
+            }
+        }
+        catch
+        {
+            Log.Info("Died is null again D:");
+        }
     }
 }
