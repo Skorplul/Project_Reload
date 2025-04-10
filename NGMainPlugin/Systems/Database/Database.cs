@@ -119,7 +119,7 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="recons"></param>
         /// <param name="xp"></param>
         /// <returns>A bool, that indecates the success of the opperation</returns>
-        public static bool UpdateReconsAndXP(Player player, int recons = 0, int xp = 0)
+        public static bool UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
         {
             var data = player.GetPlayerData();
 
@@ -132,11 +132,11 @@ namespace PRMainPlugin.Systems.Database
 
             Levels.CheckLevel(data); 
 
-            if (recons > 0 && xp == 0)
+            if (recons > 0 && xp == 0 && ShowHint)
                player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons erhalten.");
-            else if (xp > 0 && recons == 0)
+            else if (xp > 0 && recons == 0 && ShowHint)
                 player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {xp} XP erhalten.");
-            else
+            else if (ShowHint)
                 player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons und {xp} XP erhalten.");
 
             return true;

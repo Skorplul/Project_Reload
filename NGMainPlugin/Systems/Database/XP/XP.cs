@@ -30,10 +30,6 @@ public class XP
                 Database.UpdateReconsAndXP(ev.Player, 10, 10);
                 break;
 
-            case ItemType.Painkillers:
-                Database.UpdateReconsAndXP(ev.Player, 10, 10);
-                break;
-
             case ItemType.SCP207:
                 Database.UpdateReconsAndXP(ev.Player, 10, 15);
                 break;

@@ -148,8 +148,8 @@
                 if(Random.Next(100) == 55)
                 {
                     PainkillerEffects KillEff = SelectRandomAction(PainCsProbProbabilities);
-
-                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {GetCsString(KillEff, ev.Player)} erhalten!");
+                    Database.Database.UpdateReconsAndXP(ev.Player, 10, 10, false);
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {GetCsString(KillEff, ev.Player)}, 10 XP und 10 Recons erhalten!");
                 }
 
                 if (Random.Next(5) == 0) // 25% chance for either effect or item
@@ -164,7 +164,8 @@
                         return;
                     }
 
-                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {effectString} für {duration} Sekunden erhalten!");
+                    Database.Database.UpdateReconsAndXP(ev.Player, 10, 10, false);
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {effectString} für {duration} Sekunden, 10 XP und 10 Recons erhalten!");
                     ev.Player.EnableEffect(selectedEffect, 10, duration, false);
                 }
                 else
@@ -178,7 +179,8 @@
                         return;
                     }
 
-                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast ein Item erhalten: {itemString}");
+                    Database.Database.UpdateReconsAndXP(ev.Player, 10, 10, false);
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast ein Item, 10 XP und 10 Recons erhalten: {itemString}");
                     ev.Player.AddItem(selectedItem);
                 }
             }
