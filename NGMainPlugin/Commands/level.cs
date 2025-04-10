@@ -20,10 +20,11 @@
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             var data = Player.Get(sender).GetPlayerData();
+            Player player = Player.Get(sender);
 
             if (data != null)
             {
-                response = $"Deine Stats: \nLevel: {data.Level}\nXp: {data.XP}\nRang: {data.Rank}\nRecons: {data.Recons}";
+                response = $"<color=white>Deine Stats: \nLevel: {data.Level}\nXp: {data.XP} / {data.RequiredXP}\nRang: <color={player.RankColor}>{player.RankName}\nRecons: {data.Recons}";
                 return true;
             }
 
