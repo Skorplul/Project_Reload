@@ -39,6 +39,7 @@
 
             string NewName = string.Join("_", arguments.Skip(0));
             player.DisplayNickname = NewName;
+            Database.UpdateCustomNick(player);
 
             response = "Your new nick has been set!";
             return true;

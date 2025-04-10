@@ -6,7 +6,6 @@
     using System.Linq;
     using Exiled.Permissions.Extensions;
     using PRMainPlugin.Systems.Database;
-    using UnityEngine.PlayerLoop;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class NickManager : ICommand
@@ -67,12 +66,14 @@
                     string reason = string.Join(" ", arguments.Skip(2));
                     target.Broadcast(10, $"Your nickname has been removed by an Admin! \nReason:<color=yellow> {reason} </color>");
                     target.DisplayNickname = null;
+                    Database.UpdateCustomNick(target);
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
                 }
                 else
                 {
                     target.DisplayNickname = null;
+                    Database.UpdateCustomNick(target);
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
                 }
@@ -80,6 +81,7 @@
 
             string NewName = string.Join("_", arguments.Skip(1));
             target.DisplayNickname = NewName;
+            Database.UpdateCustomNick(target);
 
             response = $"Nick of user {target.Nickname} has been changed to {NewName}. (Before: {OldName})";
             return true;

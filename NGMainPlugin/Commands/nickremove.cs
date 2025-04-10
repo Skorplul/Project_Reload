@@ -3,6 +3,7 @@
     using CommandSystem;
     using System;
     using Exiled.API.Features;
+    using PRMainPlugin.Systems.Database;
 
     [CommandHandler(typeof(ClientCommandHandler))]
     public class NickRemove : ICommand
@@ -26,6 +27,7 @@
             }
 
             player.DisplayNickname = null;
+            Database.UpdateCustomNick(player);
 
             response = "Your nick has been removed!";
             return true;
