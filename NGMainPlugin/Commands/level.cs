@@ -24,7 +24,7 @@
 
             if (data != null)
             {
-                response = $"<color=white>Deine Stats: \nLevel: {data.Level}\nXp: {data.XP} / {data.RequiredXP}\nRang: <color={player.RankColor}>{player.RankName}\nRecons: {data.Recons}";
+                response = $"\n<color=white>[</color><color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color><color=white>]</color>\n<color=white>Deine Stats: </color>\n<color=white>Level: {data.Level}</color>\n<color=white>Xp: {data.XP} / {data.RequiredXP}</color>\n<color=white>Rang: </color><color={player.RankColor}>{player.RankName}</color>\n<color=white>Recons: {data.Recons}</color>";
                 return true;
             }
 
@@ -33,3 +33,4 @@
         }
     }
 }
+    

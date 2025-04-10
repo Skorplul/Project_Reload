@@ -26,7 +26,7 @@
                 return false;
             }
 
-            player.DisplayNickname = null;
+            player.CustomName = null;
             Database.UpdateCustomNick(player);
 
             response = "Your nick has been removed!";

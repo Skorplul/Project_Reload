@@ -165,7 +165,7 @@ namespace PRMainPlugin.Systems.Database
         public static void UpdateCustomNick(Player player)
         {
             var data = player.GetPlayerData();
-            data.CustomNick = player.DisplayNickname;
+            data.CustomNick = player.CustomName;
 
             data.Update();
         }
@@ -219,7 +219,7 @@ namespace PRMainPlugin.Systems.Database
         internal static void OnVerified(VerifiedEventArgs ev)
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
-            ev.Player.DisplayNickname = ev.Player.GetPlayerData().CustomNick;
+            ev.Player.CustomName = ev.Player.GetPlayerData().CustomNick;
         }
 
         internal static void OnPlayerLeft(LeftEventArgs ev)

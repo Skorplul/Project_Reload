@@ -57,7 +57,7 @@
                 return true;
             }
 
-            string OldName = target.DisplayNickname;
+            string OldName = target.CustomName;
 
             if (arguments.Array[2] == "remove")
             {
@@ -65,14 +65,14 @@
                 {
                     string reason = string.Join(" ", arguments.Skip(2));
                     target.Broadcast(10, $"Your nickname has been removed by an Admin! \nReason:<color=yellow> {reason} </color>");
-                    target.DisplayNickname = null;
+                    target.CustomName = null;
                     Database.UpdateCustomNick(target);
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
                 }
                 else
                 {
-                    target.DisplayNickname = null;
+                    target.CustomName = null;
                     Database.UpdateCustomNick(target);
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
@@ -80,7 +80,7 @@
             }
 
             string NewName = string.Join("_", arguments.Skip(1));
-            target.DisplayNickname = NewName;
+            target.CustomName = NewName;
             Database.UpdateCustomNick(target);
 
             response = $"Nick of user {target.Nickname} has been changed to {NewName}. (Before: {OldName})";
