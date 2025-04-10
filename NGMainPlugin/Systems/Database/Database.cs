@@ -31,10 +31,12 @@ namespace PRMainPlugin.Systems.Database
     {
         public string Id { get; set; }
         public string Nickname { get; set; }
+        public string CustomNick { get; set; }
         public string Rank { get; set; }
         public bool NicknameChangable { get; set; } = true;
         public int Playtime { get; set; }
         public int XP { get; set; }
+        public int RequiredXP { get; set; } = 1200;
         public int Level { get; set; }
         public int Recons { get; set; }
         public int Kills { get; set; }
@@ -128,6 +130,8 @@ namespace PRMainPlugin.Systems.Database
 
             data.Update();
 
+            Levels.CheckLevel(data); 
+
             if (recons > 0 && xp == 0)
                player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons erhalten.");
             else if (xp > 0 && recons == 0)
@@ -152,6 +156,18 @@ namespace PRMainPlugin.Systems.Database
             data.Update();
 
             return state;
+        }
+
+        /// <summary>
+        /// Update the Players Displayname in DB for later use
+        /// </summary>
+        /// <param name="player"></param>
+        public static void UpdateCustomNick(Player player)
+        {
+            var data = player.GetPlayerData();
+            data.CustomNick = player.DisplayNickname;
+
+            data.Update();
         }
 
         /// <summary>
@@ -203,10 +219,12 @@ namespace PRMainPlugin.Systems.Database
         internal static void OnVerified(VerifiedEventArgs ev)
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
+            ev.Player.DisplayNickname = ev.Player.GetPlayerData().CustomNick;
         }
 
         internal static void OnPlayerLeft(LeftEventArgs ev)
         {
+            UpdateCustomNick(ev.Player);
             UpdateData(ev.Player);
         }
 
