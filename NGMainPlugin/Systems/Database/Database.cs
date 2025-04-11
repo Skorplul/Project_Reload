@@ -36,7 +36,7 @@ namespace PRMainPlugin.Systems.Database
         public bool NicknameChangable { get; set; } = true;
         public int Playtime { get; set; }
         public int XP { get; set; }
-        public int RequiredXP { get; set; } = 1200;
+        public int RequiredXP { get; set; } = 230;
         public int Level { get; set; }
         public int Recons { get; set; }
         public int Kills { get; set; }
