@@ -37,7 +37,7 @@ namespace PRMainPlugin.Systems.Database
         public int Playtime { get; set; }
         public int XP { get; set; }
         public int RequiredXP { get; set; } = 230;
-        public int Level { get; set; }
+        public int Level { get; set; } = 1;
         public int Recons { get; set; }
         public int Kills { get; set; }
         public int Deaths { get; set; }

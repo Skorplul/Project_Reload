@@ -46,7 +46,7 @@
       <HintPath>Dependencies\AudioSystem.dll</HintPath>
     </Reference>
     <Reference Include="CedModV3">
-      <HintPath>..\..\..\Desktop\CedModV3.dll</HintPath>
+      <HintPath>Dependencies\CedModV3.dll</HintPath>
     </Reference>
     <Reference Include="DiscordIntegration.Dependency">
       <HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
@@ -208,6 +208,7 @@
     <Compile Include="NGMainPlugin\Systems\Database\XP\XP.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\XP\Levels.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\XpUndRecons.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\FixDB.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
