@@ -18,13 +18,6 @@ namespace PRMainPlugin.Systems.Database
         {
             return CachedPlayerData.GetOrAdd(player, () => Database.GetPlayerData(player));
         }
-
-        public static void AddXP(this Player player, int xp)
-        {
-            var data = player.GetPlayerData();
-            data.XP += xp;
-            data.Update();
-        } 
     }
 
     internal class PlayerData
@@ -51,7 +44,7 @@ namespace PRMainPlugin.Systems.Database
     internal static class Database
     {
 
-        private static LiteDatabase DB;
+        internal static LiteDatabase DB;
 
         internal static void InitDB()
         {

@@ -23,13 +23,21 @@
 
             if (arguments.Count() < 1)
             {
-                response = "Usage: .nick <Your New Nickname Here>";
+                response = "Usage: .nick <Your New Nickname Here> (<.nick remove> zum entfernen)";
                 return false;
             }
             if (player == null)
             {
                 response = "Player is null, contact an admin/developer!";
                 return false;
+            }
+            if (arguments.Array[1] == "remove")
+            {
+                player.CustomName = null;
+                Database.UpdateCustomNick(player);
+
+                response = "Your nick has been removed!";
+                return true;
             }
             if (!player.GetPlayerData().NicknameChangable)
             {
