@@ -9,6 +9,7 @@ namespace PRMainPlugin.Systems.Database
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     internal static class DBPlayerExtension
     {
@@ -37,7 +38,7 @@ namespace PRMainPlugin.Systems.Database
 
         public void Update()
         {
-            Database.UpdateData(this);
+            _ = Database.UpdateData(this);
         }
     }
 
@@ -63,7 +64,7 @@ namespace PRMainPlugin.Systems.Database
         {
             foreach (var p in Player.List)
             {
-                UpdateData(p);
+                _ = UpdateData(p);
             }
 
             DB = null;
@@ -187,25 +188,31 @@ namespace PRMainPlugin.Systems.Database
             data.Update();
         }
 
-        internal static void UpdateData(Player player)
+        internal static async Task UpdateData(Player player)
         {
-            var data = player.GetPlayerData();
+            await Task.Run(() =>
+            {
+                var data = player.GetPlayerData();
 
-            data.Id = player.UserId; // Just in case
-            data.Nickname = data.Nickname;
-            data.Rank = player.RankName;
+                data.Id = player.UserId; // Just in case
+                data.Nickname = player.Nickname;
+                data.Rank = player.RankName;
 
-            if (player.SessionVariables.ContainsKey("JoinTime"))
-                data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
+                if (player.SessionVariables.ContainsKey("JoinTime"))
+                    data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
 
-            UpdateData(data);
+                DB.GetCollection<PlayerData>("Players").Update(data);
+            });
         }
 
-        internal static void UpdateData(PlayerData data)
+        internal static async Task UpdateData(PlayerData data)
         {
-            Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
+            await Task.Run(() =>
+            {
+                Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
 
-            DB.GetCollection<PlayerData>("Players").Update(data);
+                DB.GetCollection<PlayerData>("Players").Update(data);
+            });
         }
 
         // Events
@@ -218,14 +225,14 @@ namespace PRMainPlugin.Systems.Database
         internal static void OnPlayerLeft(LeftEventArgs ev)
         {
             UpdateCustomNick(ev.Player);
-            UpdateData(ev.Player);
+            _ = UpdateData(ev.Player);
         }
 
         internal static void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
-                UpdateData(p);
+                _ = UpdateData(p);
             }
         }
     }
