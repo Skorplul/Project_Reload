@@ -48,6 +48,7 @@ public static class PlayerExtensions
             SubclassType.Sondereinheit => "Sondereinheit",
             // CI
             SubclassType.Spy => "Spion",
+            SubclassType.Sturmtruppe => "Sturmtruppler",
             // Zombie
             _ => "Unknown"
         };
@@ -86,10 +87,13 @@ public static class PlayerExtensions
                 Allseeing.SetRole(player);
                 break;
             case SubclassType.Sondereinheit:
-                Sondereinheit.SetRole(player); // ToDo: erst nach der dritten Welle Spawnbar.
+                Sondereinheit.SetRole(player);
                 break;
             case SubclassType.Spy:
                 //Spy.SetRole(); (Skin swap needed for this)
+                break;
+            case SubclassType.Sturmtruppe:
+                Sturmtruppe.SetRole(player);
                 break;
             default:
                 break;

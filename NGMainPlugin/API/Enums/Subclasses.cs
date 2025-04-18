@@ -18,6 +18,7 @@ public enum SubclassType : sbyte
 
     // Chaos
     Spy,
+    Sturmtruppe,
 
     // Zombies
     Berserker,

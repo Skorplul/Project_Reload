@@ -40,6 +40,7 @@ public static class Subclasses
     private static Dictionary<SubclassType, double> CIProbs = new Dictionary<SubclassType, double>
     { 
         { SubclassType.Spy, 5.0 },
+        { SubclassType.Sturmtruppe, 7.0 }
     };
 
     /// <summary>
@@ -47,7 +48,7 @@ public static class Subclasses
     /// </summary>
     private static Dictionary<SubclassType, double> ZombieProbs = new Dictionary<SubclassType, double>
     {
-        {SubclassType.Aggressive, 9},
+        {SubclassType.Aggressive, 9.0 },
     };
 
     public static void Enable()

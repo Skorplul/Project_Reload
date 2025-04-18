@@ -29,7 +29,7 @@ public class ForceSubClass : ICommand
         }
         if (arguments.Array[1].ToLower() == "list")
         {
-            response = "valid Subclasses:\n Fettsack\n BugsBunny\n Drogendealer\n Kind\n Blitz\n Kamikaze\n AllSeeing\n Sondereinheit";
+            response = "valid Subclasses:\n Fettsack\n BugsBunny\n Drogendealer\n Kind\n Blitz\n Kamikaze\n AllSeeing\n Sondereinheit\n Sturmtruppe";
             return true;
         }
         if (arguments.Count < 1)
@@ -75,11 +75,16 @@ public class ForceSubClass : ICommand
                 response = "Set SubClass.";
                 return true;
             case "sondereinheit":
-                Sondereinheit.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2])); // ToDo: erst nach der dritten Welle Spawnbar.
+                Sondereinheit.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             case "spy":
                 //Spy.SetRole(); (Skin swap needed for this)
+                response = "Set SubClass.";
+                return true;
+            case "sturmtruppe":
+            case "sturmtruppler":
+                Sturmtruppe.SetRole(arguments.Count == 1 ? player : Player.Get(arguments.Array[2]));
                 response = "Set SubClass.";
                 return true;
             default:
