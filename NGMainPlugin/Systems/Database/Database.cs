@@ -36,9 +36,9 @@ namespace PRMainPlugin.Systems.Database
         public int Kills { get; set; }
         public int Deaths { get; set; }
 
-        public void Update()
+        public async void Update()
         {
-            _ = Database.UpdateData(this);
+            await Database.UpdateData(this);
         }
     }
 
@@ -67,13 +67,14 @@ namespace PRMainPlugin.Systems.Database
                 _ = UpdateData(p);
             }
 
-            DB = null;
 
             Exiled.Events.Handlers.Player.Verified -= OnVerified;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
 
             XP.Disable();
+
+            DB = null;
         }
 
         internal static PlayerData GetPlayerInfo(string uid)
@@ -83,6 +84,12 @@ namespace PRMainPlugin.Systems.Database
 
         internal static PlayerData GetPlayerData(Player player)
         {
+            if (DB == null)
+            {
+                Log.Warn("Tried to access DB after it was disposed.");
+                return new PlayerData(); // return blank/fallback
+            }
+
             Log.Debug($"Getting {player.UserId}:{player.Nickname} data!");
 
             var Result = DB.GetCollection<PlayerData>("Players").Query().Where(p => p.Id == player.UserId).ToList();
