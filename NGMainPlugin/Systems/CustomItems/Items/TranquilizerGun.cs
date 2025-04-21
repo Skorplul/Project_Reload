@@ -25,6 +25,8 @@ using YamlDotNet.Serialization;
 using Ragdoll = Exiled.API.Features.Ragdoll;
 using Random = UnityEngine.Random;
 
+#nullable enable
+
 [CustomItem(ItemType.GunCOM18)]
 public class TranquilizerGun : CustomWeapon
 {
@@ -36,7 +38,7 @@ public class TranquilizerGun : CustomWeapon
 
     public override string Name { get; set; } = "TG-119";
 
-    public override string Description { get; set; } = "This modifier USP fires non-lethal tranquilizing darts. Those affected will be rendered unconscious for a short duration. Unreliable against SCPs. Repeated tranquilizing of the same person will render them resistant to it's effect.";
+    public override string Description { get; set; } = "Wer von dieser Waffe getroffen wird, wird betäubt. Aber vorsichtig, sie hat nur 2 Schuss!";
 
     public override float Weight { get; set; } = 1.55f;
 
