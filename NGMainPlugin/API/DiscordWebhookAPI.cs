@@ -29,12 +29,12 @@ namespace PRMainPlugin.API
         /// </summary>
         /// <param name="message"></param>
         /// <param name="webhook"></param>
-        public static void SendMs(string message, string webhook)
+        public static async void SendMs(string message, string webhook)
         {
             WebClient client = new WebClient();
             client.Headers.Add("Content-Type", "application/json");
             string payload = "{\"content\": \"" + message + "\"}";
-            client.UploadData(webhook, Encoding.UTF8.GetBytes(payload));
+            await Task.Run(() => client.UploadData(webhook, Encoding.UTF8.GetBytes(payload)));
         }
     }
 }
