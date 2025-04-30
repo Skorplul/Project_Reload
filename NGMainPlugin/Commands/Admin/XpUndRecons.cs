@@ -51,11 +51,7 @@ namespace PRMainPlugin.Commands
                 return false;
             }
 
-            if (!Database.UpdateReconsAndXP(target, (int)recons, (int)xp))
-            {
-                response = "something went wrong!";
-                return false;
-            }
+            Database.UpdateReconsAndXP(target, (int)recons, (int)xp);
 
             response = "Done!";
             return true;

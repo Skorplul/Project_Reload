@@ -102,7 +102,7 @@
             Log.Info("-----[Systems]-----");
 
             Log.Info("Closing Database...");
-            Database.CloseBD();
+            Database.CloseDB();
 
             Log.Info("Disabling Custom Items..");
             CustomItems.Disable();

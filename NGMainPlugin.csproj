@@ -115,6 +115,7 @@
     <Compile Include="NGMainPlugin\Commands\level.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Systems\Discord\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\ErrorLogs.cs" />
     <Compile Include="NGMainPlugin\Systems\Discord\Logs.cs" />
     <Compile Include="NGMainPlugin\Systems\RemoteKeycard\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RemoteKeycard\PlayerExtensions.cs" />
