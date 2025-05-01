@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
-using static RoundSummary;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
@@ -89,7 +87,9 @@ namespace PRMainPlugin.Systems.Database
         {
             Config.LoadConfig();
 
+            SQLitePCL.Batteries_V2.Init();
             using var DB = new PRDbContext();
+            DB.Database.EnsureCreated();
 
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
@@ -135,10 +135,10 @@ namespace PRMainPlugin.Systems.Database
 
             var result = await DB.Players.FirstOrDefaultAsync(p => p.Id == player.UserId);
 
-            return result ?? await CreatePlayerData(player);
+            return result ?? await CreatePlayerDataAsync(player);
         }
 
-        internal static async Task<PlayerData> CreatePlayerData(Player player)
+        internal static async Task<PlayerData> CreatePlayerDataAsync(Player player)
         {
             Log.Debug($"Creating {player.UserId}:{player.Nickname} data!");
 
