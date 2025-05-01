@@ -19,7 +19,7 @@ namespace PRMainPlugin.Systems.Database.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            var data = Player.Get(sender).GetPlayerData();
+            var data = Player.Get(sender).GetPlayerDataAsync().GetAwaiter().GetResult();
 
             if (data != null)
             {
@@ -56,7 +56,7 @@ namespace PRMainPlugin.Systems.Database.Commands
                 response = $"<color=green>Playtime of players on server: </color>\n";
                 foreach (Player p in Player.List)
                 {
-                    PlayerData info = Database.GetPlayerInfo(p.UserId);
+                    PlayerData info = Database.GetPlayerInfoAsync(p.UserId).GetAwaiter().GetResult();
                     if (info == null)
                         continue;
 
@@ -78,7 +78,7 @@ namespace PRMainPlugin.Systems.Database.Commands
                 PlayerData info;
                 if (p == null)
                 {
-                    info = Database.GetPlayerInfo(arguments.At(0)+"@steam");
+                    info = Database.GetPlayerInfoAsync(arguments.At(0)+"@steam").GetAwaiter().GetResult();
 
                     if (info == null)
                     {
@@ -91,7 +91,7 @@ namespace PRMainPlugin.Systems.Database.Commands
 
                 }
 
-                info = p.GetPlayerData();
+                info = p.GetPlayerDataAsync().GetAwaiter().GetResult();
                 if (info == null)
                 {
                     response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";

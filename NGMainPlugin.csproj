@@ -217,7 +217,6 @@
     <Compile Include="NGMainPlugin\Systems\Database\XP\XP.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\XP\Levels.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\XpUndRecons.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\FixDB.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

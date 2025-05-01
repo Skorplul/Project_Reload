@@ -39,7 +39,7 @@
                 response = "Your nick has been removed!";
                 return true;
             }
-            if (!player.GetPlayerData().NicknameChangable)
+            if (!player.GetPlayerDataAsync().GetAwaiter().GetResult().NicknameChangable)
             {
                 response = "Du darfst deinen Name nicht ändern. Solltest du nicht wissen warum, frag bitte ein Teammitglied.";
                 return false;
