@@ -87,7 +87,6 @@ namespace PRMainPlugin.Systems.Database
         {
             Config.LoadConfig();
 
-            SQLitePCL.Batteries_V2.Init();
             using var DB = new PRDbContext();
             DB.Database.EnsureCreated();
 
