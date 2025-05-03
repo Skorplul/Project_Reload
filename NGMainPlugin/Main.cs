@@ -46,8 +46,8 @@
             // Enable all the custom systems
             Log.Info("-----[Systems]-----");
 
-            Log.Info("Initilising Database...");
-            Database.InitDB();
+            //Log.Info("Initilising Database...");
+            //Database.InitDB();
 
             Log.Info("Enabling Custom Items..");
             CustomItems.Enable();
@@ -101,8 +101,8 @@
             // Disable all the custom systems
             Log.Info("-----[Systems]-----");
 
-            Log.Info("Closing Database...");
-            Database.CloseDB();
+            //Log.Info("Closing Database...");
+            //Database.CloseDB();
 
             Log.Info("Disabling Custom Items..");
             CustomItems.Disable();

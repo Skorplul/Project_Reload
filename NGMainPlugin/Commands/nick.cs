@@ -4,7 +4,6 @@
     using System;
     using Exiled.API.Features;
     using System.Linq;
-    using PRMainPlugin.Systems.Database;
 
     [CommandHandler(typeof(ClientCommandHandler))]
     public class Nick : ICommand
@@ -34,20 +33,12 @@
             if (arguments.Array[1] == "remove")
             {
                 player.CustomName = null;
-                Database.UpdateCustomNick(player);
 
                 response = "Your nick has been removed!";
                 return true;
             }
-            if (!player.GetPlayerData().NicknameChangable)
-            {
-                response = "Du darfst deinen Name nicht ändern. Solltest du nicht wissen warum, frag bitte ein Teammitglied.";
-                return false;
-            }
 
             string NewName = string.Join("_", arguments.Skip(0));
-            player.CustomName = NewName;
-            Database.UpdateCustomNick(player);
 
             response = "Your new nick has been set!";
             return true;

@@ -5,7 +5,6 @@
     using Exiled.API.Features;
     using System.Linq;
     using Exiled.Permissions.Extensions;
-    using PRMainPlugin.Systems.Database;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class NickManager : ICommand
@@ -44,18 +43,6 @@
                 response = $"This player does not exist!";
                 return false;
             }
-            if (arguments.Array[2] == "true")
-            {
-                Database.UpdateAllowNickChange(target, true);
-                response = "Done!";
-                return true;
-            }
-            else if (arguments.Array[2] == "false")
-            {
-                Database.UpdateAllowNickChange(target, false);
-                response = "Done!";
-                return true;
-            }
 
             string OldName = target.CustomName;
 
@@ -66,14 +53,12 @@
                     string reason = string.Join(" ", arguments.Skip(2));
                     target.Broadcast(10, $"Your nickname has been removed by an Admin! \nReason:<color=yellow> {reason} </color>");
                     target.CustomName = null;
-                    Database.UpdateCustomNick(target);
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
                 }
                 else
                 {
                     target.CustomName = null;
-                    Database.UpdateCustomNick(target);
                     response = $"Nick of user {target.Nickname} has been removed. (Before: {OldName})";
                     return true;
                 }
@@ -81,7 +66,6 @@
 
             string NewName = string.Join("_", arguments.Skip(1));
             target.CustomName = NewName;
-            Database.UpdateCustomNick(target);
 
             response = $"Nick of user {target.Nickname} has been changed to {NewName}. (Before: {OldName})";
             return true;
