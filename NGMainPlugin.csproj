@@ -54,9 +54,6 @@
     <Reference Include="DSharp4Webhook">
       <HintPath>Dependencies\DSharp4Webhook.dll</HintPath>
     </Reference>
-    <Reference Include="Facepunch.dotnet add package ExMod.Exiled --version 9.6.0-beta4Steamworks.Win64">
-      <HintPath>Dependencies\Facepunch.Steamworks.Win64.dll</HintPath>
-    </Reference>
     <Reference Include="FLXLib">
       <HintPath>Dependencies\FLXLib.dll</HintPath>
     </Reference>
@@ -206,6 +203,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>3.1.32</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>3.1.32</Version>
     </PackageReference>
@@ -221,6 +221,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.5" />
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <Version>2.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime">
+      <Version>4.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\CustomPlayerData.cs" />

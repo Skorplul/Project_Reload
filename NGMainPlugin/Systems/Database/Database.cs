@@ -13,6 +13,8 @@ using Exiled.Events.EventArgs.Server;
 using System.Linq;
 using System.Collections.Concurrent;
 using System.Threading;
+using Microsoft.Data.Sqlite;
+using System.Runtime;
 
 namespace PRMainPlugin.Systems.Database
 {
@@ -86,6 +88,7 @@ namespace PRMainPlugin.Systems.Database
         internal static void InitDB()
         {
             Config.LoadConfig();
+            SQLitePCL.Batteries_V2.Init();
 
             using var DB = new PRDbContext();
             DB.Database.EnsureCreated();
