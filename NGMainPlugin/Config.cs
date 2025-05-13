@@ -116,7 +116,7 @@
             SCPSwap.Config = GetConfig<Systems.SCPSwap.Config>(Systems.SCPSwap.Config.ConfigPath, new Systems.SCPSwap.Config());
             Notifications.Config = GetConfig<Systems.Notifications.Config>(Systems.Notifications.Config.ConfigPath, new Systems.Notifications.Config());
             SCPHud.Config = GetConfig<Systems.SCPHud.Config>(Systems.SCPHud.Config.ConfigPath, new Systems.SCPHud.Config());
-            RemoteKeycards.Config = GetConfig<Systems.RemoteKeycard.Config>(Systems.RemoteKeycard.Config.ConfigPath, new Systems.RemoteKeycard.Config());
+            //RemoteKeycards.Config = GetConfig<Systems.RemoteKeycard.Config>(Systems.RemoteKeycard.Config.ConfigPath, new Systems.RemoteKeycard.Config());
             Loggs.Config = GetConfig<Systems.Discord.Config>(Systems.Discord.Config.ConfigPath, new Systems.Discord.Config());
         }
 

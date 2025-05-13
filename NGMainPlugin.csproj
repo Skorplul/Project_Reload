@@ -142,7 +142,6 @@
     <Compile Include="NGMainPlugin\Systems\LobbySystem\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RespawnTimer\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\RespawnTimer\RespawnTimer.cs" />
-    <Compile Include="NGMainPlugin\Systems\RGBNuke\AudioPlayer.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\DiscoCommand.cs" />
     <Compile Include="NGMainPlugin\Systems\RGBNuke\RGBNuke.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Sturmtruppe.cs" />
@@ -175,9 +174,7 @@
     <None Include="TechSuppe\FAQ\1.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ExMod.Exiled">
-      <Version>9.5.1</Version>
-    </PackageReference>
+    <PackageReference Include="ExMod.Exiled" Version="9.6.0-beta8" />
     <PackageReference Include="LiteDB">
       <Version>5.0.21</Version>
     </PackageReference>
