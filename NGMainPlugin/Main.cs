@@ -79,8 +79,8 @@
             Log.Info("Enabling SCPHud...");
             SCPHud.Enable();
 
-            //Log.Info("Enabling RemoteKeycards...");
-            //RemoteKeycards.Enable();
+            Log.Info("Enabling RemoteKeycards...");
+            RemoteKeycards.Enable();
 
             //Log.Info("Enabling Discord Loggs...");
             //Loggs.Enable();
@@ -134,8 +134,8 @@
             Log.Info("Disableing SCPHud...");
             SCPHud.Disable();
 
-            //Log.Info("Disableing RemoteKeycards...");
-            //RemoteKeycards.Disable();
+            Log.Info("Disableing RemoteKeycards...");
+            RemoteKeycards.Disable();
 
             //Log.Info("Disableing Discord Loggs...");
             //Loggs.Disable();
