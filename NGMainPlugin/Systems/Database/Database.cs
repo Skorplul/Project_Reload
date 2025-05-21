@@ -6,43 +6,12 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace PRMainPlugin.Systems.Database
 {
-    internal static class DBPlayerExtension
-    {
-        private static readonly ConcurrentDictionary<Player, PlayerData> CachedPlayerData = new();
-        private static readonly SemaphoreSlim _cacheLock = new(1, 1);
-
-        public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
-        {
-            if (CachedPlayerData.TryGetValue(player, out var data))
-                return data;
-
-            await _cacheLock.WaitAsync();
-            try
-            {
-                // Double-check in case another thread already added it while waiting
-                if (!CachedPlayerData.TryGetValue(player, out data))
-                {
-                    data = await Database.GetPlayerDataAsync(player);
-                    CachedPlayerData.TryAdd(player, data);
-                }
-            }
-            finally
-            {
-                _cacheLock.Release();
-            }
-
-            return data;
-        }
-    }
-
     // Player data model
     public class PlayerData
     {
@@ -74,7 +43,8 @@ namespace PRMainPlugin.Systems.Database
         {
             Config.LoadConfig();
 
-            var client = new MongoClient("mongodb://localhost:27017");
+            string connectionString = $"mongodb://SL_MAIN:DuFetterNegger1+2@127.0.0.1:27017/?authSource=SL_MAIN";
+            var client = new MongoClient(connectionString);
             var db = client.GetDatabase("SL_MAIN");
             _collection = db.GetCollection<PlayerData>("players");
 
@@ -116,7 +86,7 @@ namespace PRMainPlugin.Systems.Database
             return await GetPlayerDataAsync(player);
         }
 
-        internal static async Task<PlayerData> GetPlayerDataAsync(Player player)
+        internal static async Task<PlayerData> GetPlayerDataAsync(this Player player)
         {
             Log.Debug($"Getting {player.UserId}:{player.Nickname} data!");
 
