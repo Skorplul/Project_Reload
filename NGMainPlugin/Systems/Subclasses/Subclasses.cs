@@ -18,6 +18,7 @@ public static class Subclasses
     /// </summary>
     private static Dictionary<SubclassType, double> DProbs = new Dictionary<SubclassType, double>
     {
+        { SubclassType.None, 80.0},
         { SubclassType.Fettsack, 7.5 },
         { SubclassType.BugBunny, 5.0 },
         { SubclassType.Drogendealer, 10.0 },
@@ -28,6 +29,7 @@ public static class Subclasses
     /// </summary>
     private static Dictionary<SubclassType, double> MTFProbs = new Dictionary<SubclassType, double>
     {
+        { SubclassType.None, 80.0},
         { SubclassType.Blitz, 10.0 },
         { SubclassType.Kamikaze, 7.5 },
         { SubclassType.AllSeeing, 3.0 },
@@ -38,7 +40,8 @@ public static class Subclasses
     /// Chaos Probs
     /// </summary>
     private static Dictionary<SubclassType, double> CIProbs = new Dictionary<SubclassType, double>
-    { 
+    {
+        { SubclassType.None, 80.0},
         { SubclassType.Spy, 5.0 },
         { SubclassType.Sturmtruppe, 7.0 }
     };
@@ -48,7 +51,8 @@ public static class Subclasses
     /// </summary>
     private static Dictionary<SubclassType, double> ZombieProbs = new Dictionary<SubclassType, double>
     {
-        {SubclassType.Aggressive, 9.0 },
+        { SubclassType.None, 80.0},
+        { SubclassType.Aggressive, 9.0 },
     };
 
     public static void Enable()

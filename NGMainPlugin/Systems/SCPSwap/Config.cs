@@ -31,5 +31,8 @@ namespace PRMainPlugin.Systems.SCPSwap
 
         [Description("Should you be able to swap SCPs only one time a round? Default: true")]
         public static bool SingleSwap { get; set; } = true;
+
+        [Description("Amount of players required for Skelleton")]
+        public static int SkelliCount { get; set; } = 18;
     }
 }
