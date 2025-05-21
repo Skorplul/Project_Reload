@@ -1,20 +1,16 @@
-// EF Core + SQLite basic starter template
-// Assumes .NET 6 or later (you can adapt if on .NET Framework with workarounds)
-
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
-using System.Linq;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Threading;
-using Microsoft.Data.Sqlite;
-using System.Runtime;
+using System.Threading.Tasks;
 
 namespace PRMainPlugin.Systems.Database
 {
@@ -50,7 +46,7 @@ namespace PRMainPlugin.Systems.Database
     // Player data model
     public class PlayerData
     {
-        [Key]
+        [BsonId]
         public string Id { get; set; }
         public string Nickname { get; set; }
         public string CustomNick { get; set; }
@@ -66,32 +62,21 @@ namespace PRMainPlugin.Systems.Database
 
         public void Update()
         {
-            Database.UpdateData(this);
-        }
-    }
-
-    // EF Core DB context
-    public class PRDbContext : DbContext
-    {
-        public DbSet<PlayerData> Players { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var dbPath = Path.Combine(Path.Combine(Paths.Configs, "PRMainDB.sqlite"));
-            optionsBuilder.UseSqlite($"Data Source={dbPath}");
+            Database.UpdateDataAsync(this);
         }
     }
 
     internal static class Database
     {
-        private static PRDbContext DB;
+        private static IMongoCollection<PlayerData> _collection;
+
         internal static void InitDB()
         {
             Config.LoadConfig();
-            SQLitePCL.Batteries_V2.Init();
 
-            using var DB = new PRDbContext();
-            DB.Database.EnsureCreated();
+            var client = new MongoClient("mongodb://localhost:27017");
+            var db = client.GetDatabase("SL_MAIN");
+            _collection = db.GetCollection<PlayerData>("players");
 
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
@@ -106,7 +91,7 @@ namespace PRMainPlugin.Systems.Database
 
             foreach (var p in Player.List)
             {
-                UpdateData(p);
+                UpdateDataAsync(p);
             }
 
             Exiled.Events.Handlers.Player.Verified -= OnVerified;
@@ -115,7 +100,7 @@ namespace PRMainPlugin.Systems.Database
 
             XP.Disable();
 
-            DB = null;
+            _collection = null;
         }
 
         internal static async Task<PlayerData> GetPlayerInfoAsync(string uid)
@@ -135,7 +120,7 @@ namespace PRMainPlugin.Systems.Database
         {
             Log.Debug($"Getting {player.UserId}:{player.Nickname} data!");
 
-            var result = await DB.Players.FirstOrDefaultAsync(p => p.Id == player.UserId);
+            var result = await _collection.Find(p => p.Id == player.UserId).FirstOrDefaultAsync();
 
             return result ?? await CreatePlayerDataAsync(player);
         }
@@ -151,8 +136,7 @@ namespace PRMainPlugin.Systems.Database
                 Rank = player.RankName
             };
 
-            await DB.Players.AddAsync(data);
-            await DB.SaveChangesAsync();
+            await _collection.InsertOneAsync(data);
 
             return data;
         }
@@ -233,7 +217,7 @@ namespace PRMainPlugin.Systems.Database
             data.Update();
         }
 
-        internal static async void UpdateData(Player player)
+        internal static async void UpdateDataAsync(Player player)
         {
             var data = await player.GetPlayerDataAsync();
 
@@ -244,16 +228,14 @@ namespace PRMainPlugin.Systems.Database
             if (player.SessionVariables.ContainsKey("JoinTime"))
                 data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
 
-            DB.Players.Update(data);
-            await DB.SaveChangesAsync();
+            await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
         }
 
-        internal static async void UpdateData(PlayerData data)
+        internal static async void UpdateDataAsync(PlayerData data)
         {
             Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
 
-            DB.Players.Update(data);
-            await DB.SaveChangesAsync();
+            await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
         }
 
         // Events
@@ -265,14 +247,14 @@ namespace PRMainPlugin.Systems.Database
 
         internal static void OnPlayerLeft(LeftEventArgs ev)
         {
-            UpdateData(ev.Player);
+            UpdateDataAsync(ev.Player);
         }
 
         internal static void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
-                UpdateData(p);
+                UpdateDataAsync(p);
             }
         }
     }

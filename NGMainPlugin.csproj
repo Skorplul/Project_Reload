@@ -175,10 +175,7 @@
     <None Include="TechSuppe\FAQ\1.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ExMod.Exiled" Version="9.6.0-beta8" />
-    <PackageReference Include="LiteDB">
-      <Version>5.0.21</Version>
-    </PackageReference>
+    <PackageReference Include="ExMod.Exiled" Version="9.6.0" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Fettsack.cs" />
     <Compile Include="NGMainPlugin\Systems\Subclasses\Subclasses.cs" />
@@ -196,6 +193,9 @@
     <Compile Include="NGMainPlugin\Systems\SCPHud\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\SCPHud\SCPHud.cs" />
     <Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
+    <PackageReference Include="MongoDB.Driver">
+      <Version>3.4.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NGMainPlugin\API\CustomPlayerData.cs" />
@@ -205,7 +205,6 @@
     <Compile Include="NGMainPlugin\Commands\playtime.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\XP\XP.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\XP\Levels.cs" />
-    <Compile Include="NGMainPlugin\Commands\Admin\XpUndRecons.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
