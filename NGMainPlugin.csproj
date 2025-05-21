@@ -112,6 +112,7 @@
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
+    <Compile Include="NGMainPlugin\Commands\level.cs" />
     <Compile Include="NGMainPlugin\Commands\nick.cs" />
     <Compile Include="NGMainPlugin\Systems\Discord\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\Discord\ErrorLogs.cs" />
@@ -201,8 +202,10 @@
     <Compile Include="NGMainPlugin\Systems\Database\Database.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\Config.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\Translation.cs" />
+    <Compile Include="NGMainPlugin\Commands\playtime.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\XP\XP.cs" />
     <Compile Include="NGMainPlugin\Systems\Database\XP\Levels.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\XpUndRecons.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

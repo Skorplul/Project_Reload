@@ -1,28 +1,56 @@
+// EF Core + SQLite basic starter template
+// Assumes .NET 6 or later (you can adapt if on .NET Framework with workarounds)
+
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Threading.Tasks;
+using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
+using System.Linq;
+using System.Collections.Concurrent;
+using System.Threading;
+using Microsoft.Data.Sqlite;
+using System.Runtime;
+
 namespace PRMainPlugin.Systems.Database
 {
-    using Exiled.API.Features;
-    using Exiled.Events.EventArgs.Player;
-    using Exiled.Events.EventArgs.Server;
-    using LiteDB;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
-
     internal static class DBPlayerExtension
     {
-        private static Dictionary<Player, PlayerData> CachedPlayerData = new Dictionary<Player, PlayerData>();
+        private static readonly ConcurrentDictionary<Player, PlayerData> CachedPlayerData = new();
+        private static readonly SemaphoreSlim _cacheLock = new(1, 1);
 
-        public static PlayerData GetPlayerData(this Player player) 
+        public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
         {
-            return CachedPlayerData.GetOrAdd(player, () => Database.GetPlayerData(player));
+            if (CachedPlayerData.TryGetValue(player, out var data))
+                return data;
+
+            await _cacheLock.WaitAsync();
+            try
+            {
+                // Double-check in case another thread already added it while waiting
+                if (!CachedPlayerData.TryGetValue(player, out data))
+                {
+                    data = await Database.GetPlayerDataAsync(player);
+                    CachedPlayerData.TryAdd(player, data);
+                }
+            }
+            finally
+            {
+                _cacheLock.Release();
+            }
+
+            return data;
         }
     }
 
-    internal class PlayerData
+    // Player data model
+    public class PlayerData
     {
+        [Key]
         public string Id { get; set; }
         public string Nickname { get; set; }
         public string CustomNick { get; set; }
@@ -36,50 +64,34 @@ namespace PRMainPlugin.Systems.Database
         public int Kills { get; set; }
         public int Deaths { get; set; }
 
-        public async Task Update()
+        public void Update()
         {
-            await Database.UpdateData(this);
+            Database.UpdateData(this);
         }
     }
 
-    public static class DBManager
+    // EF Core DB context
+    public class PRDbContext : DbContext
     {
-        private static readonly object _lock = new();
+        public DbSet<PlayerData> Players { get; set; }
 
-        public static LiteDatabase Get(this LiteDatabase _db)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            lock (_lock)
-            {
-                if (_db == null)
-                {
-                    Log.Warn("Database is null or disposed — reinitializing.");
-                    try
-                    {
-                        _db = new LiteDatabase(Path.Combine(Paths.Configs, "PRMainDB.db"));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error($"Failed to reinitialize DB: {ex}");
-                        throw;
-                    }
-                }
-
-                return _db;
-            }
+            var dbPath = Path.Combine(Path.Combine(Paths.Configs, "PRMainDB.sqlite"));
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
         }
     }
 
     internal static class Database
     {
-
-        internal static LiteDatabase DB;
-        private static readonly object _dbLock = new();
-
+        private static PRDbContext DB;
         internal static void InitDB()
         {
             Config.LoadConfig();
+            SQLitePCL.Batteries_V2.Init();
 
-            DB = DB.Get();
+            using var DB = new PRDbContext();
+            DB.Database.EnsureCreated();
 
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
@@ -88,16 +100,14 @@ namespace PRMainPlugin.Systems.Database
             XP.Enable();
         }
 
-        internal static async Task CloseDB()
+        internal static void CloseDB()
         {
             var updateTasks = new List<Task>();
 
             foreach (var p in Player.List)
             {
-                updateTasks.Add(UpdateData(p));
+                UpdateData(p);
             }
-
-            await Task.WhenAll(updateTasks);
 
             Exiled.Events.Handlers.Player.Verified -= OnVerified;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;
@@ -105,34 +115,32 @@ namespace PRMainPlugin.Systems.Database
 
             XP.Disable();
 
-            lock (_dbLock)
-            {
-                DB?.Dispose();
-                DB = null;
-            }
+            DB = null;
         }
 
-        internal static PlayerData GetPlayerInfo(string uid)
+        internal static async Task<PlayerData> GetPlayerInfoAsync(string uid)
         {
-            return GetPlayerData(Player.UserIdsCache.Select(p => p.Key == uid ? p.Value : null).FirstOrDefault());
+            var player = Player.UserIdsCache.FirstOrDefault(p => p.Key == uid).Value;
+
+            if (player == null)
+            {
+                Log.Warn($"Player with UID {uid} not found in UserIdsCache.");
+                return null;
+            }
+
+            return await GetPlayerDataAsync(player);
         }
 
-        internal static PlayerData GetPlayerData(Player player)
+        internal static async Task<PlayerData> GetPlayerDataAsync(Player player)
         {
             Log.Debug($"Getting {player.UserId}:{player.Nickname} data!");
 
-            lock (_dbLock)
-            {
-                var result = DB.GetCollection<PlayerData>("Players")
-                    .Query()
-                    .Where(p => p.Id == player.UserId)
-                    .ToList();
+            var result = await DB.Players.FirstOrDefaultAsync(p => p.Id == player.UserId);
 
-                return result.Count > 0 ? result.First() : CreatePlayerData(player);
-            }
+            return result ?? await CreatePlayerDataAsync(player);
         }
 
-        internal static PlayerData CreatePlayerData(Player player)
+        internal static async Task<PlayerData> CreatePlayerDataAsync(Player player)
         {
             Log.Debug($"Creating {player.UserId}:{player.Nickname} data!");
 
@@ -143,10 +151,8 @@ namespace PRMainPlugin.Systems.Database
                 Rank = player.RankName
             };
 
-            lock (_dbLock)
-            {
-                DB.GetCollection<PlayerData>("Players").Insert(data);
-            }
+            await DB.Players.AddAsync(data);
+            await DB.SaveChangesAsync();
 
             return data;
         }
@@ -157,18 +163,18 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="player"></param>
         /// <param name="recons"></param>
         /// <param name="xp"></param>
-        public static async Task UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
+        public static async void UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
         {
-            var data = player.GetPlayerData();
+            var data = await player.GetPlayerDataAsync();
 
             if (recons != 0)
                 data.Recons = data.Recons + recons;
             if (xp != 0)
                 data.XP = data.XP + xp;
 
-            await data.Update();
+            data.Update();
 
-            Levels.CheckLevel(data); 
+            Levels.CheckLevel(data);
 
             if (recons > 0 && xp == 0 && ShowHint)
                 player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons erhalten.");
@@ -183,112 +189,90 @@ namespace PRMainPlugin.Systems.Database
         /// </summary>
         /// <param name="player"></param>
         /// <param name="state"></param>
-        public static async Task UpdateAllowNickChange(Player player, bool state)
+        public static async void UpdateAllowNickChange(Player player, bool state)
         {
-            var data = player.GetPlayerData();
+            var data = await player.GetPlayerDataAsync();
             data.NicknameChangable = state;
 
-            await data.Update();
+            data.Update();
         }
 
         /// <summary>
         /// Update the Players Displayname in DB for later use
         /// </summary>
         /// <param name="player"></param>
-        public static async Task UpdateCustomNick(Player player)
+        public static async void UpdateCustomNick(Player player)
         {
-            var data = player.GetPlayerData();
+            var data = await player.GetPlayerDataAsync();
             data.CustomNick = player.CustomName;
 
-            await data.Update();
+            data.Update();
         }
 
         /// <summary>
         /// Adds a Kill to the Database entry for this player
         /// </summary>
         /// <param name="player"></param>
-        public static async Task AddKill(Player player)
+        public static async void AddKill(Player player)
         {
-            var data = player.GetPlayerData();
+            var data = await player.GetPlayerDataAsync();
             data.Kills++;
 
-            await data.Update();
+            data.Update();
         }
 
         /// <summary>
         /// Adds a Death to the Database entry for this player
         /// </summary>
         /// <param name="player"></param>
-        public static async Task AddDeath(Player player)
+        public static async void AddDeath(Player player)
         {
-            var data = player.GetPlayerData();
+            var data = await player.GetPlayerDataAsync();
             data.Deaths++;
 
-            await data.Update();
+            data.Update();
         }
 
-        internal static async Task UpdateData(Player player)
+        internal static async void UpdateData(Player player)
         {
-            PlayerData data = null;
+            var data = await player.GetPlayerDataAsync();
 
-            try
-            {
-                if (player is null || !player.IsVerified || !player.IsConnected)
-                {
-                    Log.Warn("Tried to update a null or disconnected player.");
-                    return;
-                }
+            data.Id = player.UserId; // Just in case
+            data.Nickname = player.Nickname;
+            data.Rank = player.RankName;
 
-                data = player.GetPlayerData();
+            if (player.SessionVariables.ContainsKey("JoinTime"))
+                data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
 
-                data.Id = player.UserId; // Just in case
-                data.Nickname = player.Nickname;
-                data.Rank = player.RankName;
-
-                if (player.SessionVariables.ContainsKey("JoinTime"))
-                {
-                    data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Failed to capture player data for saving: {ex}");
-                return;
-            }
-
-            await UpdateData(data);
+            DB.Players.Update(data);
+            await DB.SaveChangesAsync();
         }
 
-        internal static async Task UpdateData(PlayerData data)
+        internal static async void UpdateData(PlayerData data)
         {
-            await Task.Run(() =>
-            {
-                lock (_dbLock)
-                {
-                    Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
-                    DB.GetCollection<PlayerData>("Players").Update(data);
-                }
-            });
+            Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
+
+            DB.Players.Update(data);
+            await DB.SaveChangesAsync();
         }
 
         // Events
-        internal static void OnVerified(VerifiedEventArgs ev)
+        internal static async void OnVerified(VerifiedEventArgs ev)
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
-            ev.Player.CustomName = ev.Player.GetPlayerData().CustomNick;
+            ev.Player.CustomName = (await ev.Player.GetPlayerDataAsync()).CustomNick;
         }
 
-        internal static async void OnPlayerLeft(LeftEventArgs ev)
+        internal static void OnPlayerLeft(LeftEventArgs ev)
         {
-            await UpdateCustomNick(ev.Player);
-            await UpdateData(ev.Player);
+            UpdateData(ev.Player);
         }
 
-        internal static async void OnRoundEnded(RoundEndedEventArgs ev)
+        internal static void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
-                await UpdateData(p);
+                UpdateData(p);
             }
         }
     }
