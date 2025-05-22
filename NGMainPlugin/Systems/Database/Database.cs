@@ -12,6 +12,22 @@ using System.Threading.Tasks;
 
 namespace PRMainPlugin.Systems.Database
 {
+    internal static class DBPlayerExtension
+    {
+        private static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
+
+        public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
+        {
+            if (CachedPlayerData.TryGetValue(player.UserId, out var cachedData))
+                return cachedData;
+
+            var data = await Database.GetPlayerDataAsync(player);
+            CachedPlayerData[player.UserId] = data;
+            return data;
+        }
+    }
+
+
     // Player data model
     public class PlayerData
     {
@@ -21,7 +37,7 @@ namespace PRMainPlugin.Systems.Database
         public string CustomNick { get; set; }
         public string Rank { get; set; }
         public bool NicknameChangable { get; set; } = true;
-        public int Playtime { get; set; }
+        public double Playtime { get; set; }
         public int XP { get; set; }
         public int RequiredXP { get; set; } = 230;
         public int Level { get; set; } = 1;
@@ -86,7 +102,7 @@ namespace PRMainPlugin.Systems.Database
             return await GetPlayerDataAsync(player);
         }
 
-        internal static async Task<PlayerData> GetPlayerDataAsync(this Player player)
+        internal static async Task<PlayerData> GetPlayerDataAsync(Player player)
         {
             Log.Debug($"Getting {player.UserId}:{player.Nickname} data!");
 
@@ -196,7 +212,7 @@ namespace PRMainPlugin.Systems.Database
             data.Rank = player.RankName;
 
             if (player.SessionVariables.ContainsKey("JoinTime"))
-                data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
+                data.Playtime += (double)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
 
             await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
         }
