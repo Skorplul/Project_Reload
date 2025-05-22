@@ -56,7 +56,7 @@ namespace PRMainPlugin.Systems.Database.Commands
                 response = $"<color=green>Playtime of players on server: </color>\n";
                 foreach (Player p in Player.List)
                 {
-                    PlayerData info = Database.GetPlayerInfoAsync(p.UserId).GetAwaiter().GetResult();
+                    PlayerData info = p.GetPlayerDataAsync().GetAwaiter().GetResult();
                     if (info == null)
                         continue;
 
@@ -67,39 +67,41 @@ namespace PRMainPlugin.Systems.Database.Commands
             }
             else if (arguments.Count == 1)
             {
-                /*if (arguments.At(0) == "all")
+                try
                 {
-                    response = Database.DebugInfo();
+                    Player p = Player.Get(arguments.At(0));
+                    PlayerData info;
+                    if (p == null)
+                    {
+                        info = Database.GetPlayerInfoAsync(arguments.At(0) + "@steam").GetAwaiter().GetResult();
 
-                    return true;
-                }*/
+                        if (info == null)
+                        {
+                            response = $"<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
+                            return false;
+                        }
 
-                Player p = Player.Get(arguments.At(0));
-                PlayerData info;
-                if (p == null)
-                {
-                    info = Database.GetPlayerInfoAsync(arguments.At(0)+"@steam").GetAwaiter().GetResult();
+                        response = String.Format($"<color=green>Playtime of {0}:</color> {1}", arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
+                        return true;
 
+                    }
+
+                    info = p.GetPlayerDataAsync().GetAwaiter().GetResult();
                     if (info == null)
                     {
-                        response = $"<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
+                        response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
                         return false;
                     }
 
-                    response = String.Format($"<color=green>Playtime of {0}:</color> {1}", arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
+                    response = String.Format($"<color=green>Playtime of {0}:</color> {1}", p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                     return true;
-
                 }
-
-                info = p.GetPlayerDataAsync().GetAwaiter().GetResult();
-                if (info == null)
+                catch (Exception e)
                 {
-                    response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
+                    response = "Error in DB querry! Contact Skorp";
+                    Log.Error($"{e.Message}");
                     return false;
                 }
-
-                response = String.Format($"<color=green>Playtime of {0}:</color> {1}", p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
-                return true;
             }
 
             response = "";
