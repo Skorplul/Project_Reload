@@ -14,7 +14,7 @@ namespace PRMainPlugin.Systems.Database
 {
     internal static class DBPlayerExtension
     {
-        private static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
+        internal static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
 
         public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
         {
@@ -241,6 +241,7 @@ namespace PRMainPlugin.Systems.Database
             foreach (var p in Player.List)
             {
                 UpdateDataAsync(p);
+                DBPlayerExtension.CachedPlayerData.Clear(); // Clear cache to ensure fresh data next round
             }
         }
     }
