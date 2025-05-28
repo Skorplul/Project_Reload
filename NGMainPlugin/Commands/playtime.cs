@@ -6,32 +6,6 @@ namespace PRMainPlugin.Systems.Database.Commands
     using Exiled.Permissions.Extensions;
     using PRMainPlugin.Systems.Database;
 
-    [CommandHandler(typeof(ClientCommandHandler))]
-    public class DataInfoClient : ICommand
-    {
-        public string Command { get; } = "playtime";
-
-        public string[] Aliases { get; } = new string[] { "pt" };
-
-        public string Description { get; } = "See your playtime.";
-
-        public bool SanitizeResponse => true;
-
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-        {
-            var data = Player.Get(sender).GetPlayerDataAsync().GetAwaiter().GetResult();
-
-            if (data != null)
-            {
-                response = String.Format("<color=green>Your playtime: </color> {0}", $"{TimeSpan.FromSeconds(data.Playtime):hh\\:mm\\:ss}");
-                return true;
-            }
-
-            response = "<color=red>You have not agreed to the data collection, your playtime is not stored.</color>";
-            return false;
-        }
-    }
-
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class DataInfoServer : ICommand
     {

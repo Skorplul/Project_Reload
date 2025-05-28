@@ -228,7 +228,9 @@ namespace PRMainPlugin.Systems.Database
         internal static async void OnVerified(VerifiedEventArgs ev)
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
-            ev.Player.CustomName = (await ev.Player.GetPlayerDataAsync()).CustomNick;
+            DBPlayerExtension.CachedPlayerData.TryRemove(ev.Player.UserId, out _);
+            var data = await ev.Player.GetPlayerDataAsync();
+            ev.Player.CustomName = data.CustomNick;
         }
 
         internal static void OnPlayerLeft(LeftEventArgs ev)
