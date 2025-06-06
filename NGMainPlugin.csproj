@@ -108,6 +108,8 @@
     <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\ForceSubClass.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\Watchlists.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\Warns.cs" />
     <Compile Include="NGMainPlugin\Commands\Admin\TEST.cs" />
     <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
     <Compile Include="NGMainPlugin\Commands\announce.cs" />
