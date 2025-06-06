@@ -1,6 +1,8 @@
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using System;
@@ -37,6 +39,8 @@ namespace PRMainPlugin.Systems.Database
         public string CustomNick { get; set; }
         public string Rank { get; set; }
         public bool NicknameChangable { get; set; } = true;
+        public List<Warn> Warns { get; set; } = new List<Warn>();
+        public List<Warn> Watchlists { get; set; } = new List<Warn>();
         public double Playtime { get; set; }
         public int XP { get; set; }
         public int RequiredXP { get; set; } = 230;
@@ -49,6 +53,15 @@ namespace PRMainPlugin.Systems.Database
         {
             Database.UpdateDataAsync(this);
         }
+    }
+
+    //Warn data structure
+    public class Warn
+    {
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+        public DateTime CreatedAt { get; set; }
+        public string Reason { get; set; }
+        public string Issuer { get; set; }
     }
 
     internal static class Database
@@ -199,6 +212,52 @@ namespace PRMainPlugin.Systems.Database
         {
             var data = await player.GetPlayerDataAsync();
             data.Deaths++;
+
+            data.Update();
+        }
+
+        /// <summary>
+        /// Adds a Warn to the specified player with relevant context.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static async void AddWarn(Player target, Player issuer, string reson)
+        {
+            var data = await target.GetPlayerDataAsync();
+
+            if (data.Warns == null)
+                data.Warns = new List<Warn>();
+
+            data.Warns.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
+
+            data.Update();
+        }
+
+        /// <summary>
+        /// Adds a Watchlist entry to the specified player with relevant context.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static async void AddWatchlist(Player target, Player issuer, string reson)
+        {
+            var data = await target.GetPlayerDataAsync();
+
+            if (data.Watchlists == null)
+                data.Watchlists = new List<Warn>();
+
+            data.Watchlists.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
 
             data.Update();
         }
