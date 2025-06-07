@@ -1,4 +1,3 @@
-using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PRMainPlugin.Systems.Database
@@ -122,6 +120,11 @@ namespace PRMainPlugin.Systems.Database
             var result = await _collection.Find(p => p.Id == player.UserId).FirstOrDefaultAsync();
 
             return result ?? await CreatePlayerDataAsync(player);
+        }
+
+        public static async Task<PlayerData> GetPlayerDataByIdAsync(string steamId)
+        {
+            return await _collection.Find(p => p.Id == steamId).FirstOrDefaultAsync();
         }
 
         internal static async Task<PlayerData> CreatePlayerDataAsync(Player player)
@@ -240,6 +243,27 @@ namespace PRMainPlugin.Systems.Database
         }
 
         /// <summary>
+        /// Adds a Warn to the specified player with relevant context.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static void AddWarn(PlayerData data, Player issuer, string reson)
+        {
+            if (data.Warns == null)
+                data.Warns = new List<Warn>();
+
+            data.Warns.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
+
+            data.Update();
+        }
+
+        /// <summary>
         /// Adds a Watchlist entry to the specified player with relevant context.
         /// </summary>
         /// <param name="target"></param>
@@ -249,6 +273,27 @@ namespace PRMainPlugin.Systems.Database
         {
             var data = await target.GetPlayerDataAsync();
 
+            if (data.Watchlists == null)
+                data.Watchlists = new List<Warn>();
+
+            data.Watchlists.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
+
+            data.Update();
+        }
+
+        /// <summary>
+        /// Adds a Watchlist entry to the specified player with relevant context.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static void AddWatchlist(PlayerData data, Player issuer, string reson)
+        {
             if (data.Watchlists == null)
                 data.Watchlists = new List<Warn>();
 

@@ -25,18 +25,29 @@
                 return false;
             }
 
-            Player target = Player.Get(arguments.Array[2]);
+            Player target;
+            PlayerData data = null;
 
-            if (target == null)
+            if (arguments.Array[2].Contains("@steam"))
             {
-                response = "target ist null, bitte sofort mit vollem screenshot vom RA an @Skorp1.0 melden!";
-                return false;
+                try
+                {
+                    data = Database.GetPlayerDataByIdAsync(arguments.Array[2]).Result;
+                }
+                catch
+                {
+                }
+            }
+            else if (data == null)
+            {
+                target = Player.Get(arguments.Array[2]);
+                data = target.GetPlayerDataAsync().Result;
             }
 
             if (arguments.Array[1] == "add")
             {
-                Database.AddWarn(target, issuer, string.Join(" ", arguments.Skip(2)));
-                response = $"Warn wurde zu {target.Nickname} ({target.UserId}) hinzugefügt.";
+                Database.AddWarn(data, issuer, string.Join(" ", arguments.Skip(2)));
+                response = $"Warn wurde zu {data.Nickname} ({data.Id}) hinzugefügt.";
                 return true;
             }
             if (arguments.Array[1] == "remove")
