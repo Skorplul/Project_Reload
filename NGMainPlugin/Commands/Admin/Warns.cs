@@ -11,7 +11,7 @@
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Warns : ICommand
     {
-        public string Command => "warn";
+        public string Command => "pwarn";
 
         public string[] Aliases => new string[] { };
 
