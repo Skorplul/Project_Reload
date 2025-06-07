@@ -264,6 +264,32 @@ namespace PRMainPlugin.Systems.Database
         }
 
         /// <summary>
+        /// Remove a warn using the string parsed ObjectId.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="warn"></param>
+        /// <returns></returns>
+        public static bool RemoveWarn(PlayerData data, ObjectId warn)
+        {
+            var TestWarn = data.Warns.FirstOrDefault(w => w.Id == warn);
+            if (data.Warns.IsEmpty() || data.Warns == null || TestWarn == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                data.Warns.RemoveAll(w => w.Id == warn);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Adds a Watchlist entry to the specified player with relevant context.
         /// </summary>
         /// <param name="target"></param>
@@ -305,6 +331,32 @@ namespace PRMainPlugin.Systems.Database
             });
 
             data.Update();
+        }
+
+        /// <summary>
+        /// Remove a watchlists using the string parsed ObjectId.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="watchlist"></param>
+        /// <returns></returns>
+        public static bool RemoveWatchlist(PlayerData data, ObjectId watchlist)
+        {
+            var TestWarn = data.Warns.FirstOrDefault(w => w.Id == watchlist);
+            if (data.Warns.IsEmpty() || data.Warns == null || TestWarn == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                data.Warns.RemoveAll(w => w.Id == watchlist);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         internal static async void UpdateDataAsync(Player player)

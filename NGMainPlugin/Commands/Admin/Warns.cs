@@ -2,7 +2,9 @@
 {
     using CommandSystem;
     using Exiled.API.Features;
+    using MongoDB.Bson;
     using PRMainPlugin.Systems.Database;
+    using Exiled.Permissions.Extensions;
     using System;
     using System.Linq;
 
@@ -52,12 +54,18 @@
             }
             if (arguments.Array[1] == "remove")
             {
-                //Database.AddWarn(target, issuer, string.Join(" ", arguments.Skip(2)));
-                response = $"Das geht leider noch nicht, bitte fürs erste an @Skorp1.0 wenden.";
+                if (!Permissions.CheckPermission(issuer, "NG.RemoveMod"))
+                {
+                    response = $"Du hast nicht die Permission <color=yellow>NG.RemoveMod</color>";
+                    return false;
+                }
+
+                Database.RemoveWarn(data, ObjectId.Parse(arguments.Array[3]));
+                response = $"Wachlist Eintrag wurde von {data.Nickname} ({data.Id}) entfernt.";
                 return true;
             }
 
-            response = "Benutzung: \nwarn <add/remove> <PlayerID> <Grund>";
+            response = "Benutzung: \nwarn <add/remove> <PlayerID> <Grund/EintragsID>";
             return false;
         }
     }
