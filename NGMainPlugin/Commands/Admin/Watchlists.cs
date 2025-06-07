@@ -64,8 +64,22 @@
                 response = $"Wachlist Eintrag wurde von {data.Nickname} ({data.Id}) entfernt.";
                 return true;
             }
+            if (arguments.Array[1] == "list")
+            {
+                if (data.Warns.IsEmpty())
+                {
+                    response = $"{data.Nickname} hat keine Wachlists.";
+                    return true;
+                }
+                response = $"<color=red>Wachlists</color>\n";
+                foreach (Warn w in data.Watchlists)
+                {
+                    response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
+                }
+                return true;
+            }
 
-            response = "Benutzung: \nwatchlist <add/remove> <PlayerID> <Grund/EintragsID>";
+            response = "Benutzung: \nwatchlist <add/remove/list> <PlayerID> <Grund/EintragsID>";
             return false;
         }
     }
