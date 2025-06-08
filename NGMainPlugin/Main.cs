@@ -82,8 +82,8 @@
             Log.Info("Enabling RemoteKeycards...");
             RemoteKeycards.Enable();
 
-            //Log.Info("Enabling Discord Loggs...");
-            //Loggs.Enable();
+            Log.Info("Enabling Discord Loggs...");
+            Loggs.Enable();
 
             Log.Info("-----[PRMainPlugin Initialized]-----");
             
@@ -137,8 +137,8 @@
             Log.Info("Disableing RemoteKeycards...");
             RemoteKeycards.Disable();
 
-            //Log.Info("Disableing Discord Loggs...");
-            //Loggs.Disable();
+            Log.Info("Disableing Discord Loggs...");
+            Loggs.Disable();
 
             Log.Info("-----[PRMainPlugin Disabled]-----");
             

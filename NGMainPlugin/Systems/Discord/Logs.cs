@@ -2,7 +2,10 @@
 using Exiled.Events.EventArgs.Server;
 using Exiled.Events.EventArgs.Player;
 using System;
+using System.Collections.Generic;
+using MEC;
 using Exiled.API.Features;
+using UnityEngine;
 
 
 namespace PRMainPlugin.Systems.Discord
@@ -21,6 +24,8 @@ namespace PRMainPlugin.Systems.Discord
             Exiled.Events.Handlers.Player.Handcuffing += OnHandcuffing;
             Exiled.Events.Handlers.Player.RemovedHandcuffs += OnRemovedHandcuffes;
             Exiled.Events.Handlers.Player.Spawning += OnSpawned;
+
+            Timing.RunCoroutine(SendLogs());
         }
 
         public static void Disable()
@@ -34,28 +39,44 @@ namespace PRMainPlugin.Systems.Discord
             Exiled.Events.Handlers.Player.Handcuffing -= OnHandcuffing;
             Exiled.Events.Handlers.Player.RemovedHandcuffs -= OnRemovedHandcuffes;
             Exiled.Events.Handlers.Player.Spawning -= OnSpawned;
+
+            Timing.KillCoroutines();
         }
+
+        private static string msg = "";
+
+        private static IEnumerator<float> SendLogs()
+        {
+            if (msg == "")
+                yield return Timing.WaitForSeconds(10);
+
+            DCWB.SendMs(msg);
+            msg = "";
+
+            yield return Timing.WaitForSeconds(3);
+        }
+
 
         // Start Log funcs
 
         private static void OnRoundStarted()
         {
-            DCWB.SendMs($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nEine neu Runde hat jetzt gestarted!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
+            msg += $"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nEine neu Runde hat jetzt gestarted!\\n-------------------------------------------------------------------------------------\\n \\n \\n**";
         }
 
         private static void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nDie Runde hat jetzt geendet!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
+            msg += $"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nDie Runde hat jetzt geendet!\\n-------------------------------------------------------------------------------------\\n \\n \\n**";
         }
 
         private static void OnVerified(VerifiedEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gejoint.");
+            msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gejoint.";
         }
 
         private static void OnLeft(LeftEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.");
+            msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.";
         }
 
         // fucked sometimes... (NullReference exception)
@@ -67,10 +88,10 @@ namespace PRMainPlugin.Systems.Discord
                     return;
                 if (ev.DamageHandler.IsSuicide)
                 {
-                    DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.");
+                    msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.";
                     return;
                 }
-                DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
+                msg += $"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.";
             }
             catch (Exception ex)
             {
@@ -92,10 +113,10 @@ namespace PRMainPlugin.Systems.Discord
                     return;
                 if (ev.Player == ev.Attacker)
                 {
-                    DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.");
+                    msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.";
                     return;
                 }
-                DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
+                msg += $"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.";
             }
             catch (Exception ex)
             {
@@ -105,17 +126,17 @@ namespace PRMainPlugin.Systems.Discord
 
         private static void OnHandcuffing(HandcuffingEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` cuffed.");
+            msg += $"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` cuffed.";
         }
 
         private static void OnRemovedHandcuffes(RemovedHandcuffsEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` uncuffed.");
+            msg += $"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` uncuffed.";
         }
 
         private static void OnSpawned(SpawningEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` wurde als `{ev.NewRole.Name}`gespawned.");
+            msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` wurde als `{ev.NewRole.Name}`gespawned.";
         }
     }
 }
