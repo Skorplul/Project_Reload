@@ -1,10 +1,11 @@
 namespace PRMainPlugin.Systems.Database.Commands
 {
     using CommandSystem;
-    using System;
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
     using PRMainPlugin.Systems.Database;
+    using System;
+    using static UnityEngine.GraphicsBuffer;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class DataInfoServer : ICommand
@@ -30,7 +31,7 @@ namespace PRMainPlugin.Systems.Database.Commands
                 response = $"<color=green>Playtime of players on server: </color>\n";
                 foreach (Player p in Player.List)
                 {
-                    PlayerData info = p.GetPlayerDataAsync().GetAwaiter().GetResult();
+                    PlayerData info = PlayerDataCache.Get(p.UserId);
                     if (info == null)
                         continue;
 
@@ -60,7 +61,7 @@ namespace PRMainPlugin.Systems.Database.Commands
 
                     }
 
-                    info = p.GetPlayerDataAsync().GetAwaiter().GetResult();
+                    info = PlayerDataCache.Get(p.UserId);
                     if (info == null)
                     {
                         response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";

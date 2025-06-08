@@ -12,21 +12,31 @@ using System.Threading.Tasks;
 
 namespace PRMainPlugin.Systems.Database
 {
-    internal static class DBPlayerExtension
+    //internal static class DBPlayerExtension
+    //{
+    //    internal static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
+
+    //    public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
+    //    {
+    //        if (CachedPlayerData.TryGetValue(player.UserId, out var cachedData))
+    //            return cachedData;
+
+    //        var data = await Database.GetPlayerDataAsync(player);
+    //        CachedPlayerData[player.UserId] = data;
+    //        return data;
+    //    }
+    //}
+
+    public static class PlayerDataCache
     {
-        internal static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
+        internal static readonly Dictionary<string, PlayerData> Data = new();
 
-        public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
-        {
-            if (CachedPlayerData.TryGetValue(player.UserId, out var cachedData))
-                return cachedData;
+        public static PlayerData Get(string id)
+            => Data.TryGetValue(id, out var result) ? result : null;
 
-            var data = await Database.GetPlayerDataAsync(player);
-            CachedPlayerData[player.UserId] = data;
-            return data;
-        }
+        public static void Set(string id, PlayerData playerData)
+            => Data[id] = playerData;
     }
-
 
     // Player data model
     public class PlayerData
@@ -75,6 +85,8 @@ namespace PRMainPlugin.Systems.Database
             var db = client.GetDatabase("SL_MAIN");
             _collection = db.GetCollection<PlayerData>("players");
 
+            LoadAllDataFromDatabase();
+
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
@@ -91,6 +103,8 @@ namespace PRMainPlugin.Systems.Database
                 UpdateDataAsync(p);
             }
 
+            SaveAllDataToDatabase();
+
             Exiled.Events.Handlers.Player.Verified -= OnVerified;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;
             Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
@@ -98,6 +112,34 @@ namespace PRMainPlugin.Systems.Database
             XP.Disable();
 
             _collection = null;
+        }
+
+        private static void LoadAllDataFromDatabase()
+        {
+            Task.Run(async () =>
+            {
+                var allPlayers = await _collection.Find(_ => true).ToListAsync();
+                foreach (var player in allPlayers)
+                {
+                    PlayerDataCache.Data[player.Id] = player;
+                }
+
+                Log.Info($"Loaded {PlayerDataCache.Data.Count} player data entries into memory.");
+            }).GetAwaiter().GetResult(); // Block here if you must to ensure data is ready.
+        }
+
+        private static void SaveAllDataToDatabase()
+        {
+            Task.Run(async () =>
+            {
+                foreach (var playerData in PlayerDataCache.Data.Values)
+                {
+                    var filter = Builders<PlayerData>.Filter.Eq(p => p.Id, playerData.Id);
+                    await _collection.ReplaceOneAsync(filter, playerData, new ReplaceOptions { IsUpsert = true });
+                }
+
+                Log.Info("Saved all in-memory player data to MongoDB.");
+            });
         }
 
         internal static async Task<PlayerData> GetPlayerInfoAsync(string uid)
@@ -151,14 +193,14 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="xp"></param>
         public static async void UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
         {
-            var data = await player.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(player.UserId);
 
             if (recons != 0)
                 data.Recons = data.Recons + recons;
             if (xp != 0)
                 data.XP = data.XP + xp;
 
-            data.Update();
+            PlayerDataCache.Set(player.UserId, data);
 
             Levels.CheckLevel(data);
 
@@ -177,10 +219,10 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="state"></param>
         public static async void UpdateAllowNickChange(Player player, bool state)
         {
-            var data = await player.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(player.UserId);
             data.NicknameChangable = state;
 
-            data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
@@ -189,10 +231,10 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="player"></param>
         public static async void UpdateCustomNick(Player player)
         {
-            var data = await player.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(player.UserId);
             data.CustomNick = player.CustomName;
 
-            data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
@@ -201,10 +243,10 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="player"></param>
         public static async void AddKill(Player player)
         {
-            var data = await player.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(player.UserId);
             data.Kills++;
 
-            data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
@@ -213,10 +255,10 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="player"></param>
         public static async void AddDeath(Player player)
         {
-            var data = await player.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(player.UserId);
             data.Deaths++;
 
-            data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
@@ -227,7 +269,7 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="reson"></param>
         public static async void AddWarn(Player target, Player issuer, string reson)
         {
-            var data = await target.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(target.UserId);
 
             if (data.Warns == null)
                 data.Warns = new List<Warn>();
@@ -239,7 +281,7 @@ namespace PRMainPlugin.Systems.Database
                 Issuer = issuer.Nickname
             });
 
-            data.Update();
+            PlayerDataCache.Set(target.UserId, data);
         }
 
         /// <summary>
@@ -260,7 +302,7 @@ namespace PRMainPlugin.Systems.Database
                 Issuer = issuer.Nickname
             });
 
-            data.Update();
+            PlayerDataCache.Set(data.Id, data);
         }
 
         /// <summary>
@@ -297,7 +339,7 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="reson"></param>
         public static async void AddWatchlist(Player target, Player issuer, string reson)
         {
-            var data = await target.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(target.UserId);
 
             if (data.Watchlists == null)
                 data.Watchlists = new List<Warn>();
@@ -309,7 +351,7 @@ namespace PRMainPlugin.Systems.Database
                 Issuer = issuer.Nickname
             });
 
-            data.Update();
+            PlayerDataCache.Set(target.UserId, data);
         }
 
         /// <summary>
@@ -330,7 +372,7 @@ namespace PRMainPlugin.Systems.Database
                 Issuer = issuer.Nickname
             });
 
-            data.Update();
+            PlayerDataCache.Set(data.Id, data);
         }
 
         /// <summary>
@@ -338,7 +380,7 @@ namespace PRMainPlugin.Systems.Database
         /// </summary>
         /// <param name="data"></param>
         /// <param name="watchlist"></param>
-        /// <returns></returns>
+        /// <returns>If the Watchlist entry was removed Succesfully</returns>
         public static bool RemoveWatchlist(PlayerData data, ObjectId watchlist)
         {
             var TestWarn = data.Warns.FirstOrDefault(w => w.Id == watchlist);
@@ -359,9 +401,21 @@ namespace PRMainPlugin.Systems.Database
             return true;
         }
 
+        /// <summary>
+        /// Lsit all warns of the ID
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <returns>A Task<Lsit<Warn>> with all warns of the specified UserId</returns>
+        public async static Task<List<Warn>> ListWatchlist(string steamID)
+        {
+            PlayerData data = await _collection.Find(steamID).FirstOrDefaultAsync();
+
+            return data == null ? new List<Warn>() : data.Warns;
+        }
+
         internal static async void UpdateDataAsync(Player player)
         {
-            var data = await player.GetPlayerDataAsync();
+            var data = PlayerDataCache.Get(player.UserId);
 
             data.Id = player.UserId; // Just in case
             data.Nickname = player.Nickname;
@@ -384,8 +438,10 @@ namespace PRMainPlugin.Systems.Database
         internal static async void OnVerified(VerifiedEventArgs ev)
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
-            DBPlayerExtension.CachedPlayerData.TryRemove(ev.Player.UserId, out _);
-            var data = await ev.Player.GetPlayerDataAsync();
+
+            var data = PlayerDataCache.Get(ev.Player.UserId);
+
+            PlayerDataCache.Set(ev.Player.UserId, data);
             ev.Player.CustomName = data.CustomNick;
         }
 
@@ -394,12 +450,11 @@ namespace PRMainPlugin.Systems.Database
             UpdateDataAsync(ev.Player);
         }
 
-        internal static void OnRoundEnded(RoundEndedEventArgs ev)
+        internal static async void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
                 UpdateDataAsync(p);
-                DBPlayerExtension.CachedPlayerData.Clear(); // Clear cache to ensure fresh data next round
             }
         }
     }

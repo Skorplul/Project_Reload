@@ -27,28 +27,23 @@
                 return false;
             }
 
-            Player target;
-            PlayerData data = null;
+            string targetID;
+            PlayerData data;
 
             if (arguments.Array[2].Contains("@steam"))
             {
-                try
-                {
-                    data = Database.GetPlayerDataByIdAsync(arguments.Array[2]).Result;
-                }
-                catch
-                {
-                }
+                targetID = arguments.Array[2];
             }
-            else if (data == null)
+            else
             {
-                target = Player.Get(arguments.Array[2]);
-                data = target.GetPlayerDataAsync().Result;
+                targetID = Player.Get(arguments.Array[2]).UserId;
             }
+
+            data = PlayerDataCache.Get(targetID);
 
             if (arguments.Array[1] == "add")
             {
-                Database.AddWarn(data, issuer, string.Join(" ", arguments.Skip(2)));
+                Database.AddWatchlist(data, issuer, string.Join(" ", arguments.Skip(2)));
                 response = $"Warn wurde zu {data.Nickname} ({data.Id}) hinzugefügt.";
                 return true;
             }
@@ -60,26 +55,28 @@
                     return false;
                 }
 
-                Database.RemoveWarn(data, ObjectId.Parse(arguments.Array[3]));
-                response = $"Wachlist Eintrag wurde von {data.Nickname} ({data.Id}) entfernt.";
+                Database.RemoveWatchlist(data, ObjectId.Parse(arguments.Array[3]));
+                response = $"Warn wurde von {data.Nickname} ({data.Id}) entfernt.";
                 return true;
             }
             if (arguments.Array[1] == "list")
             {
-                if (data.Warns.IsEmpty())
+                var WarnData = Database.ListWatchlist(targetID).Result;
+
+                if (WarnData.IsEmpty())
                 {
-                    response = $"{data.Nickname} hat keine Warns.";
+                    response = $"{data.Nickname} hat keine Wachlists.";
                     return true;
                 }
-                response = $"<color=red>Warns</color>\n";
-                foreach (Warn w in data.Warns)
+                response = $"<color=red>Wachlists</color>\n";
+                foreach (Warn w in WarnData)
                 {
                     response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
                 }
                 return true;
             }
 
-            response = "Benutzung: \nwarn <add/remove/list> <PlayerID> <Grund/EintragsID>";
+            response = "Benutzung: \nwatchlist <add/remove/list> <PlayerID> <Grund/EintragsID>";
             return false;
         }
     }

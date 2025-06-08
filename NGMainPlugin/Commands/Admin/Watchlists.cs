@@ -7,6 +7,8 @@
     using Exiled.Permissions.Extensions;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
+    using MapEditorReborn.Commands.UtilityCommands;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Watchlists : ICommand
@@ -27,24 +29,19 @@
                 return false;
             }
 
-            Player target;
-            PlayerData data = null;
+            string targetID;
+            PlayerData data;
 
             if (arguments.Array[2].Contains("@steam"))
             {
-                try
-                {
-                    data = Database.GetPlayerDataByIdAsync(arguments.Array[2]).Result;
-                }
-                catch
-                {
-                }
+                targetID = arguments.Array[2];
             }
-            else if (data == null)
+            else
             {
-                target = Player.Get(arguments.Array[2]);
-                data = target.GetPlayerDataAsync().Result;
+                targetID = Player.Get(arguments.Array[2]).UserId;
             }
+
+            data = PlayerDataCache.Get(targetID);
 
             if (arguments.Array[1] == "add")
             {
@@ -66,21 +63,23 @@
             }
             if (arguments.Array[1] == "list")
             {
-                if (data.Warns.IsEmpty())
+                var WarnData = Database.ListWatchlist(targetID).Result;
+
+                if (WarnData.IsEmpty())
                 {
                     response = $"{data.Nickname} hat keine Wachlists.";
                     return true;
                 }
                 response = $"<color=red>Wachlists</color>\n";
-                foreach (Warn w in data.Watchlists)
+                foreach (Warn w in WarnData)
                 {
                     response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
                 }
                 return true;
             }
 
-            response = "Benutzung: \nwatchlist <add/remove/list> <PlayerID> <Grund/EintragsID>";
-            return false;
+                response = "Benutzung: \nwatchlist <add/remove/list> <PlayerID> <Grund/EintragsID>";
+                return false;
         }
     }
 }

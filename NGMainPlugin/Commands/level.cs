@@ -20,7 +20,7 @@
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            var data = player.GetPlayerDataAsync().GetAwaiter().GetResult();
+            var data = PlayerDataCache.Get(player.UserId);
 
             if (data != null)
             {
