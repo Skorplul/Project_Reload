@@ -29,7 +29,7 @@ namespace PRMainPlugin.Systems.Database
 
     public static class PlayerDataCache
     {
-        internal static readonly Dictionary<string, PlayerData> Data = new();
+        internal static readonly ConcurrentDictionary<string, PlayerData> Data = new();
 
         public static PlayerData Get(string id)
             => Data.TryGetValue(id, out var result) ? result : null;
@@ -456,6 +456,7 @@ namespace PRMainPlugin.Systems.Database
             {
                 UpdateDataAsync(p);
             }
+            SaveAllDataToDatabase();
         }
     }
 }
