@@ -74,7 +74,7 @@
                 response = $"<color=red>Warns</color>\n";
                 foreach (Warn w in data.Warns)
                 {
-                    response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
+                    response += $"Grund: {w.Reason.ToString()}\nID: <color=orange>{w.Id.ToString()}</color>\n\n";
                 }
                 return true;
             }

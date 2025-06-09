@@ -70,13 +70,13 @@
             {
                 if (data.Watchlists.IsEmpty())
                 {
-                    response = $"{data.Nickname} hat keine Wachlists.";
+                    response = $"{data.Nickname} hat keine Watchlists.";
                     return true;
                 }
                 response = $"<color=red>Wachlists</color>\n";
                 foreach (Warn w in data.Watchlists)
                 {
-                    response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
+                    response += $"Grund: {w.Reason.ToString()}\nID: <color=orange>{w.Id.ToString()}</color>\n\n";
                 }
                 return true;
             }
