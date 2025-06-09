@@ -4,6 +4,7 @@ using Exiled.Events.EventArgs.Server;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using PRMainPlugin.Commands;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -332,6 +333,18 @@ namespace PRMainPlugin.Systems.Database
         }
 
         /// <summary>
+        /// Lsit all warns of the ID
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <returns>A Task<Lsit<Warn>> with all warns of the specified UserId</returns>
+        public async static Task<List<Warn>> ListWarns(string steamID)
+        {
+            PlayerData data = await _collection.Find(steamID).FirstOrDefaultAsync();
+
+            return data == null ? new List<Warn>() : data.Warns;
+        }
+
+        /// <summary>
         /// Adds a Watchlist entry to the specified player with relevant context.
         /// </summary>
         /// <param name="target"></param>
@@ -383,18 +396,21 @@ namespace PRMainPlugin.Systems.Database
         /// <returns>If the Watchlist entry was removed Succesfully</returns>
         public static bool RemoveWatchlist(PlayerData data, ObjectId watchlist)
         {
-            var TestWarn = data.Warns.FirstOrDefault(w => w.Id == watchlist);
-            if (data.Warns.IsEmpty() || data.Warns == null || TestWarn == null)
+            var TestWatchlists = data.Watchlists.FirstOrDefault(w => w.Id == watchlist);
+
+            if (data.Watchlists.IsEmpty() || data.Watchlists == null || TestWatchlists == null)
             {
                 return false;
             }
 
             try
             {
-                data.Warns.RemoveAll(w => w.Id == watchlist);
+                data.Watchlists.RemoveAll(w => w.Id == watchlist);
+                PlayerDataCache.Set(data.Id, data);
             }
             catch (Exception ex)
             {
+                Log.Error(ex.Message);
                 return false;
             }
 
@@ -402,10 +418,10 @@ namespace PRMainPlugin.Systems.Database
         }
 
         /// <summary>
-        /// Lsit all warns of the ID
+        /// Lsit all watchlists of the ID
         /// </summary>
         /// <param name="steamID"></param>
-        /// <returns>A Task<Lsit<Warn>> with all warns of the specified UserId</returns>
+        /// <returns>A Task<Lsit<Warn>> with all watchlists of the specified UserId</returns>
         public async static Task<List<Warn>> ListWatchlist(string steamID)
         {
             PlayerData data = await _collection.Find(steamID).FirstOrDefaultAsync();

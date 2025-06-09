@@ -57,21 +57,24 @@
                     return false;
                 }
 
-                Database.RemoveWatchlist(data, ObjectId.Parse(arguments.Array[3]));
+                if (!Database.RemoveWatchlist(data, ObjectId.Parse(arguments.Array[3])))
+                {
+                    response = "Diesen Eintrag gibt es nicht! Bitte überprüfe nocheinmal genau die IDs.";
+                    return false;
+                }
+
                 response = $"Wachlist Eintrag wurde von {data.Nickname} ({data.Id}) entfernt.";
                 return true;
             }
             if (arguments.Array[1] == "list")
             {
-                var WarnData = Database.ListWatchlist(targetID).Result;
-
-                if (WarnData.IsEmpty())
+                if (data.Watchlists.IsEmpty())
                 {
                     response = $"{data.Nickname} hat keine Wachlists.";
                     return true;
                 }
                 response = $"<color=red>Wachlists</color>\n";
-                foreach (Warn w in WarnData)
+                foreach (Warn w in data.Watchlists)
                 {
                     response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
                 }

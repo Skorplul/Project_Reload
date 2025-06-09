@@ -43,7 +43,7 @@
 
             if (arguments.Array[1] == "add")
             {
-                Database.AddWatchlist(data, issuer, string.Join(" ", arguments.Skip(2)));
+                Database.AddWarn(data, issuer, string.Join(" ", arguments.Skip(2)));
                 response = $"Warn wurde zu {data.Nickname} ({data.Id}) hinzugefügt.";
                 return true;
             }
@@ -55,28 +55,31 @@
                     return false;
                 }
 
-                Database.RemoveWatchlist(data, ObjectId.Parse(arguments.Array[3]));
+                if (!Database.RemoveWarn(data, ObjectId.Parse(arguments.Array[3])))
+                {
+                    response = "Diesen Eintrag gibt es nicht! Bitte überprüfe nocheinmal genau die IDs.";
+                    return false;
+                }
+
                 response = $"Warn wurde von {data.Nickname} ({data.Id}) entfernt.";
                 return true;
             }
             if (arguments.Array[1] == "list")
             {
-                var WarnData = Database.ListWatchlist(targetID).Result;
-
-                if (WarnData.IsEmpty())
+                if (data.Warns.IsEmpty())
                 {
-                    response = $"{data.Nickname} hat keine Wachlists.";
+                    response = $"{data.Nickname} hat keine Warns.";
                     return true;
                 }
-                response = $"<color=red>Wachlists</color>\n";
-                foreach (Warn w in WarnData)
+                response = $"<color=red>Warns</color>\n";
+                foreach (Warn w in data.Warns)
                 {
                     response += $"Grund: {w.Reason.ToString()}\nID:{w.Id.ToString()}\n\n";
                 }
                 return true;
             }
 
-            response = "Benutzung: \nwatchlist <add/remove/list> <PlayerID> <Grund/EintragsID>";
+            response = "Benutzung: \npwarn <add/remove/list> <PlayerID> <Grund/EintragsID>";
             return false;
         }
     }
