@@ -41,7 +41,21 @@
                 targetID = Player.Get(arguments.Array[2]).UserId;
             }
 
-            data = PlayerDataCache.Get(targetID);
+            try
+            {
+                data = PlayerDataCache.Get(targetID);
+            }
+            catch (Exception ex)
+            {
+                if (ex is NullReferenceException)
+                {
+                    response = "Diese ID gibt es nicht, bitte überprüfe nochmal die Eingabe.";
+                    return false;
+                }
+
+                response = "Es gab einen Allgemeinen Fehler, bitte versuche es später noch einmal.";
+                return false;
+            }
 
             if (arguments.Array[1] == "add")
             {
