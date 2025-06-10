@@ -52,13 +52,20 @@ namespace PRMainPlugin.Systems.Discord
 
         private static IEnumerator<float> SendLogs()
         {
-            if (msg == "")
-                yield return Timing.WaitForSeconds(10);
+            while (true)
+            {
+                if (!msg.IsEmpty())
+                {
+                    DCWB.SendMs(msg);
+                    msg = "";
+                }
+                else
+                {
+                    yield return Timing.WaitForSeconds(7);
+                }
 
-            DCWB.SendMs(msg);
-            msg = "";
-
-            yield return Timing.WaitForSeconds(3);
+                yield return Timing.WaitForSeconds(3);
+            }
         }
 
 
