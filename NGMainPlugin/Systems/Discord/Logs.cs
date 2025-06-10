@@ -1,11 +1,13 @@
-﻿using DCWB = PRMainPlugin.API.DiscordWebhookAPI;
-using Exiled.Events.EventArgs.Server;
+﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
+using MEC;
 using System;
 using System.Collections.Generic;
-using MEC;
-using Exiled.API.Features;
-using UnityEngine;
+using System.Threading;
+using System.Threading.Tasks;
+using YamlDotNet.Core.Tokens;
+using DCWB = PRMainPlugin.API.DiscordWebhookAPI;
 
 
 namespace PRMainPlugin.Systems.Discord
@@ -13,6 +15,7 @@ namespace PRMainPlugin.Systems.Discord
     public static class Loggs
     {
         internal static Config Config;
+        private static CancellationTokenSource _cts;
         public static void Enable()
         {
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
@@ -25,7 +28,9 @@ namespace PRMainPlugin.Systems.Discord
             Exiled.Events.Handlers.Player.RemovedHandcuffs += OnRemovedHandcuffes;
             Exiled.Events.Handlers.Player.Spawning += OnSpawned;
 
-            Timing.RunCoroutine(SendLogs());
+            _cts = new CancellationTokenSource();
+            _ = Task.Run(() => StartLogSendingLoop(_cts.Token));
+            _ = DCWB.SendMs("!!! Server Startup !!!");
         }
 
         public static void Disable()
@@ -40,31 +45,45 @@ namespace PRMainPlugin.Systems.Discord
             Exiled.Events.Handlers.Player.RemovedHandcuffs -= OnRemovedHandcuffes;
             Exiled.Events.Handlers.Player.Spawning -= OnSpawned;
 
-            Timing.KillCoroutines();
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
         }
 
         private static string msg = "";
 
         private static void AddLog(string Log)
         {
-            msg += $"Log\n";
+            msg += $"{Log}\\n";
         }
 
-        private static IEnumerator<float> SendLogs()
+        private static async Task StartLogSendingLoop(CancellationToken token)
         {
-            while (true)
+            try
             {
-                if (!msg.IsEmpty())
+                while (!token.IsCancellationRequested)
                 {
-                    DCWB.SendMs(msg);
-                    msg = "";
-                }
-                else
-                {
-                    yield return Timing.WaitForSeconds(7);
-                }
+                    if (!string.IsNullOrWhiteSpace(msg))
+                    {
+                        string tmp = msg;
+                        msg = "";
+                        await DCWB.SendMs(tmp);
+                    }
+                    else
+                    {
+                        await Task.Delay(7000, token);
+                    }
 
-                yield return Timing.WaitForSeconds(3);
+                    await Task.Delay(3000, token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Log.Info("Log sending loop cancelled.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Unhandled error in StartLogSendingLoop: {ex}");
             }
         }
 
