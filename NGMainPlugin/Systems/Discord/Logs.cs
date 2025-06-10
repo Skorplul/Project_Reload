@@ -45,6 +45,11 @@ namespace PRMainPlugin.Systems.Discord
 
         private static string msg = "";
 
+        private static void AddLog(string Log)
+        {
+            msg += $"Log\n";
+        }
+
         private static IEnumerator<float> SendLogs()
         {
             if (msg == "")
@@ -61,22 +66,22 @@ namespace PRMainPlugin.Systems.Discord
 
         private static void OnRoundStarted()
         {
-            msg += $"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nEine neu Runde hat jetzt gestarted!\\n-------------------------------------------------------------------------------------\\n \\n \\n**";
+            AddLog($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nEine neu Runde hat jetzt gestarted!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
         }
 
         private static void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            msg += $"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nDie Runde hat jetzt geendet!\\n-------------------------------------------------------------------------------------\\n \\n \\n**";
+            AddLog($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nDie Runde hat jetzt geendet!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
         }
 
         private static void OnVerified(VerifiedEventArgs ev)
         {
-            msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gejoint.";
+            AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gejoint.");
         }
 
         private static void OnLeft(LeftEventArgs ev)
         {
-            msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.";
+            AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.");
         }
 
         // fucked sometimes... (NullReference exception)
@@ -88,10 +93,10 @@ namespace PRMainPlugin.Systems.Discord
                     return;
                 if (ev.DamageHandler.IsSuicide)
                 {
-                    msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.";
+                    AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.");
                     return;
                 }
-                msg += $"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.";
+                AddLog($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
             }
             catch (Exception ex)
             {
@@ -113,10 +118,10 @@ namespace PRMainPlugin.Systems.Discord
                     return;
                 if (ev.Player == ev.Attacker)
                 {
-                    msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.";
+                    AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.");
                     return;
                 }
-                msg += $"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.";
+                AddLog($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
             }
             catch (Exception ex)
             {
@@ -126,17 +131,17 @@ namespace PRMainPlugin.Systems.Discord
 
         private static void OnHandcuffing(HandcuffingEventArgs ev)
         {
-            msg += $"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` cuffed.";
+            AddLog($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` cuffed.");
         }
 
         private static void OnRemovedHandcuffes(RemovedHandcuffsEventArgs ev)
         {
-            msg += $"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` uncuffed.";
+            AddLog($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` uncuffed.");
         }
 
         private static void OnSpawned(SpawningEventArgs ev)
         {
-            msg += $"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` wurde als `{ev.NewRole.Name}`gespawned.";
+            AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` wurde als `{ev.NewRole.Name}`gespawned.");
         }
     }
 }
