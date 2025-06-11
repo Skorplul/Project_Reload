@@ -24,6 +24,7 @@
 
         public static void Enable()
         {
+            Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
             Exiled.Events.Handlers.Scp079.GainingLevel += OnSCP079GainingLvl;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
@@ -37,6 +38,7 @@
 
         public static void Disable()
         {
+            Exiled.Events.Handlers.Player.Hurting -= OnHurting;
             Exiled.Events.Handlers.Player.TriggeringTesla -= OnTriggeringTesla;
             Exiled.Events.Handlers.Scp079.GainingLevel -= OnSCP079GainingLvl;
             Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStarted;
@@ -46,6 +48,12 @@
             Exiled.Events.Handlers.Player.UsingRadioBattery -= OnUsingRadioBattery;
             Exiled.Events.Handlers.Scp914.UpgradingPlayer -= OnUpgradingPlayer;
             Exiled.Events.Handlers.Player.Left -= OnLeft;
+        }
+
+        private static void OnHurting(HurtingEventArgs ev)
+        {
+            if (ev.Player.GetData().Subclass == API.Enums.SubclassType.Blitz && ev.DamageHandler.Type is DamageType.Scp207)
+                ev.IsAllowed = false;
         }
 
         private static void OnLeft(LeftEventArgs ev)
