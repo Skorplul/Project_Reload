@@ -1,215 +1,212 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{3F51A568-7FAF-4DDC-99A8-F1114A1E9ED5}</ProjectGuid>
-		<OutputType>Library</OutputType>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>NGMainPlugin</RootNamespace>
-		<AssemblyName>PRMainPlugin</AssemblyName>
-		<LangVersion>11.0</LangVersion>
-		<FileAlignment>512</FileAlignment>
-		<Deterministic>true</Deterministic>
-		<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<Prefer32Bit>false</Prefer32Bit>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<Prefer32Bit>false</Prefer32Bit>
-	</PropertyGroup>
-	<ItemGroup>
-		<Reference Include="0Harmony">
-			<HintPath>Dependencies\0Harmony.dll</HintPath>
-		</Reference>
-		<Reference Include="Assembly-CSharp">
-			<HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp.dll</HintPath>
-		</Reference>
-		<Reference Include="Assembly-CSharp-firstpass">
-			<HintPath>Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
-		</Reference>
-		<Reference Include="AudioSystem">
-			<HintPath>Dependencies\AudioSystem.dll</HintPath>
-		</Reference>
-		<Reference Include="CedModV3">
-			<HintPath>Dependencies\CedModV3.dll</HintPath>
-		</Reference>
-		<Reference Include="DiscordIntegration.Dependency">
-			<HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
-		</Reference>
-		<Reference Include="DSharp4Webhook">
-			<HintPath>Dependencies\DSharp4Webhook.dll</HintPath>
-		</Reference>
-		<Reference Include="Facepunch.dotnet add package ExMod.Exiled --version 9.6.0-beta4Steamworks.Win64">
-			<HintPath>Dependencies\Facepunch.Steamworks.Win64.dll</HintPath>
-		</Reference>
-		<Reference Include="FLXLib">
-			<HintPath>Dependencies\FLXLib.dll</HintPath>
-		</Reference>
-		<Reference Include="MapEditorReborn">
-			<HintPath>Dependencies\MapEditorReborn.dll</HintPath>
-		</Reference>
-		<Reference Include="Mirror">
-			<HintPath>Dependencies\Mirror.dll</HintPath>
-		</Reference>
-		<Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>Dependencies\Newtonsoft.Json.dll</HintPath>
-		</Reference>
-		<Reference Include="SCPSLAudioApi">
-			<HintPath>Dependencies\SCPSLAudioApi.dll</HintPath>
-		</Reference>
-		<Reference Include="SemanticVersioning">
-			<HintPath>Dependencies\SemanticVersioning.dll</HintPath>
-		</Reference>
-		<Reference Include="SerializedData">
-			<HintPath>Dependencies\SerializedData.dll</HintPath>
-		</Reference>
-		<Reference Include="System" />
-		<Reference Include="System.ComponentModel.DataAnnotations" />
-		<Reference Include="System.Core" />
-		<Reference Include="System.Xml.Linq" />
-		<Reference Include="System.Data.DataSetExtensions" />
-		<Reference Include="Microsoft.CSharp" />
-		<Reference Include="System.Data" />
-		<Reference Include="System.Net.Http" />
-		<Reference Include="System.Xml" />
-		<Reference Include="UnityEngine">
-			<HintPath>Dependencies\UnityEngine.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.AudioModule">
-			<HintPath>Dependencies\UnityEngine.AudioModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.CoreModule">
-			<HintPath>Dependencies\UnityEngine.CoreModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.PhysicsModule">
-			<HintPath>Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="NGMainPlugin\API\CustomPainkillerEffects.cs" />
-		<Compile Include="NGMainPlugin\API\DiscordWebhookAPI.cs" />
-		<Compile Include="NGMainPlugin\API\Enums\PainkillerEffects.cs" />
-		<Compile Include="NGMainPlugin\API\EventsAPI.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\ForceSubClass.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\TEST.cs" />
-		<Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
-		<Compile Include="NGMainPlugin\Commands\announce.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
-		<Compile Include="NGMainPlugin\Commands\level.cs" />
-		<Compile Include="NGMainPlugin\Commands\nick.cs" />
-		<Compile Include="NGMainPlugin\Systems\Discord\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\Discord\ErrorLogs.cs" />
-		<Compile Include="NGMainPlugin\Systems\Discord\Logs.cs" />
-		<Compile Include="NGMainPlugin\Systems\RemoteKeycard\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\RemoteKeycard\PlayerExtensions.cs" />
-		<Compile Include="NGMainPlugin\Systems\RemoteKeycard\RemoteKeycards.cs" />
-		<Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
-		<Compile Include="NGMainPlugin\Commands\stuck.cs" />
-		<Compile Include="NGMainPlugin\Commands\timer.cs" />
-		<Compile Include="NGMainPlugin\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventHandlers\EventHandlers.cs" />
-		<Compile Include="NGMainPlugin\Systems\CustomItems\Items\TranquilizerGun.cs" />
-		<Compile Include="NGMainPlugin\Main.cs" />
-		<Compile Include="NGMainPlugin\Systems\CustomItems\CustomItems.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventHandlers\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\CustomItems\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\AdminSysEvents.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\LiveEvents.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventsSystem\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventsSystem\Events.cs" />
-		<Compile Include="NGMainPlugin\Systems\EventsSystem\EventsSystem.cs" />
-		<Compile Include="NGMainPlugin\Systems\Notifications\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\Notifications\Notifications.cs" />
-		<Compile Include="NGMainPlugin\Systems\Notifications\Types\Ban_Kick.cs" />
-		<Compile Include="NGMainPlugin\Systems\RGBNuke\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\LobbySystem\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\RespawnTimer\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\RespawnTimer\RespawnTimer.cs" />
-		<Compile Include="NGMainPlugin\Systems\RGBNuke\AudioPlayer.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\DiscoCommand.cs" />
-		<Compile Include="NGMainPlugin\Systems\RGBNuke\RGBNuke.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\CI\Sturmtruppe.cs" />
-		<Compile Include="Properties\AssemblyInfo.cs" />
-		<Compile Include="NGMainPlugin\Systems\LobbySystem\LobbySystem.cs" />
-		<Compile Include="NGMainPlugin\Systems\LobbySystem\Commands\LockCommand.cs" />
-		<Compile Include="NGMainPlugin\Systems\LobbySystem\Patches\RoundStartPatch.cs" />
-		<Compile Include="NGMainPlugin\Systems\Painkiller\RandomPainkillers.cs" />
-		<None Include="TechSuppe\FAQ\Head.md" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include=".gitignore" />
-		<None Include="NGMainPlugin\.config\app.config" />
-		<None Include="Pastebins\ModdedMain.md" />
-		<None Include="README.md" />
-		<None Include="TechSuppe\FAQ\15.md" />
-		<None Include="TechSuppe\FAQ\14.md" />
-		<None Include="TechSuppe\FAQ\13.md" />
-		<None Include="TechSuppe\FAQ\12.md" />
-		<None Include="TechSuppe\FAQ\11.md" />
-		<None Include="TechSuppe\FAQ\10.md" />
-		<None Include="TechSuppe\FAQ\9.md" />
-		<None Include="TechSuppe\FAQ\8.md" />
-		<None Include="TechSuppe\FAQ\7.md" />
-		<None Include="TechSuppe\FAQ\6.md" />
-		<None Include="TechSuppe\FAQ\5.md" />
-		<None Include="TechSuppe\FAQ\4.md" />
-		<None Include="TechSuppe\FAQ\3.md" />
-		<None Include="TechSuppe\FAQ\2.md" />
-		<None Include="TechSuppe\FAQ\1.md" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="ExMod.Exiled">
-			<Version>9.5.1</Version>
-		</PackageReference>
-		<PackageReference Include="LiteDB">
-			<Version>5.0.21</Version>
-		</PackageReference>
-		<Compile Include="NGMainPlugin\Systems\Subclasses\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Fettsack.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\Subclasses.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Drogendealer.cs" />
-		<Compile Include="NGMainPlugin\API\Enums\Subclasses.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\DClass\BugsBunny.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Allseeing.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Blitz.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Sondereinheit.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Kamikaze.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\CI\Spy.cs" />
-		<Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Kind.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\ScaleCom.cs" />
-		<Compile Include="NGMainPlugin\Systems\Notifications\Types\LastTeamMember.cs" />
-		<Compile Include="NGMainPlugin\Systems\SCPHud\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\SCPHud\SCPHud.cs" />
-		<Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="NGMainPlugin\API\CustomPlayerData.cs" />
-		<Compile Include="NGMainPlugin\Systems\Database\Database.cs" />
-		<Compile Include="NGMainPlugin\Systems\Database\Config.cs" />
-		<Compile Include="NGMainPlugin\Systems\Database\Translation.cs" />
-		<Compile Include="NGMainPlugin\Commands\playtime.cs" />
-		<Compile Include="NGMainPlugin\Systems\Database\XP\XP.cs" />
-		<Compile Include="NGMainPlugin\Systems\Database\XP\Levels.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\XpUndRecons.cs" />
-		<Compile Include="NGMainPlugin\Commands\Admin\FixDB.cs" />
-	</ItemGroup>
-	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3F51A568-7FAF-4DDC-99A8-F1114A1E9ED5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NGMainPlugin</RootNamespace>
+    <AssemblyName>PRMainPlugin</AssemblyName>
+    <LangVersion>11.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>Dependencies\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="AudioSystem">
+      <HintPath>Dependencies\AudioSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="CedModV3">
+      <HintPath>Dependencies\CedModV3.dll</HintPath>
+    </Reference>
+    <Reference Include="DiscordIntegration.Dependency">
+      <HintPath>Dependencies\DiscordIntegration.Dependency.dll</HintPath>
+    </Reference>
+    <Reference Include="DSharp4Webhook">
+      <HintPath>Dependencies\DSharp4Webhook.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.dotnet add package ExMod.Exiled --version 9.6.0-beta4Steamworks.Win64">
+      <HintPath>Dependencies\Facepunch.Steamworks.Win64.dll</HintPath>
+    </Reference>
+    <Reference Include="FLXLib">
+      <HintPath>Dependencies\FLXLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MapEditorReborn">
+      <HintPath>Dependencies\MapEditorReborn.dll</HintPath>
+    </Reference>
+    <Reference Include="Mirror">
+      <HintPath>Dependencies\Mirror.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dependencies\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SCPSLAudioApi">
+      <HintPath>Dependencies\SCPSLAudioApi.dll</HintPath>
+    </Reference>
+    <Reference Include="SemanticVersioning">
+      <HintPath>Dependencies\SemanticVersioning.dll</HintPath>
+    </Reference>
+    <Reference Include="SerializedData">
+      <HintPath>Dependencies\SerializedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>Dependencies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>Dependencies\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>Dependencies\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NGMainPlugin\API\CustomPainkillerEffects.cs" />
+    <Compile Include="NGMainPlugin\API\DiscordWebhookAPI.cs" />
+    <Compile Include="NGMainPlugin\API\Enums\PainkillerEffects.cs" />
+    <Compile Include="NGMainPlugin\API\EventsAPI.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\ForceSubClass.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\NickManager.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\Watchlists.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\Warns.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\TEST.cs" />
+    <Compile Include="NGMainPlugin\Commands\ChangeSkin.cs" />
+    <Compile Include="NGMainPlugin\Commands\announce.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\Lights.cs" />
+    <Compile Include="NGMainPlugin\Commands\level.cs" />
+    <Compile Include="NGMainPlugin\Commands\nick.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\ErrorLogs.cs" />
+    <Compile Include="NGMainPlugin\Systems\Discord\Logs.cs" />
+    <Compile Include="NGMainPlugin\Systems\RemoteKeycard\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\RemoteKeycard\PlayerExtensions.cs" />
+    <Compile Include="NGMainPlugin\Systems\RemoteKeycard\RemoteKeycards.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPSwap\SCPSwap.cs" />
+    <Compile Include="NGMainPlugin\Commands\stuck.cs" />
+    <Compile Include="NGMainPlugin\Commands\timer.cs" />
+    <Compile Include="NGMainPlugin\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventHandlers\EventHandlers.cs" />
+    <Compile Include="NGMainPlugin\Systems\CustomItems\Items\TranquilizerGun.cs" />
+    <Compile Include="NGMainPlugin\Main.cs" />
+    <Compile Include="NGMainPlugin\Systems\CustomItems\CustomItems.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventHandlers\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\CustomItems\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\AdminSysEvents.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Commands\LiveEvents.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\Events.cs" />
+    <Compile Include="NGMainPlugin\Systems\EventsSystem\EventsSystem.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Notifications.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Types\Ban_Kick.cs" />
+    <Compile Include="NGMainPlugin\Systems\RGBNuke\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\RespawnTimer\RespawnTimer.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\DiscoCommand.cs" />
+    <Compile Include="NGMainPlugin\Systems\RGBNuke\RGBNuke.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Sturmtruppe.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\LobbySystem.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\Commands\LockCommand.cs" />
+    <Compile Include="NGMainPlugin\Systems\LobbySystem\Patches\RoundStartPatch.cs" />
+    <Compile Include="NGMainPlugin\Systems\Painkiller\RandomPainkillers.cs" />
+    <None Include="TechSuppe\FAQ\Head.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="NGMainPlugin\.config\app.config" />
+    <None Include="Pastebins\ModdedMain.md" />
+    <None Include="README.md" />
+    <None Include="TechSuppe\FAQ\15.md" />
+    <None Include="TechSuppe\FAQ\14.md" />
+    <None Include="TechSuppe\FAQ\13.md" />
+    <None Include="TechSuppe\FAQ\12.md" />
+    <None Include="TechSuppe\FAQ\11.md" />
+    <None Include="TechSuppe\FAQ\10.md" />
+    <None Include="TechSuppe\FAQ\9.md" />
+    <None Include="TechSuppe\FAQ\8.md" />
+    <None Include="TechSuppe\FAQ\7.md" />
+    <None Include="TechSuppe\FAQ\6.md" />
+    <None Include="TechSuppe\FAQ\5.md" />
+    <None Include="TechSuppe\FAQ\4.md" />
+    <None Include="TechSuppe\FAQ\3.md" />
+    <None Include="TechSuppe\FAQ\2.md" />
+    <None Include="TechSuppe\FAQ\1.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ExMod.Exiled" Version="9.6.0" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Fettsack.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\Subclasses.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Drogendealer.cs" />
+    <Compile Include="NGMainPlugin\API\Enums\Subclasses.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\BugsBunny.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Allseeing.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Blitz.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Sondereinheit.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\MTF\Kamikaze.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\CI\Spy.cs" />
+    <Compile Include="NGMainPlugin\Systems\Subclasses\DClass\Kind.cs" />
+    <Compile Include="NGMainPlugin\Commands\Admin\ScaleCom.cs" />
+    <Compile Include="NGMainPlugin\Systems\Notifications\Types\LastTeamMember.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPHud\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\SCPHud\SCPHud.cs" />
+    <Compile Include="NGMainPlugin\API\Enums\SCPHud.cs" />
+    <PackageReference Include="MongoDB.Driver">
+      <Version>3.4.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NGMainPlugin\API\CustomPlayerData.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Database.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Config.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\Translation.cs" />
+    <Compile Include="NGMainPlugin\Commands\playtime.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\XP\XP.cs" />
+    <Compile Include="NGMainPlugin\Systems\Database\XP\Levels.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

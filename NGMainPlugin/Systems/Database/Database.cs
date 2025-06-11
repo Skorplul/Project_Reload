@@ -1,34 +1,56 @@
+using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using PRMainPlugin.Commands;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace PRMainPlugin.Systems.Database
 {
-    using Exiled.API.Features;
-    using Exiled.Events.EventArgs.Player;
-    using Exiled.Events.EventArgs.Server;
-    using LiteDB;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
+    //internal static class DBPlayerExtension
+    //{
+    //    internal static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
 
-    internal static class DBPlayerExtension
+    //    public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
+    //    {
+    //        if (CachedPlayerData.TryGetValue(player.UserId, out var cachedData))
+    //            return cachedData;
+
+    //        var data = await Database.GetPlayerDataAsync(player);
+    //        CachedPlayerData[player.UserId] = data;
+    //        return data;
+    //    }
+    //}
+
+    public static class PlayerDataCache
     {
-        private static Dictionary<Player, PlayerData> CachedPlayerData = new Dictionary<Player, PlayerData>();
+        internal static readonly ConcurrentDictionary<string, PlayerData> Data = new();
 
-        public static PlayerData GetPlayerData(this Player player) 
-        {
-            return CachedPlayerData.GetOrAdd(player, () => Database.GetPlayerData(player));
-        }
+        public static PlayerData Get(string id)
+            => Data.TryGetValue(id, out var result) ? result : null;
+
+        public static void Set(string id, PlayerData playerData)
+            => Data[id] = playerData;
     }
 
-    internal class PlayerData
+    // Player data model
+    public class PlayerData
     {
+        [BsonId]
         public string Id { get; set; }
         public string Nickname { get; set; }
         public string CustomNick { get; set; }
         public string Rank { get; set; }
         public bool NicknameChangable { get; set; } = true;
-        public int Playtime { get; set; }
+        public List<Warn> Warns { get; set; } = new List<Warn>();
+        public List<Warn> Watchlists { get; set; } = new List<Warn>();
+        public double Playtime { get; set; }
         public int XP { get; set; }
         public int RequiredXP { get; set; } = 230;
         public int Level { get; set; } = 1;
@@ -36,50 +58,35 @@ namespace PRMainPlugin.Systems.Database
         public int Kills { get; set; }
         public int Deaths { get; set; }
 
-        public async Task Update()
+        public void Update()
         {
-            await Database.UpdateData(this);
+            Database.UpdateDataAsync(this);
         }
     }
 
-    public static class DBManager
+    //Warn data structure
+    public class Warn
     {
-        private static readonly object _lock = new();
-
-        public static LiteDatabase Get(this LiteDatabase _db)
-        {
-            lock (_lock)
-            {
-                if (_db == null)
-                {
-                    Log.Warn("Database is null or disposed — reinitializing.");
-                    try
-                    {
-                        _db = new LiteDatabase(Path.Combine(Paths.Configs, "PRMainDB.db"));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error($"Failed to reinitialize DB: {ex}");
-                        throw;
-                    }
-                }
-
-                return _db;
-            }
-        }
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
+        public DateTime CreatedAt { get; set; }
+        public string Reason { get; set; }
+        public string Issuer { get; set; }
     }
 
     internal static class Database
     {
-
-        internal static LiteDatabase DB;
-        private static readonly object _dbLock = new();
+        private static IMongoCollection<PlayerData> _collection;
 
         internal static void InitDB()
         {
             Config.LoadConfig();
 
-            DB = DB.Get();
+            string connectionString = $"mongodb://SL_MAIN:DuFetterNegger1+2@127.0.0.1:27017/?authSource=SL_MAIN";
+            var client = new MongoClient(connectionString);
+            var db = client.GetDatabase("SL_MAIN");
+            _collection = db.GetCollection<PlayerData>("players");
+
+            LoadAllDataFromDatabase();
 
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeft;
@@ -88,16 +95,16 @@ namespace PRMainPlugin.Systems.Database
             XP.Enable();
         }
 
-        internal static async Task CloseDB()
+        internal static void CloseDB()
         {
             var updateTasks = new List<Task>();
 
             foreach (var p in Player.List)
             {
-                updateTasks.Add(UpdateData(p));
+                UpdateDataAsync(p);
             }
 
-            await Task.WhenAll(updateTasks);
+            SaveAllDataToDatabase();
 
             Exiled.Events.Handlers.Player.Verified -= OnVerified;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeft;
@@ -105,34 +112,65 @@ namespace PRMainPlugin.Systems.Database
 
             XP.Disable();
 
-            lock (_dbLock)
-            {
-                DB?.Dispose();
-                DB = null;
-            }
+            _collection = null;
         }
 
-        internal static PlayerData GetPlayerInfo(string uid)
+        private static void LoadAllDataFromDatabase()
         {
-            return GetPlayerData(Player.UserIdsCache.Select(p => p.Key == uid ? p.Value : null).FirstOrDefault());
+            Task.Run(async () =>
+            {
+                var allPlayers = await _collection.Find(_ => true).ToListAsync();
+                foreach (var player in allPlayers)
+                {
+                    PlayerDataCache.Data[player.Id] = player;
+                }
+
+                Log.Info($"Loaded {PlayerDataCache.Data.Count} player data entries into memory.");
+            }).GetAwaiter().GetResult(); // Block here if you must to ensure data is ready.
         }
 
-        internal static PlayerData GetPlayerData(Player player)
+        private static void SaveAllDataToDatabase()
+        {
+            Task.Run(async () =>
+            {
+                foreach (var playerData in PlayerDataCache.Data.Values)
+                {
+                    var filter = Builders<PlayerData>.Filter.Eq(p => p.Id, playerData.Id);
+                    await _collection.ReplaceOneAsync(filter, playerData, new ReplaceOptions { IsUpsert = true });
+                }
+
+                Log.Info("Saved all in-memory player data to MongoDB.");
+            });
+        }
+
+        internal static async Task<PlayerData> GetPlayerInfoAsync(string uid)
+        {
+            var player = Player.UserIdsCache.FirstOrDefault(p => p.Key == uid).Value;
+
+            if (player == null)
+            {
+                Log.Warn($"Player with UID {uid} not found in UserIdsCache.");
+                return null;
+            }
+
+            return await GetPlayerDataAsync(player);
+        }
+
+        internal static async Task<PlayerData> GetPlayerDataAsync(Player player)
         {
             Log.Debug($"Getting {player.UserId}:{player.Nickname} data!");
 
-            lock (_dbLock)
-            {
-                var result = DB.GetCollection<PlayerData>("Players")
-                    .Query()
-                    .Where(p => p.Id == player.UserId)
-                    .ToList();
+            var result = await _collection.Find(p => p.Id == player.UserId).FirstOrDefaultAsync();
 
-                return result.Count > 0 ? result.First() : CreatePlayerData(player);
-            }
+            return result ?? await CreatePlayerDataAsync(player);
         }
 
-        internal static PlayerData CreatePlayerData(Player player)
+        public static async Task<PlayerData> GetPlayerDataByIdAsync(string steamId)
+        {
+            return await _collection.Find(p => p.Id == steamId).FirstOrDefaultAsync();
+        }
+
+        internal static async Task<PlayerData> CreatePlayerDataAsync(Player player)
         {
             Log.Debug($"Creating {player.UserId}:{player.Nickname} data!");
 
@@ -143,10 +181,7 @@ namespace PRMainPlugin.Systems.Database
                 Rank = player.RankName
             };
 
-            lock (_dbLock)
-            {
-                DB.GetCollection<PlayerData>("Players").Insert(data);
-            }
+            await _collection.InsertOneAsync(data);
 
             return data;
         }
@@ -157,18 +192,18 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="player"></param>
         /// <param name="recons"></param>
         /// <param name="xp"></param>
-        public static async Task UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
+        public static async void UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
         {
-            var data = player.GetPlayerData();
+            var data = PlayerDataCache.Get(player.UserId);
 
             if (recons != 0)
                 data.Recons = data.Recons + recons;
             if (xp != 0)
                 data.XP = data.XP + xp;
 
-            await data.Update();
+            PlayerDataCache.Set(player.UserId, data);
 
-            Levels.CheckLevel(data); 
+            Levels.CheckLevel(data);
 
             if (recons > 0 && xp == 0 && ShowHint)
                 player.ShowHint($"[<color=#1504B3>P</color><color=#1A09B7>r</color><color=#1F0EBB>o</color><color=#2413BF>j</color><color=#2918C3>e</color><color=#2E1DC7>c</color><color=#3322CB>t</color><color=#3827CF>-</color><color=#3D2CD3>R</color><color=#4231D7>e</color><color=#4736DB>l</color><color=#4C3BDF>o</color><color=#5140E3>a</color><color=#5645E7>d</color>]: Du hast {recons} Recons erhalten.");
@@ -183,113 +218,261 @@ namespace PRMainPlugin.Systems.Database
         /// </summary>
         /// <param name="player"></param>
         /// <param name="state"></param>
-        public static async Task UpdateAllowNickChange(Player player, bool state)
+        public static async void UpdateAllowNickChange(Player player, bool state)
         {
-            var data = player.GetPlayerData();
+            var data = PlayerDataCache.Get(player.UserId);
             data.NicknameChangable = state;
 
-            await data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
         /// Update the Players Displayname in DB for later use
         /// </summary>
         /// <param name="player"></param>
-        public static async Task UpdateCustomNick(Player player)
+        public static async void UpdateCustomNick(Player player)
         {
-            var data = player.GetPlayerData();
+            var data = PlayerDataCache.Get(player.UserId);
             data.CustomNick = player.CustomName;
 
-            await data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
         /// Adds a Kill to the Database entry for this player
         /// </summary>
         /// <param name="player"></param>
-        public static async Task AddKill(Player player)
+        public static async void AddKill(Player player)
         {
-            var data = player.GetPlayerData();
+            var data = PlayerDataCache.Get(player.UserId);
             data.Kills++;
 
-            await data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
         /// <summary>
         /// Adds a Death to the Database entry for this player
         /// </summary>
         /// <param name="player"></param>
-        public static async Task AddDeath(Player player)
+        public static async void AddDeath(Player player)
         {
-            var data = player.GetPlayerData();
+            var data = PlayerDataCache.Get(player.UserId);
             data.Deaths++;
 
-            await data.Update();
+            PlayerDataCache.Set(player.UserId, data);
         }
 
-        internal static async Task UpdateData(Player player)
+        /// <summary>
+        /// Adds a Warn to the specified player with relevant context.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static async void AddWarn(Player target, Player issuer, string reson)
         {
-            PlayerData data = null;
+            var data = PlayerDataCache.Get(target.UserId);
+
+            if (data.Warns == null)
+                data.Warns = new List<Warn>();
+
+            data.Warns.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
+
+            PlayerDataCache.Set(target.UserId, data);
+        }
+
+        /// <summary>
+        /// Adds a Warn to the specified player with relevant context.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static void AddWarn(PlayerData data, Player issuer, string reson)
+        {
+            if (data.Warns == null)
+                data.Warns = new List<Warn>();
+
+            data.Warns.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
+
+            PlayerDataCache.Set(data.Id, data);
+        }
+
+        /// <summary>
+        /// Remove a warn using the string parsed ObjectId.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="warn"></param>
+        /// <returns></returns>
+        public static bool RemoveWarn(PlayerData data, ObjectId warn)
+        {
+            var TestWarn = data.Warns.FirstOrDefault(w => w.Id == warn);
+            if (data.Warns.IsEmpty() || data.Warns == null || TestWarn == null)
+            {
+                return false;
+            }
 
             try
             {
-                if (player is null || !player.IsVerified || !player.IsConnected)
-                {
-                    Log.Warn("Tried to update a null or disconnected player.");
-                    return;
-                }
-
-                data = player.GetPlayerData();
-
-                data.Id = player.UserId; // Just in case
-                data.Nickname = player.Nickname;
-                data.Rank = player.RankName;
-
-                if (player.SessionVariables.ContainsKey("JoinTime"))
-                {
-                    data.Playtime += (int)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
-                }
+                data.Warns.RemoveAll(w => w.Id == warn);
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to capture player data for saving: {ex}");
-                return;
+                return false;
             }
 
-            await UpdateData(data);
+            return true;
         }
 
-        internal static async Task UpdateData(PlayerData data)
+        /// <summary>
+        /// Lsit all warns of the ID
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <returns>A Task<Lsit<Warn>> with all warns of the specified UserId</returns>
+        public async static Task<List<Warn>> ListWarns(string steamID)
         {
-            await Task.Run(() =>
+            PlayerData data = await _collection.Find(steamID).FirstOrDefaultAsync();
+
+            return data == null ? new List<Warn>() : data.Warns;
+        }
+
+        /// <summary>
+        /// Adds a Watchlist entry to the specified player with relevant context.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static async void AddWatchlist(Player target, Player issuer, string reson)
+        {
+            var data = PlayerDataCache.Get(target.UserId);
+
+            if (data.Watchlists == null)
+                data.Watchlists = new List<Warn>();
+
+            data.Watchlists.Add(new Warn
             {
-                lock (_dbLock)
-                {
-                    Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
-                    DB.GetCollection<PlayerData>("Players").Update(data);
-                }
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
             });
+
+            PlayerDataCache.Set(target.UserId, data);
+        }
+
+        /// <summary>
+        /// Adds a Watchlist entry to the specified player with relevant context.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="issuer"></param>
+        /// <param name="reson"></param>
+        public static void AddWatchlist(PlayerData data, Player issuer, string reson)
+        {
+            if (data.Watchlists == null)
+                data.Watchlists = new List<Warn>();
+
+            data.Watchlists.Add(new Warn
+            {
+                CreatedAt = DateTime.UtcNow.Date,
+                Reason = reson,
+                Issuer = issuer.Nickname
+            });
+
+            PlayerDataCache.Set(data.Id, data);
+        }
+
+        /// <summary>
+        /// Remove a watchlists using the string parsed ObjectId.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="watchlist"></param>
+        /// <returns>If the Watchlist entry was removed Succesfully</returns>
+        public static bool RemoveWatchlist(PlayerData data, ObjectId watchlist)
+        {
+            var TestWatchlists = data.Watchlists.FirstOrDefault(w => w.Id == watchlist);
+
+            if (data.Watchlists.IsEmpty() || data.Watchlists == null || TestWatchlists == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                data.Watchlists.RemoveAll(w => w.Id == watchlist);
+                PlayerDataCache.Set(data.Id, data);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Lsit all watchlists of the ID
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <returns>A Task<Lsit<Warn>> with all watchlists of the specified UserId</returns>
+        public async static Task<List<Warn>> ListWatchlist(string steamID)
+        {
+            PlayerData data = await _collection.Find(steamID).FirstOrDefaultAsync();
+
+            return data == null ? new List<Warn>() : data.Warns;
+        }
+
+        internal static async void UpdateDataAsync(Player player)
+        {
+            var data = PlayerDataCache.Get(player.UserId);
+
+            data.Id = player.UserId; // Just in case
+            data.Nickname = player.Nickname;
+            data.Rank = player.RankName;
+
+            if (player.SessionVariables.ContainsKey("JoinTime"))
+                data.Playtime += (double)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
+
+            await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
+        }
+
+        internal static async void UpdateDataAsync(PlayerData data)
+        {
+            Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
+
+            await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
         }
 
         // Events
-        internal static void OnVerified(VerifiedEventArgs ev)
+        internal static async void OnVerified(VerifiedEventArgs ev)
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
-            ev.Player.CustomName = ev.Player.GetPlayerData().CustomNick;
+
+            var data = PlayerDataCache.Get(ev.Player.UserId);
+
+            PlayerDataCache.Set(ev.Player.UserId, data);
+            ev.Player.CustomName = data.CustomNick;
         }
 
-        internal static async void OnPlayerLeft(LeftEventArgs ev)
+        internal static void OnPlayerLeft(LeftEventArgs ev)
         {
-            await UpdateCustomNick(ev.Player);
-            await UpdateData(ev.Player);
+            UpdateDataAsync(ev.Player);
         }
 
         internal static async void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
-                await UpdateData(p);
+                UpdateDataAsync(p);
             }
+            SaveAllDataToDatabase();
         }
     }
 }

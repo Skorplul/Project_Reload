@@ -1,43 +1,18 @@
 namespace PRMainPlugin.Systems.Database.Commands
 {
     using CommandSystem;
-    using System;
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
     using PRMainPlugin.Systems.Database;
-
-    [CommandHandler(typeof(ClientCommandHandler))]
-    public class DataInfoClient : ICommand
-    {
-        public string Command { get; } = "playtime";
-
-        public string[] Aliases { get; } = new string[] { "pt" };
-
-        public string Description { get; } = "See your playtime.";
-
-        public bool SanitizeResponse => true;
-
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-        {
-            var data = Player.Get(sender).GetPlayerData();
-
-            if (data != null)
-            {
-                response = String.Format("<color=green>Your playtime: </color> {0}", $"{TimeSpan.FromSeconds(data.Playtime):hh\\:mm\\:ss}");
-                return true;
-            }
-
-            response = "<color=red>You have not agreed to the data collection, your playtime is not stored.</color>";
-            return false;
-        }
-    }
+    using System;
+    using static UnityEngine.GraphicsBuffer;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class DataInfoServer : ICommand
     {
-        public string Command { get; } = "pt";
+        public string Command { get; } = "playtimectl";
 
-        public string[] Aliases { get; } = new string[] { };
+        public string[] Aliases { get; } = new string[] { "ptctl" };
 
         public string Description { get; } = $"See other players' playtime.\\n\" +\r\n            \"No arguments = playtime of every player on the server.\\n\" +\r\n            \"<int> Id of a player on the server = playtime of a certain player currently on the server.\\n\" +\r\n            \"<string> ID or SteamID of a player = playtime of a certain player.";
 
@@ -56,7 +31,7 @@ namespace PRMainPlugin.Systems.Database.Commands
                 response = $"<color=green>Playtime of players on server: </color>\n";
                 foreach (Player p in Player.List)
                 {
-                    PlayerData info = Database.GetPlayerInfo(p.UserId);
+                    PlayerData info = PlayerDataCache.Get(p.UserId);
                     if (info == null)
                         continue;
 
@@ -67,39 +42,41 @@ namespace PRMainPlugin.Systems.Database.Commands
             }
             else if (arguments.Count == 1)
             {
-                /*if (arguments.At(0) == "all")
+                try
                 {
-                    response = Database.DebugInfo();
+                    Player p = Player.Get(arguments.At(0));
+                    PlayerData info;
+                    if (p == null)
+                    {
+                        info = Database.GetPlayerInfoAsync(arguments.At(0) + "@steam").GetAwaiter().GetResult();
 
-                    return true;
-                }*/
+                        if (info == null)
+                        {
+                            response = $"<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
+                            return false;
+                        }
 
-                Player p = Player.Get(arguments.At(0));
-                PlayerData info;
-                if (p == null)
-                {
-                    info = Database.GetPlayerInfo(arguments.At(0)+"@steam");
+                        response = String.Format($"<color=green>Playtime of {0}:</color> {1}", arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
+                        return true;
 
+                    }
+
+                    info = PlayerDataCache.Get(p.UserId);
                     if (info == null)
                     {
-                        response = $"<color=red>Wrong player ID/SteamID or Player's Data is not stored.</color>";
+                        response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
                         return false;
                     }
 
-                    response = String.Format($"<color=green>Playtime of {0}:</color> {1}", arguments.At(0), $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
+                    response = String.Format($"<color=green>Playtime of {0}:</color> {1}", p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
                     return true;
-
                 }
-
-                info = p.GetPlayerData();
-                if (info == null)
+                catch (Exception e)
                 {
-                    response = $"<color=red>Player's data is not saved due to them not agreeing to data collection.</color>";
+                    response = "Error in DB querry! Contact Skorp";
+                    Log.Error($"{e.Message}");
                     return false;
                 }
-
-                response = String.Format($"<color=green>Playtime of {0}:</color> {1}", p.Nickname, $"{TimeSpan.FromSeconds(info.Playtime):hh\\:mm\\:ss}");
-                return true;
             }
 
             response = "";

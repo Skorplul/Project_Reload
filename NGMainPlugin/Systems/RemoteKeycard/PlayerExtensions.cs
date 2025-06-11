@@ -1,38 +1,28 @@
-﻿using System.Linq;
-using CustomPlayerEffects;
+﻿using CustomPlayerEffects;
 using Exiled.API.Features.Items;
+using System.Linq;
+using Exiled.API.Features;
 using Exiled.API.Enums;
 
 namespace PRMainPlugin.Systems.RemoteKeycard
 {
-    public static class PlayerExtensions
+    public static class Extensions
     {
-        public static bool HasKeycardPermission(this Exiled.API.Features.Player player, KeycardPermissions permissions, bool requiresAllPermissions = false)
+        /// <summary>
+        ///     Checks whether the player has a keycard of a specific permission.
+        /// </summary>
+        /// <param name="player"><see cref="Player" /> trying to interact.</param>
+        /// <param name="permissions">The permission that's gonna be searched for.</param>
+        /// <param name="requiresAllPermissions">Whether all permissions are required.</param>
+        /// <returns>Whether the player has the required keycard.</returns>
+        public static bool HasKeycardPermission(this Player player, KeycardPermissions permissions, bool requiresAllPermissions = false)
         {
-            bool flag = RemoteKeycards.Config.AmnesiaMatters && player.IsEffectActive<AmnesiaItems>();
-            return !flag && (requiresAllPermissions ? player.Items.Any(delegate (Exiled.API.Features.Items.Item item)
-            {
-                Keycard keycard = item as Keycard;
-                return keycard != null && keycard.Permissions.HasFlag(permissions);
-            }) : player.Items.Any(delegate (Exiled.API.Features.Items.Item item)
-            {
-                Keycard keycard = item as Keycard;
-                return keycard != null && (keycard.Permissions & permissions) > KeycardPermissions.None;
-            }));
-        }
+            if (RemoteKeycards._config.AmnesiaMatters && player.IsEffectActive<AmnesiaVision>())
+                return false;
 
-        public static bool HasKeycardPermission(this Exiled.API.Features.Player player, Interactables.Interobjects.DoorUtils.KeycardPermissions permissions, bool requiresAllPermissions = false)
-        {
-            bool flag = RemoteKeycards.Config.AmnesiaMatters && player.IsEffectActive<AmnesiaItems>();
-            return !flag && (requiresAllPermissions ? player.Items.Any(delegate (Exiled.API.Features.Items.Item item)
-            {
-                Keycard keycard = item as Keycard;
-                return keycard != null && keycard.Base.Permissions.HasFlag(permissions);
-            }) : player.Items.Any(delegate (Exiled.API.Features.Items.Item item)
-            {
-                Keycard keycard = item as Keycard;
-                return keycard != null && (keycard.Base.Permissions & permissions) > 0;
-            }));
+            return requiresAllPermissions
+                ? player.Items.Any(item => item is Keycard keycard && keycard.Permissions.HasFlag(permissions))
+                : player.Items.Any(item => item is Keycard keycard && (keycard.Permissions & permissions) != 0);
         }
     }
 }

@@ -1,8 +1,13 @@
-﻿using DCWB = PRMainPlugin.API.DiscordWebhookAPI;
-using Exiled.Events.EventArgs.Server;
+﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
+using MEC;
 using System;
-using Exiled.API.Features;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using YamlDotNet.Core.Tokens;
+using DCWB = PRMainPlugin.API.DiscordWebhookAPI;
 
 
 namespace PRMainPlugin.Systems.Discord
@@ -10,6 +15,7 @@ namespace PRMainPlugin.Systems.Discord
     public static class Loggs
     {
         internal static Config Config;
+        private static CancellationTokenSource _cts;
         public static void Enable()
         {
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
@@ -21,6 +27,10 @@ namespace PRMainPlugin.Systems.Discord
             Exiled.Events.Handlers.Player.Handcuffing += OnHandcuffing;
             Exiled.Events.Handlers.Player.RemovedHandcuffs += OnRemovedHandcuffes;
             Exiled.Events.Handlers.Player.Spawning += OnSpawned;
+
+            _cts = new CancellationTokenSource();
+            _ = Task.Run(() => StartLogSendingLoop(_cts.Token));
+            _ = DCWB.SendMs("!!! Server Startup !!!");
         }
 
         public static void Disable()
@@ -34,28 +44,70 @@ namespace PRMainPlugin.Systems.Discord
             Exiled.Events.Handlers.Player.Handcuffing -= OnHandcuffing;
             Exiled.Events.Handlers.Player.RemovedHandcuffs -= OnRemovedHandcuffes;
             Exiled.Events.Handlers.Player.Spawning -= OnSpawned;
+
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
         }
+
+        private static string msg = "";
+
+        private static void AddLog(string Log)
+        {
+            msg += $"{Log}\\n";
+        }
+
+        private static async Task StartLogSendingLoop(CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    if (!string.IsNullOrWhiteSpace(msg))
+                    {
+                        string tmp = msg;
+                        msg = "";
+                        await DCWB.SendMs(tmp);
+                    }
+                    else
+                    {
+                        await Task.Delay(7000, token);
+                    }
+
+                    await Task.Delay(3000, token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Log.Info("Log sending loop cancelled.");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Unhandled error in StartLogSendingLoop: {ex}");
+            }
+        }
+
 
         // Start Log funcs
 
         private static void OnRoundStarted()
         {
-            DCWB.SendMs($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nEine neu Runde hat jetzt gestarted!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
+            AddLog($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nEine neu Runde hat jetzt gestarted!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
         }
 
         private static void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nDie Runde hat jetzt geendet!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
+            AddLog($"[{DateTime.Now}] \\n \\n \\n**-------------------------------------------------------------------------------------\\nDie Runde hat jetzt geendet!\\n-------------------------------------------------------------------------------------\\n \\n \\n**");
         }
 
         private static void OnVerified(VerifiedEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gejoint.");
+            AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gejoint.");
         }
 
         private static void OnLeft(LeftEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.");
+            AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` ist gegangen.");
         }
 
         // fucked sometimes... (NullReference exception)
@@ -67,10 +119,10 @@ namespace PRMainPlugin.Systems.Discord
                     return;
                 if (ev.DamageHandler.IsSuicide)
                 {
-                    DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.");
+                    AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst umgebracht.");
                     return;
                 }
-                DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
+                AddLog($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` umgebracht.");
             }
             catch (Exception ex)
             {
@@ -92,10 +144,10 @@ namespace PRMainPlugin.Systems.Discord
                     return;
                 if (ev.Player == ev.Attacker)
                 {
-                    DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.");
+                    AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` hat sich selbst {ev.Amount} schaden zugefügt.");
                     return;
                 }
-                DCWB.SendMs($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
+                AddLog($"[{DateTime.Now}] `{ev.Attacker.Nickname}` `({ev.Attacker.UserId})` hat `{ev.Player.Nickname}` `({ev.Player.UserId})` {ev.Amount} schaden mit {ev.DamageHandler.Type} zugefügt.");
             }
             catch (Exception ex)
             {
@@ -105,17 +157,17 @@ namespace PRMainPlugin.Systems.Discord
 
         private static void OnHandcuffing(HandcuffingEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` cuffed.");
+            AddLog($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` cuffed.");
         }
 
         private static void OnRemovedHandcuffes(RemovedHandcuffsEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` uncuffed.");
+            AddLog($"[{DateTime.Now}] `{ev.Target.Nickname}` `({ev.Target.UserId})` wurde von `{ev.Player.Nickname}` `({ev.Player.UserId})` uncuffed.");
         }
 
         private static void OnSpawned(SpawningEventArgs ev)
         {
-            DCWB.SendMs($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` wurde als `{ev.NewRole.Name}`gespawned.");
+            AddLog($"[{DateTime.Now}] `{ev.Player.Nickname}` `({ev.Player.UserId})` wurde als `{ev.NewRole.Name}`gespawned.");
         }
     }
 }

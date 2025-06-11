@@ -87,6 +87,14 @@ namespace PRMainPlugin.Systems.SCPSwap
                 response = "Not a valid SCP!";
                 return false;
             }
+            if (GetSwap(arguments.Array[1]) == RoleTypeId.Scp3114)
+            {
+                if (Server.PlayerCount < Config.SkelliCount)
+                {
+                    response = string.Format("You can only swap to SCP-3114, if the player count is {0} or greater!", Config.SkelliCount);
+                    return false;
+                }
+            }
             if (!Config.SwapableScps.Contains(GetSwap(arguments.Array[1])))
             {
                 response = "You can not swap to this SCP!";
