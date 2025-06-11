@@ -35,10 +35,15 @@
             { ItemType.SCP207, 5.0 },
         };
 
-        private static Dictionary<PainkillerEffects, double> PainCsProbProbabilities = new Dictionary<PainkillerEffects, double>
+        private static Dictionary<PainkillerEffects, double> PainKYSProbabilities = new Dictionary<PainkillerEffects, double>
         {
             { PainkillerEffects.KYS_Balls, 50.0 },
             { PainkillerEffects.KYS, 50.0 },
+        };
+        
+        private static Dictionary<PainkillerEffects, double> PainCsProbabilities = new Dictionary<PainkillerEffects, double>
+        {
+            { PainkillerEffects.TeamSwap, 50.0 },
         };
 
         private static T SelectRandomAction<T>(Dictionary<T, double> probabilities)
@@ -136,6 +141,9 @@
                 case PainkillerEffects.KYS:
                     API.CustomPainkillerEffects.DoKYS(pl);
                     return "Nades";
+                case PainkillerEffects.TeamSwap:
+                    API.CustomPainkillerEffects.DoTeamSwap(pl);
+                    return "Team Wechsel";
                 default:
                     return "Error";
             }
@@ -147,9 +155,16 @@
             {
                 if(Random.Next(100) == 55)
                 {
-                    PainkillerEffects KillEff = SelectRandomAction(PainCsProbProbabilities);
+                    PainkillerEffects KillEff = SelectRandomAction(PainKYSProbabilities);
                     Database.Database.UpdateReconsAndXP(ev.Player, 10, 10, false);
                     ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {GetCsString(KillEff, ev.Player)}, 10 XP und 10 Recons erhalten!");
+                }
+
+                if (Random.Next(100) == 27)
+                {
+                    PainkillerEffects CsEff = SelectRandomAction(PainCsProbabilities);
+                    Database.Database.UpdateReconsAndXP(ev.Player, 10, 10, false);
+                    ev.Player.ShowHint($"[<color=#2813E8>P</color><color=#2612DD>a</color><color=#2411D2>i</color><color=#2210C7>n</color><color=#200FBC>k</color><color=#1E0EB1>i</color><color=#1C0DA6>l</color><color=#1A0C9B>l</color><color=#180B90>e</color><color=#160A85>r</color>]: Du hast {GetCsString(CsEff, ev.Player)}, 10 XP und 10 Recons erhalten!");
                 }
 
                 if (Random.Next(5) == 0) // 25% chance for either effect or item

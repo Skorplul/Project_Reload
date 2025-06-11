@@ -7,4 +7,5 @@ public enum PainkillerEffects : sbyte
     KYS,
     KYS_Balls,
 
+    TeamSwap,
 }
