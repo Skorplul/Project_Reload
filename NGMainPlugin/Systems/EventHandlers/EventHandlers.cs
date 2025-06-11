@@ -63,10 +63,9 @@
 
         private static void OnUpgradingPlayer(UpgradingPlayerEventArgs ev)
         {
-            // 25% chance to be teleported as an scp
-            int tp = random.Next(4);
-            if (ev.Player.IsScp && ev.KnobSetting == Scp914KnobSetting.Rough && tp == 2) 
+            if (ev.Player.IsScp && ev.KnobSetting == Scp914KnobSetting.Rough && random.Next(4) == 2) 
             {
+                ev.IsAllowed = false;
                 ev.Player.Teleport(RoomType.LczClassDSpawn);
             }
         }
