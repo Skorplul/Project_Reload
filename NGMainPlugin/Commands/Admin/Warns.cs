@@ -42,6 +42,11 @@
             try
             {
                 data = PlayerDataCache.Get(targetID);
+                if (data == null)
+                {
+                    response = "Diesen Spieler gibt es nicht, bitte überprüfe noch einmal die ID.";
+                    return false;
+                }
             }
             catch (Exception ex)
             {
