@@ -182,6 +182,7 @@ namespace PRMainPlugin.Systems.Database
             };
 
             await _collection.InsertOneAsync(data);
+            PlayerDataCache.Data[player.UserId] = data;
 
             return data;
         }
