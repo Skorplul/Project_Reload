@@ -455,7 +455,7 @@ namespace PRMainPlugin.Systems.Database
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
 
-            var data = PlayerDataCache.Get(ev.Player.UserId);
+            var data = PlayerDataCache.Get(ev.Player.UserId) ?? await CreatePlayerDataAsync(ev.Player);
 
             PlayerDataCache.Set(ev.Player.UserId, data);
             ev.Player.CustomName = data.CustomNick;
