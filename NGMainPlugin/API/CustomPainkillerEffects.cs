@@ -58,6 +58,8 @@ namespace PRMainPlugin.API
                 case RoleTypeId.FacilityGuard:
                     ply.Role.Set(RoleTypeId.ChaosConscript, RoleSpawnFlags.None);
                     return;
+                default:
+                    break;
             }
 
             switch ((RoleTypeId)ply.Role)
@@ -74,6 +76,8 @@ namespace PRMainPlugin.API
                 case RoleTypeId.ChaosRepressor:
                     ply.Role.Set(RoleTypeId.NtfSergeant, RoleSpawnFlags.None);
                     return;
+                default:
+                    break;
             }
 
         }
