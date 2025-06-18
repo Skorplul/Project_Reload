@@ -40,10 +40,11 @@
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Scp173);
-                ply.Teleport(RoomType.Lcz173, Vector3.up*10);
+                ply.Teleport(DoorType.Scp173Gate, new Vector3(5, 0 ,0));
             }
-            
-            //yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);
+
+            yield return Timing.WaitForSeconds(Config.PeanutRunTimeToNuke);
+
             foreach (Door door in Door.List)
             {
                 door.IsOpen = true;

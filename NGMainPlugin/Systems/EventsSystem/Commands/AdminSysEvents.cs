@@ -56,20 +56,20 @@
             {
                 switch (Event)
                 {
-                    case "Virus":
+                    case "virus":
                         return EventsType.Virus;
-                    case "PeanutRun":
+                    case "peanutrun":
                         return EventsType.PeanutRun;
-                    case "LightsOut":
+                    case "lightsout":
                         return EventsType.LightsOut;
-                    case "ParticleFight":
+                    case "particlefight":
                         return EventsType.ParticleFight;
                     default:
                         return EventsType.None;
                 }
             }
 
-            EventsType eventsT = GetEventType(arguments.Array[1]);
+            EventsType eventsT = GetEventType(arguments.Array[1].ToLower());
 
             if (eventsT == EventsType.None)
             {
