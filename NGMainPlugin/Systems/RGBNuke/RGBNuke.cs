@@ -93,7 +93,7 @@
             {
                 if (instance.TryGetComponent<RainbowLight>(out var _))
                 {
-                    Log.Warn("Rainbowlights already active before RBNuke.Start()!");
+                    continue;
                 }
 
                 instance.gameObject.AddComponent<RainbowLight>();
