@@ -26,6 +26,11 @@ namespace PRMainPlugin.API
         Virus,
         PeanutRun,
         LightsOut,
-        ParticleFight,
+        JailbirdFight,
+        Skelli,
+        HideNSeek,
+        Parkour,
+        RedGreenLight,
+        Drehplatform,
     }
 }

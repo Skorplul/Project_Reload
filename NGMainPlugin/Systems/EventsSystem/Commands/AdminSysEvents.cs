@@ -38,7 +38,7 @@
             }
             if (arguments.Array[1] == "list")
             {
-                response = "Possible events: Virus, PeanutRun, LightsOut and ParticleFight\nThe events have to be spelled like they are here in the list!";
+                response = "Possible events: Virus, PeanutRun, LightsOut and JailbirdFight\nThe events have to be spelled like they are here in the list!";
                 return true;
             }
             if (Round.IsStarted)
@@ -62,8 +62,8 @@
                         return EventsType.PeanutRun;
                     case "lightsout":
                         return EventsType.LightsOut;
-                    case "particlefight":
-                        return EventsType.ParticleFight;
+                    case "jailbirdfight":
+                        return EventsType.JailbirdFight;
                     default:
                         return EventsType.None;
                 }
@@ -90,7 +90,7 @@
                 case EventsType.LightsOut:
                     Events.LightsOut();
                     break;
-                case EventsType.ParticleFight:
+                case EventsType.JailbirdFight:
                     Events.ParticleFight();
                     break;
                 default:

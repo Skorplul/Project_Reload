@@ -96,7 +96,7 @@
             foreach (Player ply in Player.List)
             {
                 ply.Role.Set(RoleTypeId.Scientist);
-                ply.AddItem(ItemType.ParticleDisruptor, 8);
+                ply.AddItem(ItemType.Jailbird, 8);
                 ply.EnableEffect(EffectType.Ensnared, i);
             }
 
@@ -211,10 +211,18 @@
 
         public static void ParticleFight()
         {
-            EventsSystemHandler.eventRoundType = EventsType.ParticleFight;
+            EventsSystemHandler.eventRoundType = EventsType.JailbirdFight;
             EventsAPI.EventRound = true;
 
             Timing.RunCoroutine(DoParticleFight());
+        }
+
+        public static void Skelli()
+        {
+            EventsSystemHandler.eventRoundType = EventsType.Skelli;
+            EventsAPI.EventRound = true;
+
+            Timing.RunCoroutine(DoSkelett());
         }
     }
 }

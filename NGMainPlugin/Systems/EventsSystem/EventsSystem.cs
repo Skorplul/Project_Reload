@@ -107,7 +107,7 @@
                     case EventsType.PeanutRun:
                         Timing.KillCoroutines();
                         break;
-                    case EventsType.ParticleFight:
+                    case EventsType.JailbirdFight:
                         Server.FriendlyFire = false;
                         break;
                     default:
