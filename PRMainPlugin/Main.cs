@@ -16,6 +16,7 @@
     using PRMainPlugin.Systems.RemoteKeycard;
     using PRMainPlugin.Systems.Discord;
     using PRMainPlugin.Systems.Database;
+    using PRMainPlugin.Systems.CustomSettings;
 
     public class NGMainPlguin : Plugin<Config>
     {
@@ -69,6 +70,9 @@
 
             Log.Info("Enabling Notification System...");
             Notifications.Enable();
+
+            Log.Info("Enabling CustomSettings Menu...");
+            Settings.Enable();
 
             Log.Info("Events System...");
             EventsSystemHandler.Enable();
@@ -124,6 +128,9 @@
 
             Log.Info("Disabling Notification System...");
             Notifications.Disable();
+
+            Log.Info("Disabling CustomSettings Menu...");
+            Settings.Disable();
 
             Log.Info("Disableing Events System...");
             EventsSystemHandler.Disable();
