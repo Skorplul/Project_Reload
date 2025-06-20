@@ -21,9 +21,14 @@ namespace PRMainPlugin.Systems.CustomSettings
             Log.Info($"{p.Nickname} clicked the button!");
         }
 
-        internal static void KeyPress(Player p, SettingBase s)
+        internal static void UseAbility(Player p, SettingBase s)
         {
-            Log.Info($"{p.Nickname} used the keybind!");
+            Log.Info($"{p.Nickname} used the thier ability!");
+        }
+
+        internal static void ToggleRespawnTimer(Player p, SettingBase s)
+        {
+            RespawnTimer.RespawnTimer.ToggleTimerForPlayer(p);
         }
     }
 }
