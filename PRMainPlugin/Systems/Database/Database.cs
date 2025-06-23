@@ -13,21 +13,6 @@ using System.Threading.Tasks;
 
 namespace PRMainPlugin.Systems.Database
 {
-    //internal static class DBPlayerExtension
-    //{
-    //    internal static readonly ConcurrentDictionary<string, PlayerData> CachedPlayerData = new();
-
-    //    public static async Task<PlayerData> GetPlayerDataAsync(this Player player)
-    //    {
-    //        if (CachedPlayerData.TryGetValue(player.UserId, out var cachedData))
-    //            return cachedData;
-
-    //        var data = await Database.GetPlayerDataAsync(player);
-    //        CachedPlayerData[player.UserId] = data;
-    //        return data;
-    //    }
-    //}
-
     public static class PlayerDataCache
     {
         internal static readonly ConcurrentDictionary<string, PlayerData> Data = new();
@@ -135,8 +120,7 @@ namespace PRMainPlugin.Systems.Database
             {
                 foreach (var playerData in PlayerDataCache.Data.Values)
                 {
-                    var filter = Builders<PlayerData>.Filter.Eq(p => p.Id, playerData.Id);
-                    await _collection.ReplaceOneAsync(filter, playerData, new ReplaceOptions { IsUpsert = true });
+                    await SavePlayerDataPartialAsync(playerData);
                 }
 
                 Log.Info("Saved all in-memory player data to MongoDB.");
@@ -186,6 +170,28 @@ namespace PRMainPlugin.Systems.Database
 
             return data;
         }
+
+        public static async Task SavePlayerDataPartialAsync(PlayerData data)
+        {
+            var filter = Builders<PlayerData>.Filter.Eq(p => p.Id, data.Id);
+
+            var update = Builders<PlayerData>.Update
+                .Set(p => p.Nickname, data.Nickname)
+                .Set(p => p.CustomNick, data.CustomNick)
+                .Set(p => p.NicknameChangable, data.NicknameChangable)
+                .Set(p => p.Warns, data.Warns)
+                .Set(p => p.Watchlists, data.Watchlists)
+                .Set(p => p.XP, data.XP)
+                .Set(p => p.Level, data.Level)
+                .Set(p => p.RequiredXP, data.RequiredXP)
+                .Set(p => p.Playtime, data.Playtime)
+                .Set(p => p.Recons, data.Recons)
+                .Set(p => p.Deaths, data.Deaths)
+                .Set(p => p.Kills, data.Kills);
+
+            await _collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
+        }
+
 
         /// <summary>
         /// Add or remove an amount of Recons or XP from a Player
@@ -436,19 +442,18 @@ namespace PRMainPlugin.Systems.Database
 
             data.Id = player.UserId; // Just in case
             data.Nickname = player.Nickname;
-            data.Rank = player.RankName;
 
             if (player.SessionVariables.ContainsKey("JoinTime"))
                 data.Playtime += (double)((DateTime.Now - DateTime.FromBinary((long)player.SessionVariables["JoinTime"])).TotalSeconds);
 
-            await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
+            await SavePlayerDataPartialAsync(data);
         }
 
         internal static async void UpdateDataAsync(PlayerData data)
         {
             Log.Debug($"Updating {data.Id}:{data.Nickname} data!");
 
-            await _collection.ReplaceOneAsync(p => p.Id == data.Id, data);
+            await SavePlayerDataPartialAsync(data);
         }
 
         // Events
