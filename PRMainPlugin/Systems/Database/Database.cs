@@ -29,6 +29,9 @@ namespace PRMainPlugin.Systems.Database
     {
         [BsonId]
         public string Id { get; set; }
+        public string DiscordId { get; set; } = null;
+        public string VerifyingID { get; set; }
+        public string VerificationToken { get; set; }
         public string Nickname { get; set; }
         public string CustomNick { get; set; }
         public string Rank { get; set; }
@@ -82,8 +85,6 @@ namespace PRMainPlugin.Systems.Database
 
         internal static void CloseDB()
         {
-            var updateTasks = new List<Task>();
-
             foreach (var p in Player.List)
             {
                 UpdateDataAsync(p);
@@ -187,7 +188,8 @@ namespace PRMainPlugin.Systems.Database
                 .Set(p => p.Playtime, data.Playtime)
                 .Set(p => p.Recons, data.Recons)
                 .Set(p => p.Deaths, data.Deaths)
-                .Set(p => p.Kills, data.Kills);
+                .Set(p => p.Kills, data.Kills)
+                .Set(p => p.DiscordId, data.DiscordId);
 
             await _collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
         }
