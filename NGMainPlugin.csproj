@@ -118,6 +118,7 @@
     <Compile Include="PRMainPlugin\Commands\Admin\Lights.cs" />
     <Compile Include="PRMainPlugin\Commands\level.cs" />
     <Compile Include="PRMainPlugin\Commands\nick.cs" />
+    <Compile Include="PRMainPlugin\Commands\verify.cs" />
     <Compile Include="PRMainPlugin\Systems\CustomSettings\Handlers.cs" />
     <Compile Include="PRMainPlugin\Systems\CustomSettings\Settings.cs" />
     <Compile Include="PRMainPlugin\Systems\Discord\Config.cs" />
@@ -181,7 +182,7 @@
     <None Include="TechSuppe\FAQ\1.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ExMod.Exiled" Version="9.6.0" />
+    <PackageReference Include="ExMod.Exiled" Version="9.6.1" />
     <Compile Include="PRMainPlugin\Systems\Subclasses\Config.cs" />
     <Compile Include="PRMainPlugin\Systems\Subclasses\DClass\Fettsack.cs" />
     <Compile Include="PRMainPlugin\Systems\Subclasses\Subclasses.cs" />

@@ -29,6 +29,7 @@ namespace PRMainPlugin.Systems.CustomSettings
                 "Fähigkeit benutzen",
                 KeyCode.B,
                 false,
+                true,
                 "Taste zum nutzen der Rollen speziefischen Fähigkeit.",
                 header,
                 (player, setting) => {  Handlers.UseAbility(player, setting); }
