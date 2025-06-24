@@ -108,7 +108,15 @@ namespace PRMainPlugin.Systems.Database
                 var allPlayers = await _collection.Find(_ => true).ToListAsync();
                 foreach (var player in allPlayers)
                 {
-                    PlayerDataCache.Data[player.Id] = player;
+                    try
+                    {
+                        PlayerDataCache.Data[player.Id] = player;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Player with wrong atributes, skipping...");
+                        continue;
+                    }
                 }
 
                 Log.Info($"Loaded {PlayerDataCache.Data.Count} player data entries into memory.");
