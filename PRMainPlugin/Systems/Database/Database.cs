@@ -30,7 +30,7 @@ namespace PRMainPlugin.Systems.Database
         [BsonId]
         public string Id { get; set; }
         public string DiscordId { get; set; } = null;
-        public string VerifyingID { get; set; }
+        public bool Verified { get; set; } = false;
         public string VerificationToken { get; set; }
         public string Nickname { get; set; }
         public string CustomNick { get; set; }
@@ -463,7 +463,7 @@ namespace PRMainPlugin.Systems.Database
         {
             ev.Player.SessionVariables["JoinTime"] = DateTime.Now.ToBinary();
 
-            var data = PlayerDataCache.Get(ev.Player.UserId) ?? await CreatePlayerDataAsync(ev.Player);
+            var data = await _collection.Find(p => p.Id == ev.Player.UserId).FirstOrDefaultAsync() ?? await CreatePlayerDataAsync(ev.Player);
 
             PlayerDataCache.Set(ev.Player.UserId, data);
             ev.Player.CustomName = data.CustomNick;
