@@ -39,6 +39,7 @@
             if (!string.IsNullOrEmpty(data.VerificationToken) && string.IsNullOrEmpty(data.DiscordId) && !data.Verified)
             {
                 data.Verified = true;
+                PlayerDataCache.Set(player.UserId, data);
                 response = "Du wurdest erfolgreich verifiziert!";
                 return true;
             }
