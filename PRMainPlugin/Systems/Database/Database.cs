@@ -197,7 +197,8 @@ namespace PRMainPlugin.Systems.Database
                 .Set(p => p.Recons, data.Recons)
                 .Set(p => p.Deaths, data.Deaths)
                 .Set(p => p.Kills, data.Kills)
-                .Set(p => p.DiscordId, data.DiscordId);
+                .Set(p => p.DiscordId, data.DiscordId)
+                .Set(p => p.Verified, data.Verified);
 
             await _collection.UpdateOneAsync(filter, update, new UpdateOptions { IsUpsert = true });
         }
