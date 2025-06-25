@@ -36,15 +36,25 @@
             var token = arguments.Array[1];
             var data = PlayerDataCache.Get(player.UserId);
 
-            if (!string.IsNullOrEmpty(data.VerificationToken) && string.IsNullOrEmpty(data.DiscordId) && !data.Verified)
+            if (!string.IsNullOrEmpty(data.VerificationToken) && !string.IsNullOrEmpty(data.DiscordId) && !data.Verified)
             {
                 data.Verified = true;
                 PlayerDataCache.Set(player.UserId, data);
                 response = "Du wurdest erfolgreich verifiziert!";
                 return true;
             }
+            if (string.IsNullOrEmpty(data.VerificationToken) || string.IsNullOrEmpty(data.DiscordId))
+            {
+                response = "Du hast noch nicht /verify auf unserem Discord ausgeführt, bitte tue das zu erst!";
+                return false;
+            }
+            if (data.Verified)
+            {
+                response = "Du bist bereits verifiziert.";
+                return false;
+            }
 
-            response = "Du bist entweder schon verifiziert oder du hast keinen Tocken hinterlegt. \nSolltest du noch nicht verifiziert sein, bitte rejoin einmal.\n Sollte es immer noch nicht gehen, wende dich bitte an Skorp!";
+            response = "Solltest du noch nicht verifiziert sein, bitte rejoin einmal.\n Sollte es immer noch nicht gehen, wende dich bitte an Skorp!";
             return false;
         }
     }
