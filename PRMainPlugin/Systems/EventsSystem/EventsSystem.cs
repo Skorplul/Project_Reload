@@ -132,7 +132,6 @@
         // temporary logs for testing
         public static void OnDied(DiedEventArgs ev)
         {
-            Log.Info("Player died, checking if event....");
             if (EventsAPI.EventRound && eventRoundType == EventsType.Virus)
             {
                 Log.Info($"EvRound & Virus.. respawning as zombi");
