@@ -112,7 +112,7 @@ namespace PRMainPlugin.Systems.Database
                     {
                         PlayerDataCache.Data[player.Id] = player;
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         Log.Error("Player with wrong atributes, skipping...");
                         continue;
@@ -210,7 +210,7 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="player"></param>
         /// <param name="recons"></param>
         /// <param name="xp"></param>
-        public static async void UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
+        public static void UpdateReconsAndXP(Player player, int recons = 0, int xp = 0, bool ShowHint = true)
         {
             var data = PlayerDataCache.Get(player.UserId);
 
@@ -236,7 +236,7 @@ namespace PRMainPlugin.Systems.Database
         /// </summary>
         /// <param name="player"></param>
         /// <param name="state"></param>
-        public static async void UpdateAllowNickChange(Player player, bool state)
+        public static void UpdateAllowNickChange(Player player, bool state)
         {
             var data = PlayerDataCache.Get(player.UserId);
             data.NicknameChangable = state;
@@ -248,7 +248,7 @@ namespace PRMainPlugin.Systems.Database
         /// Update the Players Displayname in DB for later use
         /// </summary>
         /// <param name="player"></param>
-        public static async void UpdateCustomNick(Player player)
+        public static void UpdateCustomNick(Player player)
         {
             var data = PlayerDataCache.Get(player.UserId);
             data.CustomNick = player.CustomName;
@@ -260,7 +260,7 @@ namespace PRMainPlugin.Systems.Database
         /// Adds a Kill to the Database entry for this player
         /// </summary>
         /// <param name="player"></param>
-        public static async void AddKill(Player player)
+        public static void AddKill(Player player)
         {
             var data = PlayerDataCache.Get(player.UserId);
             data.Kills++;
@@ -272,7 +272,7 @@ namespace PRMainPlugin.Systems.Database
         /// Adds a Death to the Database entry for this player
         /// </summary>
         /// <param name="player"></param>
-        public static async void AddDeath(Player player)
+        public static void AddDeath(Player player)
         {
             var data = PlayerDataCache.Get(player.UserId);
             data.Deaths++;
@@ -286,7 +286,7 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="target"></param>
         /// <param name="issuer"></param>
         /// <param name="reson"></param>
-        public static async void AddWarn(Player target, Player issuer, string reson)
+        public static void AddWarn(Player target, Player issuer, string reson)
         {
             var data = PlayerDataCache.Get(target.UserId);
 
@@ -342,7 +342,7 @@ namespace PRMainPlugin.Systems.Database
             {
                 data.Warns.RemoveAll(w => w.Id == warn);
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -368,7 +368,7 @@ namespace PRMainPlugin.Systems.Database
         /// <param name="target"></param>
         /// <param name="issuer"></param>
         /// <param name="reson"></param>
-        public static async void AddWatchlist(Player target, Player issuer, string reson)
+        public static void AddWatchlist(Player target, Player issuer, string reson)
         {
             var data = PlayerDataCache.Get(target.UserId);
 
@@ -483,7 +483,7 @@ namespace PRMainPlugin.Systems.Database
             UpdateDataAsync(ev.Player);
         }
 
-        internal static async void OnRoundEnded(RoundEndedEventArgs ev)
+        internal static void OnRoundEnded(RoundEndedEventArgs ev)
         {
             foreach (var p in Player.List)
             {
