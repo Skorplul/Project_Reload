@@ -182,7 +182,7 @@
     <None Include="TechSuppe\FAQ\1.md" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ExMod.Exiled" Version="9.6.1" />
+    <PackageReference Include="ExMod.Exiled" Version="9.7.2" />
     <Compile Include="PRMainPlugin\Systems\Subclasses\Config.cs" />
     <Compile Include="PRMainPlugin\Systems\Subclasses\DClass\Fettsack.cs" />
     <Compile Include="PRMainPlugin\Systems\Subclasses\Subclasses.cs" />
