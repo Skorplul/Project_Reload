@@ -12,7 +12,7 @@ namespace PRMainPlugin.Systems.CustomSettings
         private static HeaderSetting header;
         public static void Enable()
         {
-            header = new HeaderSetting("[Project Reload]", "Einstellungen für Project Reload.", false);
+            header = new HeaderSetting(1, "[Project Reload]", "Einstellungen für Project Reload.", false);
 
             var button = new ButtonSetting(
                 0,
@@ -31,6 +31,7 @@ namespace PRMainPlugin.Systems.CustomSettings
                 false,
                 true,
                 "Taste zum nutzen der Rollen speziefischen Fähigkeit.",
+                255,
                 header,
                 (player, setting) => {  Handlers.UseAbility(player, setting); }
             );
@@ -42,6 +43,8 @@ namespace PRMainPlugin.Systems.CustomSettings
                 "Aus",
                 false,
                 "Ob der das Spectatoroverlay gezeigt werden soll.",
+                255,
+                false,
                 header,
                 (player, setting) => { Handlers.ToggleRespawnTimer(player, setting); }
             );
