@@ -69,7 +69,7 @@ namespace PRMainPlugin.Systems.Database
         {
             Config.LoadConfig();
 
-            string connectionString = $"mongodb://SL_MAIN:DuFetterNegger1+2@127.0.0.1:27017/?authSource=SL_MAIN";
+            string connectionString = $"mongodb://SL_MAIN:SupBitch?@127.0.0.1:27017/?authSource=SL_MAIN";
             var client = new MongoClient(connectionString);
             var db = client.GetDatabase("SL_MAIN");
             _collection = db.GetCollection<PlayerData>("players");
